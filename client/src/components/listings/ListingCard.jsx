@@ -17,7 +17,7 @@ export default function ListingCard({ listing }) {
   return (
     <motion.article whileHover={{ y: -4 }} className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition hover:shadow-soft">
       <div className="relative h-52 overflow-hidden bg-slate-100">
-        <img src={listing.images?.[0] || PLACEHOLDER_IMAGE} alt={listing.title} className="h-full w-full object-cover transition duration-500 hover:scale-105" />
+        <img src={listing.images?.[0] || PLACEHOLDER_IMAGE} alt={listing.title} loading="lazy" decoding="async" className="h-full w-full object-cover transition duration-500 hover:scale-105" />
         <div className="absolute left-3 top-3 flex gap-2">
           {listing.isVerified && <Badge type="verified">Verified</Badge>}
           {listing.isFeatured && <Badge type="featured">Featured</Badge>}
@@ -26,7 +26,7 @@ export default function ListingCard({ listing }) {
       <div className="space-y-4 p-5">
         <div>
           <h3 className="line-clamp-2 text-lg font-extrabold text-slate-950">{listing.title}</h3>
-          <p className="mt-1 flex items-center gap-1 text-sm text-slate-500"><MapPin className="h-4 w-4" />{listing.area} · {listing.distanceText}</p>
+          <p className="mt-1 flex items-center gap-1 text-sm text-slate-500"><MapPin className="h-4 w-4" />{listing.area} - {listing.distanceText}</p>
         </div>
         <div>
           <p className="text-2xl font-extrabold text-slate-950">{listing.priceText || formatPrice(listing.price)}</p>

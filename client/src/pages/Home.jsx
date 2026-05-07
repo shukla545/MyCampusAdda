@@ -14,8 +14,12 @@ import api from '../api/axios.js';
 
 export default function Home() {
   const [featured, setFeatured] = useState([]);
+  const [loadingFeatured, setLoadingFeatured] = useState(true);
   useEffect(() => {
-    api.get('/listings', { params: { college: 'thakur-college', featured: true } }).then(({ data }) => setFeatured(data.slice(0, 6))).catch(() => setFeatured([]));
+    api.get('/listings', { params: { college: 'thakur-college', featured: true } })
+      .then(({ data }) => setFeatured(data.slice(0, 6)))
+      .catch(() => setFeatured([]))
+      .finally(() => setLoadingFeatured(false));
   }, []);
   return (
     <>
@@ -27,7 +31,7 @@ export default function Home() {
       <section className="py-16"><Container><CollegeCard /></Container></section>
       <section className="pb-16"><Container><SectionTitle title="What are you looking for?" subtitle="Two focused categories for the first MyCampusAdda MVP." /><div className="mt-10"><CategoryCards /></div></Container></section>
       <CampusAIShowcase />
-      <FeaturedListings listings={featured} />
+      <FeaturedListings listings={featured} loading={loadingFeatured} />
       <section className="py-16"><Container><SectionTitle title="How it works" /><div className="mt-10"><HowItWorks /></div></Container></section>
       <section className="pb-16"><Container><TrustSection /></Container></section>
       <BusinessCTA />

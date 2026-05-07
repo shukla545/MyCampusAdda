@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import clsx from 'clsx';
-import { CreditCard, IndianRupee, LockKeyhole, Maximize2, Mic, MicOff, Minimize2, Send, Sparkles, Smartphone, UserPlus, X } from 'lucide-react';
+import { CreditCard, GraduationCap, IndianRupee, LockKeyhole, Maximize2, Mic, MicOff, Minimize2, Send, Smartphone, UserPlus, X } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
 import toast from 'react-hot-toast';
 import { Link, useLocation } from 'react-router-dom';
@@ -283,7 +283,7 @@ export default function CampusChatBot() {
           >
             <div className={clsx('flex items-center justify-between gap-3 border-b border-slate-100 bg-white px-5 py-4', isFullscreen && 'sm:px-8')}>
               <div className="flex min-w-0 items-center gap-3">
-                <span className="grid h-10 w-10 shrink-0 place-items-center rounded-2xl bg-brand text-white"><Sparkles className="h-5 w-5" /></span>
+                <span className="grid h-10 w-10 shrink-0 place-items-center rounded-2xl bg-brand text-white"><GraduationCap className="h-5 w-5" /></span>
                 <div className="min-w-0">
                   <h2 className="font-extrabold text-slate-950">Campus AI</h2>
                   <p className="truncate text-xs font-medium text-slate-500">
@@ -434,11 +434,11 @@ export default function CampusChatBot() {
         <button
           type="button"
           onClick={() => setOpen((value) => !value)}
-          className="group relative grid h-16 w-16 place-items-center rounded-full bg-brand text-white shadow-2xl shadow-brand/30 transition hover:-translate-y-1 hover:bg-brand-dark"
+          className="group relative grid h-16 w-16 place-items-center rounded-2xl bg-brand text-white shadow-2xl shadow-brand/30 transition hover:-translate-y-1 hover:bg-brand-dark"
           aria-label="Open Campus AI Help Bot"
         >
           <span className="absolute -right-1 -top-1 grid h-6 w-6 place-items-center rounded-full bg-brand-gold text-[10px] font-black text-slate-950 ring-2 ring-white">AI</span>
-          {open ? <X className="h-7 w-7" /> : <Sparkles className="h-7 w-7 transition group-hover:rotate-6" />}
+          {open ? <X className="h-7 w-7" /> : <GraduationCap className="h-8 w-8 transition group-hover:-rotate-6" />}
         </button>
       )}
     </div>

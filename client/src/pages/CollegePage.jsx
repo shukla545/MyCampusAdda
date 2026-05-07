@@ -7,14 +7,21 @@ import CategoryCards from '../components/home/CategoryCards.jsx';
 import FeaturedListings from '../components/home/FeaturedListings.jsx';
 import BusinessCTA from '../components/home/BusinessCTA.jsx';
 import Seo from '../components/common/Seo.jsx';
+import PageLoader from '../components/common/PageLoader.jsx';
 import api from '../api/axios.js';
 
 export default function CollegePage() {
   const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
-    api.get('/colleges/thakur-college').then(({ data }) => setData(data)).catch(() => setData(null));
+    api.get('/colleges/thakur-college')
+      .then(({ data }) => setData(data))
+      .catch(() => setData(null))
+      .finally(() => setLoading(false));
   }, []);
   const featured = [...(data?.featuredPG || []), ...(data?.featuredMess || [])];
+  if (loading) return <PageLoader label="Loading Thakur College listings..." />;
+
   return (
     <>
       <Seo

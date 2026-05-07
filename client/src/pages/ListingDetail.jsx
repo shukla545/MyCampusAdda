@@ -4,7 +4,7 @@ import Container from '../components/common/Container.jsx';
 import Badge from '../components/common/Badge.jsx';
 import Breadcrumbs from '../components/common/Breadcrumbs.jsx';
 import EmptyState from '../components/common/EmptyState.jsx';
-import LoadingSpinner from '../components/common/LoadingSpinner.jsx';
+import PageLoader from '../components/common/PageLoader.jsx';
 import Seo from '../components/common/Seo.jsx';
 import FacilityPills from '../components/listings/FacilityPills.jsx';
 import ListingGallery from '../components/listings/ListingGallery.jsx';
@@ -21,7 +21,7 @@ export default function ListingDetail() {
   useEffect(() => {
     api.get(`/listings/${slug}`).then(({ data }) => setData(data)).catch(() => setData(null)).finally(() => setLoading(false));
   }, [slug]);
-  if (loading) return <div className="grid min-h-[60vh] place-items-center"><LoadingSpinner /></div>;
+  if (loading) return <PageLoader label="Loading listing details..." />;
   if (!data) return <Container className="py-16"><EmptyState title="Listing not found" /></Container>;
   const { listing, similarListings } = data;
   const facilities = listing.type === 'mess' && listing.messDetails?.offlineOnly
