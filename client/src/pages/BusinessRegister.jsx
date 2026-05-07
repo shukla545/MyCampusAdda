@@ -9,6 +9,7 @@ import FormInput from '../components/forms/FormInput.jsx';
 import FormSelect from '../components/forms/FormSelect.jsx';
 import FormTextarea from '../components/forms/FormTextarea.jsx';
 import ImageUploader from '../components/admin/ImageUploader.jsx';
+import Seo from '../components/common/Seo.jsx';
 import api from '../api/axios.js';
 import { useAuth } from '../context/AuthContext.jsx';
 
@@ -51,9 +52,13 @@ export default function BusinessRegister() {
 
   return (
     <main className="bg-slate-50 py-10">
+      <Seo
+        title="List your PG or Mess near Thakur College"
+        description="Submit your PG, hostel, mess or tiffin business for review on MyCampusAdda near Thakur College, Kandivali."
+      />
       <Container className="max-w-4xl">
         <div className="mb-6">
-          <p className="font-bold text-indigo-600">Owner onboarding</p>
+          <p className="font-bold text-brand">Owner onboarding</p>
           <h1 className="mt-2 text-4xl font-extrabold text-slate-950">List your PG/Mess</h1>
           <p className="mt-3 text-slate-500">Fill the main details once. Photos upload first, then the listing goes to admin for approval.</p>
           <p className="mt-3 inline-flex rounded-full bg-emerald-50 px-4 py-2 text-sm font-bold text-emerald-700 ring-1 ring-emerald-100">

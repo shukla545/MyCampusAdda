@@ -20,7 +20,8 @@ export default function Navbar() {
   const [accountOpen, setAccountOpen] = useState(false);
   const accountRef = useRef(null);
   const { user, logout } = useAuth();
-  const linkClass = ({ isActive }) => `text-sm font-semibold transition ${isActive ? 'text-indigo-600' : 'text-slate-600 hover:text-slate-950'}`;
+  const linkClass = ({ isActive }) => `rounded-full px-3 py-2 text-sm font-semibold transition ${isActive ? 'bg-white text-brand' : 'text-white/80 hover:bg-white/10 hover:text-white'}`;
+  const mobileLinkClass = ({ isActive }) => `rounded-xl px-3 py-3 text-sm font-bold transition ${isActive ? 'bg-white text-brand' : 'text-white/80 hover:bg-white/10 hover:text-white'}`;
 
   useEffect(() => {
     const onClick = (event) => {
@@ -50,7 +51,7 @@ export default function Navbar() {
   const accountSummary = user && (
     <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-soft">
       <div className="flex items-start gap-3">
-        <span className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-indigo-600 text-base font-black text-white">
+        <span className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-brand text-base font-black text-white">
           {getInitial(user.name)}
         </span>
         <div className="min-w-0">
@@ -72,11 +73,11 @@ export default function Navbar() {
         </div>
       </div>
       {user.role === 'admin' && (
-        <p className="mt-3 rounded-xl bg-indigo-50 px-3 py-2 text-xs font-bold leading-5 text-indigo-700">
+        <p className="mt-3 rounded-xl bg-brand-soft px-3 py-2 text-xs font-bold leading-5 text-brand">
           Admin login gets 1 free AI answer each time you login again.
         </p>
       )}
-      <button type="button" onClick={openCreditPacks} className="mt-3 flex w-full items-center justify-center gap-2 rounded-xl bg-indigo-600 px-4 py-3 text-sm font-extrabold text-white transition hover:bg-indigo-700">
+      <button type="button" onClick={openCreditPacks} className="mt-3 flex w-full items-center justify-center gap-2 rounded-xl bg-brand px-4 py-3 text-sm font-extrabold text-white transition hover:bg-brand-dark">
         <CreditCard className="h-4 w-4" />Buy credits
       </button>
       <button type="button" onClick={logoutUser} className="mt-2 flex w-full items-center justify-center gap-2 rounded-xl bg-slate-100 px-4 py-3 text-sm font-extrabold text-slate-700 transition hover:bg-slate-200">
@@ -86,11 +87,11 @@ export default function Navbar() {
   );
 
   return (
-    <header className="glass-nav sticky top-0 z-50 border-b border-slate-200/70">
+    <header className="glass-nav sticky top-0 z-50 border-b border-white/10 shadow-sm">
       <Container className="flex h-16 items-center justify-between">
         <Link to="/" className="flex items-center gap-3">
-          <span className="grid h-10 w-10 place-items-center rounded-2xl bg-indigo-600 text-lg font-black text-white">M</span>
-          <span className="text-lg font-extrabold text-slate-950">MyCampusAdda</span>
+          <span className="grid h-10 w-10 place-items-center rounded-2xl bg-white text-lg font-black text-brand">M</span>
+          <span className="text-lg font-extrabold text-white">MyCampusAdda</span>
         </Link>
         <nav className="hidden items-center gap-7 md:flex">
           {nav.map((item) => <NavLink key={item.to} to={item.to} className={linkClass}>{item.label}</NavLink>)}
@@ -101,10 +102,10 @@ export default function Navbar() {
               <button
                 type="button"
                 onClick={() => setAccountOpen((value) => !value)}
-                className="flex items-center gap-2 rounded-2xl bg-slate-100 px-2 py-2 text-sm font-bold text-slate-700 transition hover:bg-slate-200"
+                className="flex items-center gap-2 rounded-2xl bg-white/10 px-2 py-2 text-sm font-bold text-white transition hover:bg-white/15"
                 aria-label="Open account menu"
               >
-                <span className="grid h-9 w-9 place-items-center rounded-xl bg-indigo-600 font-black text-white">{getInitial(user.name)}</span>
+                <span className="grid h-9 w-9 place-items-center rounded-xl bg-white font-black text-brand">{getInitial(user.name)}</span>
                 <span className="max-w-24 truncate">{user.name?.split(' ')[0] || 'User'}</span>
                 <ChevronDown className="h-4 w-4" />
               </button>
@@ -117,15 +118,15 @@ export default function Navbar() {
             </>
           )}
         </div>
-        <button className="rounded-xl p-2 text-slate-700 md:hidden" onClick={() => setOpen(!open)} aria-label="Toggle menu">
+        <button className="rounded-xl p-2 text-white md:hidden" onClick={() => setOpen(!open)} aria-label="Toggle menu">
           {open ? <X /> : <Menu />}
         </button>
       </Container>
       {open && (
-        <div className="border-t border-slate-200 bg-white md:hidden">
+        <div className="border-t border-white/10 bg-brand md:hidden">
           <Container className="grid gap-2 py-4">
-            {nav.map((item) => <NavLink key={item.to} to={item.to} onClick={() => setOpen(false)} className={linkClass}>{item.label}</NavLink>)}
-            <div className="mt-2 border-t border-slate-100 pt-3">
+            {nav.map((item) => <NavLink key={item.to} to={item.to} onClick={() => setOpen(false)} className={mobileLinkClass}>{item.label}</NavLink>)}
+            <div className="mt-2 border-t border-white/10 pt-3">
               {user ? (
                 <div className="grid gap-3">
                   {accountSummary}
@@ -133,7 +134,7 @@ export default function Navbar() {
               ) : (
                 <div className="grid grid-cols-2 gap-2">
                   <Button as={Link} to="/login" variant="secondary" onClick={() => setOpen(false)} className="py-2">Login</Button>
-                  <Button as={Link} to="/signup" onClick={() => setOpen(false)} className="py-2">Signup</Button>
+                  <Button as={Link} to="/signup" onClick={() => setOpen(false)} className="bg-white py-2 !text-brand hover:bg-brand-gold">Signup</Button>
                 </div>
               )}
             </div>

@@ -13,6 +13,7 @@ import ListingDetail from './pages/ListingDetail.jsx';
 import BusinessRegister from './pages/BusinessRegister.jsx';
 import Contact from './pages/Contact.jsx';
 import AuthPage from './pages/AuthPage.jsx';
+import About from './pages/About.jsx';
 import PrivacyPolicy from './pages/PrivacyPolicy.jsx';
 import NotFound from './pages/NotFound.jsx';
 import AdminLogin from './pages/admin/AdminLogin.jsx';
@@ -37,6 +38,7 @@ export default function App() {
         <Route path="/college/thakur-college/mess" element={<MessPage />} />
         <Route path="/listing/:slug" element={<ListingDetail />} />
         <Route path="/business/register" element={<RequireUser><BusinessRegister /></RequireUser>} />
+        <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/login" element={<AuthPage />} />
         <Route path="/signup" element={<AuthPage />} />

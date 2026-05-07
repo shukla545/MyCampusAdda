@@ -6,6 +6,7 @@ import Container from '../components/common/Container.jsx';
 import Button from '../components/common/Button.jsx';
 import FormInput from '../components/forms/FormInput.jsx';
 import FormTextarea from '../components/forms/FormTextarea.jsx';
+import Seo from '../components/common/Seo.jsx';
 import api from '../api/axios.js';
 
 export default function Contact() {
@@ -57,14 +58,18 @@ export default function Contact() {
 
   return (
     <main className="bg-slate-50 py-10">
+      <Seo
+        title="Contact MyCampusAdda"
+        description="Contact MyCampusAdda for PG, hostel, mess and tiffin listing support near Thakur College, Kandivali."
+      />
       <Container className="max-w-4xl">
         <div className="mb-7 grid gap-5 lg:grid-cols-[1fr_360px] lg:items-end">
           <div>
-            <p className="font-bold text-indigo-600">Verified contact</p>
+            <p className="font-bold text-brand">Verified contact</p>
             <h1 className="mt-2 text-4xl font-extrabold text-slate-950">Contact MyCampusAdda</h1>
             <p className="mt-3 max-w-2xl text-slate-600">Any query related to the website? Please message the admin or developer after verifying your email.</p>
           </div>
-          <div className="rounded-xl border border-indigo-100 bg-indigo-50 p-4 text-sm font-semibold text-indigo-800">
+          <div className="rounded-xl border border-brand/10 bg-brand-soft p-4 text-sm font-semibold text-brand">
             <div className="flex items-start gap-3">
               <MessageSquareText className="mt-0.5 h-5 w-5" />
               <p>Your email is used only for OTP verification before sending a message.</p>

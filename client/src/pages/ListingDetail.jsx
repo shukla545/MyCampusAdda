@@ -5,6 +5,7 @@ import Badge from '../components/common/Badge.jsx';
 import Breadcrumbs from '../components/common/Breadcrumbs.jsx';
 import EmptyState from '../components/common/EmptyState.jsx';
 import LoadingSpinner from '../components/common/LoadingSpinner.jsx';
+import Seo from '../components/common/Seo.jsx';
 import FacilityPills from '../components/listings/FacilityPills.jsx';
 import ListingGallery from '../components/listings/ListingGallery.jsx';
 import ContactBox from '../components/listings/ContactBox.jsx';
@@ -28,6 +29,11 @@ export default function ListingDetail() {
     : listing.facilities || [];
   return (
     <main className="bg-slate-50 py-8">
+      <Seo
+        title={`${listing.title} near Thakur College`}
+        description={`${listing.title} in ${listing.area || 'Kandivali'} on MyCampusAdda. View price, facilities, distance and contact options.`}
+        image={listing.images?.[0]}
+      />
       <Container className="space-y-8">
         <Breadcrumbs items={[{ label: 'Home', to: '/' }, { label: 'Thakur College', to: '/college/thakur-college' }, { label: listing.type === 'pg' ? 'PG' : 'Mess', to: `/college/thakur-college/${listing.type}` }, { label: listing.title }]} />
         <div className="grid gap-8 lg:grid-cols-[1fr_360px]">
@@ -36,8 +42,8 @@ export default function ListingDetail() {
             <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
               <div className="flex flex-wrap gap-2">{listing.isVerified && <Badge type="verified">Verified</Badge>}{listing.isFeatured && <Badge type="featured">Featured</Badge>}</div>
               <h1 className="mt-4 text-4xl font-extrabold text-slate-950">{listing.title}</h1>
-              <p className="mt-3 text-2xl font-extrabold text-indigo-600">{listing.priceText || formatPrice(listing.price)}</p>
-              <p className="mt-2 text-slate-500">{listing.area} · {listing.distanceText}</p>
+              <p className="mt-3 text-2xl font-extrabold text-brand">{listing.priceText || formatPrice(listing.price)}</p>
+              <p className="mt-2 text-slate-500">{listing.area} - {listing.distanceText}</p>
               <p className="mt-1 text-slate-600">{listing.address}</p>
               <div className="mt-5"><FacilityPills facilities={facilities} /></div>
               <p className="mt-6 leading-8 text-slate-700">{listing.description}</p>

@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import clsx from 'clsx';
-import { Bot, CreditCard, IndianRupee, LockKeyhole, Maximize2, MessageCircle, Mic, MicOff, Minimize2, Send, Smartphone, UserPlus, X } from 'lucide-react';
+import { CreditCard, IndianRupee, LockKeyhole, Maximize2, Mic, MicOff, Minimize2, Send, Sparkles, Smartphone, UserPlus, X } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
 import toast from 'react-hot-toast';
 import { Link, useLocation } from 'react-router-dom';
@@ -161,7 +161,7 @@ export default function CampusChatBot() {
           name: data.user.name,
           email: data.user.email
         },
-        theme: { color: '#4f46e5' },
+        theme: { color: '#1e3566' },
         config: razorpayCheckoutConfig,
         handler: async (response) => {
           const verify = await api.post('/billing/verify', response);
@@ -283,7 +283,7 @@ export default function CampusChatBot() {
           >
             <div className={clsx('flex items-center justify-between gap-3 border-b border-slate-100 bg-white px-5 py-4', isFullscreen && 'sm:px-8')}>
               <div className="flex min-w-0 items-center gap-3">
-                <span className="grid h-10 w-10 shrink-0 place-items-center rounded-2xl bg-indigo-600 text-white"><Bot className="h-5 w-5" /></span>
+                <span className="grid h-10 w-10 shrink-0 place-items-center rounded-2xl bg-brand text-white"><Sparkles className="h-5 w-5" /></span>
                 <div className="min-w-0">
                   <h2 className="font-extrabold text-slate-950">Campus AI</h2>
                   <p className="truncate text-xs font-medium text-slate-500">
@@ -301,7 +301,7 @@ export default function CampusChatBot() {
                   <button
                     type="button"
                     onClick={() => setShowPaywall((value) => !value)}
-                    className="inline-flex h-10 items-center gap-1.5 rounded-xl bg-indigo-50 px-3 text-xs font-extrabold text-indigo-700 transition hover:bg-indigo-100"
+                    className="inline-flex h-10 items-center gap-1.5 rounded-xl bg-brand-soft px-3 text-xs font-extrabold text-brand transition hover:bg-brand-soft/80"
                     aria-label="Buy more AI messages"
                     title="Buy more AI messages"
                   >
@@ -334,9 +334,9 @@ export default function CampusChatBot() {
                     </div>
                   )}
                   {shouldShowPaywall && (
-                    <div className="rounded-2xl border border-indigo-100 bg-white p-4 shadow-sm">
+                    <div className="rounded-2xl border border-brand/10 bg-white p-4 shadow-sm">
                       <div className="flex items-start gap-3">
-                        <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-indigo-600 text-white">
+                        <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-brand text-white">
                           <Smartphone className="h-5 w-5" />
                         </span>
                         <div>
@@ -351,7 +351,7 @@ export default function CampusChatBot() {
                             className="rounded-xl border border-slate-200 bg-slate-50 p-3 text-left"
                           >
                             <p className="text-sm font-extrabold text-slate-950">{plan.name}</p>
-                            <p className="mt-1 flex items-center text-2xl font-black text-indigo-700"><IndianRupee className="h-5 w-5" />{plan.price}</p>
+                            <p className="mt-1 flex items-center text-2xl font-black text-brand"><IndianRupee className="h-5 w-5" />{plan.price}</p>
                             <p className="mt-1 text-xs font-bold text-slate-500">{plan.label}</p>
                             <div className="mt-3 grid gap-2">
                               <button
@@ -367,7 +367,7 @@ export default function CampusChatBot() {
                                 type="button"
                                 disabled={buyingPlan === plan.id}
                                 onClick={() => buyCredits(plan.id)}
-                                className="inline-flex min-h-10 w-full items-center justify-center gap-1 rounded-lg border border-slate-200 bg-white px-3 text-xs font-black text-slate-700 transition hover:border-indigo-200 hover:bg-indigo-50 disabled:cursor-not-allowed disabled:opacity-60"
+                                className="inline-flex min-h-10 w-full items-center justify-center gap-1 rounded-lg border border-slate-200 bg-white px-3 text-xs font-black text-slate-700 transition hover:border-brand/20 hover:bg-brand-soft disabled:cursor-not-allowed disabled:opacity-60"
                               >
                                 <CreditCard className="h-3.5 w-3.5" />
                                 Cards & more
@@ -384,7 +384,7 @@ export default function CampusChatBot() {
               ) : (
                 <div className={clsx('grid h-full min-h-[340px] place-items-center', isFullscreen && 'mx-auto max-w-xl')}>
                   <div className="rounded-2xl border border-slate-200 bg-white p-6 text-center shadow-sm">
-                    <LockKeyhole className="mx-auto h-10 w-10 text-indigo-600" />
+                    <LockKeyhole className="mx-auto h-10 w-10 text-brand" />
                     <h3 className="mt-4 text-xl font-extrabold text-slate-950">Login to use Campus AI</h3>
                     <p className="mt-2 text-sm leading-6 text-slate-500">Verified accounts can ask AI recommendations and access protected listing tools.</p>
                     <div className="mt-5 grid gap-2 sm:grid-cols-2">
@@ -420,7 +420,7 @@ export default function CampusChatBot() {
                   >
                     {listening ? <MicOff className="h-5 w-5" /> : <Mic className="h-5 w-5" />}
                   </button>
-                  <button type="submit" disabled={loading || !user || needsCredits || !input.trim()} className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-indigo-600 text-white transition hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-60" aria-label="Send message">
+                  <button type="submit" disabled={loading || !user || needsCredits || !input.trim()} className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-brand text-white transition hover:bg-brand-dark disabled:cursor-not-allowed disabled:opacity-60" aria-label="Send message">
                     <Send className="h-5 w-5" />
                   </button>
                 </form>
@@ -434,10 +434,11 @@ export default function CampusChatBot() {
         <button
           type="button"
           onClick={() => setOpen((value) => !value)}
-          className="grid h-16 w-16 place-items-center rounded-full bg-indigo-600 text-white shadow-2xl transition hover:-translate-y-1 hover:bg-indigo-700"
+          className="group relative grid h-16 w-16 place-items-center rounded-full bg-brand text-white shadow-2xl shadow-brand/30 transition hover:-translate-y-1 hover:bg-brand-dark"
           aria-label="Open Campus AI Help Bot"
         >
-          {open ? <X className="h-7 w-7" /> : <MessageCircle className="h-7 w-7" />}
+          <span className="absolute -right-1 -top-1 grid h-6 w-6 place-items-center rounded-full bg-brand-gold text-[10px] font-black text-slate-950 ring-2 ring-white">AI</span>
+          {open ? <X className="h-7 w-7" /> : <Sparkles className="h-7 w-7 transition group-hover:rotate-6" />}
         </button>
       )}
     </div>

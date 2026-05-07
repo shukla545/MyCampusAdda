@@ -5,6 +5,7 @@ import SearchInput from '../components/common/SearchInput.jsx';
 import SkeletonCard from '../components/common/SkeletonCard.jsx';
 import ListingCard from '../components/listings/ListingCard.jsx';
 import ListingSort from '../components/listings/ListingSort.jsx';
+import Seo from '../components/common/Seo.jsx';
 import api from '../api/axios.js';
 import { cleanParams } from '../utils/filters.js';
 
@@ -27,9 +28,13 @@ export default function ListingPageShell({ type, title, searchPlaceholder }) {
 
   return (
     <main className="bg-slate-50 py-10">
+      <Seo
+        title={title}
+        description={`${title}. Compare budget, food preference, distance, facilities and direct contact options on MyCampusAdda.`}
+      />
       <Container>
         <div className="mb-8">
-          <p className="font-bold text-indigo-600">Thakur College, Kandivali</p>
+          <p className="font-bold text-brand">Thakur College, Kandivali</p>
           <h1 className="mt-2 text-4xl font-extrabold text-slate-950">{title}</h1>
         </div>
         <div>

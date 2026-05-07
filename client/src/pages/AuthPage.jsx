@@ -69,8 +69,8 @@ export default function AuthPage() {
       <Container className="grid min-h-[70vh] place-items-center">
         <div className="w-full max-w-5xl overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-soft">
           <div className="grid lg:grid-cols-[0.95fr_1.05fr]">
-            <div className="bg-slate-950 p-8 text-white sm:p-10">
-              <p className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-sm font-bold text-indigo-100 ring-1 ring-white/10">
+            <div className="bg-brand p-8 text-white sm:p-10">
+              <p className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-sm font-bold text-brand-gold ring-1 ring-white/10">
                 <ShieldCheck className="h-4 w-4" /> Verified student access
               </p>
               <h1 className="mt-6 text-4xl font-extrabold leading-tight">
@@ -89,10 +89,10 @@ export default function AuthPage() {
 
             <div className="p-6 sm:p-8">
               <div className="mb-6 grid grid-cols-2 gap-2 rounded-xl bg-slate-100 p-1">
-                <Link to={`/login?next=${encodeURIComponent(nextPath)}`} className={`rounded-lg px-4 py-3 text-center text-sm font-extrabold transition ${!isSignup ? 'bg-white text-indigo-700 shadow-sm' : 'text-slate-500'}`}>
+                <Link to={`/login?next=${encodeURIComponent(nextPath)}`} className={`rounded-lg px-4 py-3 text-center text-sm font-extrabold transition ${!isSignup ? 'bg-white text-brand shadow-sm' : 'text-slate-500'}`}>
                   Login
                 </Link>
-                <Link to={`/signup?next=${encodeURIComponent(nextPath)}`} className={`rounded-lg px-4 py-3 text-center text-sm font-extrabold transition ${isSignup ? 'bg-white text-indigo-700 shadow-sm' : 'text-slate-500'}`}>
+                <Link to={`/signup?next=${encodeURIComponent(nextPath)}`} className={`rounded-lg px-4 py-3 text-center text-sm font-extrabold transition ${isSignup ? 'bg-white text-brand shadow-sm' : 'text-slate-500'}`}>
                   Signup
                 </Link>
               </div>
@@ -100,7 +100,7 @@ export default function AuthPage() {
               {isSignup ? (
                 <form onSubmit={handleSubmit(signup)} className="grid gap-4">
                   <div>
-                    <UserPlus className="h-7 w-7 text-indigo-600" />
+                    <UserPlus className="h-7 w-7 text-brand" />
                     <h2 className="mt-3 text-2xl font-extrabold text-slate-950">Create account</h2>
                     <p className="mt-1 text-sm text-slate-500">First verify your email, then set your password.</p>
                   </div>
@@ -129,14 +129,14 @@ export default function AuthPage() {
               ) : (
                 <form onSubmit={handleSubmit(loginUser)} className="grid gap-4">
                   <div>
-                    <LockKeyhole className="h-7 w-7 text-indigo-600" />
+                    <LockKeyhole className="h-7 w-7 text-brand" />
                     <h2 className="mt-3 text-2xl font-extrabold text-slate-950">Welcome back</h2>
                     <p className="mt-1 text-sm text-slate-500">Login with your verified email and password.</p>
                   </div>
                   <FormInput label="Email address" type="email" error={errors.email?.message} {...register('email', { required: 'Email is required' })} />
                   <FormInput label="Password" type="password" error={errors.password?.message} {...register('password', { required: 'Password is required' })} />
                   <Button disabled={isSubmitting}>{isSubmitting ? 'Signing in...' : 'Login'}</Button>
-                  <Link to={`/signup?next=${encodeURIComponent(nextPath)}`} className="inline-flex items-center gap-2 text-sm font-bold text-indigo-700 hover:text-indigo-900">
+                  <Link to={`/signup?next=${encodeURIComponent(nextPath)}`} className="inline-flex items-center gap-2 text-sm font-bold text-brand hover:text-brand-dark">
                     <MailCheck className="h-4 w-4" /> New here? Verify email and signup
                   </Link>
                 </form>

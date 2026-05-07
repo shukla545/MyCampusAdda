@@ -28,10 +28,10 @@ export default function ContactBox({ listing }) {
       <div className="mt-5 rounded-2xl bg-slate-50 p-4">
         <p className="text-xs font-bold uppercase text-slate-400">WhatsApp number</p>
         <p className="mt-1 flex items-center gap-2 text-lg font-bold text-slate-950"><Phone className="h-4 w-4" />{hasPhone ? (revealed ? phone : masked) : 'Not available'}</p>
-        {hasPhone ? <button className="mt-2 text-sm font-semibold text-indigo-600" onClick={() => setRevealed(true)}>Show number</button> : <p className="mt-2 text-sm font-semibold text-slate-500">Contact details are not available yet.</p>}
+        {hasPhone ? <button className="mt-2 text-sm font-semibold text-brand" onClick={() => setRevealed(true)}>Show number</button> : <p className="mt-2 text-sm font-semibold text-slate-500">Contact details are not available yet.</p>}
       </div>
       <Button className="mt-5 w-full" disabled={!hasPhone} onClick={() => openWhatsAppForListing(listing)}><MessageCircle className="h-4 w-4" />{hasPhone ? 'Contact on WhatsApp' : 'WhatsApp not available'}</Button>
-      <button type="button" onClick={reportWrongInfo} className="mt-4 w-full rounded-xl px-4 py-3 text-sm font-semibold text-slate-500 transition hover:bg-slate-50 hover:text-indigo-700">Report wrong info</button>
+      <button type="button" onClick={reportWrongInfo} className="mt-4 w-full rounded-xl px-4 py-3 text-sm font-semibold text-slate-500 transition hover:bg-brand-soft hover:text-brand">Report wrong info</button>
     </div>
   );
 }

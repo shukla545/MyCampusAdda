@@ -9,6 +9,7 @@ import FeaturedListings from '../components/home/FeaturedListings.jsx';
 import HowItWorks from '../components/home/HowItWorks.jsx';
 import BusinessCTA from '../components/home/BusinessCTA.jsx';
 import TrustSection from '../components/home/TrustSection.jsx';
+import Seo from '../components/common/Seo.jsx';
 import api from '../api/axios.js';
 
 export default function Home() {
@@ -18,6 +19,10 @@ export default function Home() {
   }, []);
   return (
     <>
+      <Seo
+        title="MyCampusAdda - PGs, Hostels and Mess near Thakur College"
+        description="Find PGs, hostels, mess and tiffin services near Thakur College, Kandivali. Compare budget, food, distance and facilities with Campus AI."
+      />
       <Hero />
       <section className="py-16"><Container><CollegeCard /></Container></section>
       <section className="pb-16"><Container><SectionTitle title="What are you looking for?" subtitle="Two focused categories for the first MyCampusAdda MVP." /><div className="mt-10"><CategoryCards /></div></Container></section>

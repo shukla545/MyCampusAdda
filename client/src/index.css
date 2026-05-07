@@ -5,6 +5,10 @@
 :root {
   color: #0f172a;
   background: #ffffff;
+  --brand: #1e3566;
+  --brand-dark: #15264d;
+  --brand-soft: #eef3fb;
+  --brand-gold: #f2b544;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -17,12 +21,12 @@ body {
 }
 
 .glass-nav {
-  background: rgba(255, 255, 255, 0.88);
+  background: rgba(30, 53, 102, 0.98);
   backdrop-filter: blur(18px);
 }
 
 .input {
-  @apply w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-indigo-400 focus:ring-4 focus:ring-indigo-100;
+  @apply w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-brand focus:ring-4 focus:ring-brand/10;
 }
 
 .label {

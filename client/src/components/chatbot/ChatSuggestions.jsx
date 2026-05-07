@@ -13,7 +13,7 @@ export default function ChatSuggestions({ onSelect, disabled }) {
           type="button"
           disabled={disabled}
           onClick={() => onSelect(starter)}
-          className="rounded-full border border-slate-200 bg-white px-3 py-2 text-xs font-bold text-slate-600 shadow-sm transition hover:border-indigo-200 hover:bg-indigo-50 hover:text-indigo-700 disabled:cursor-not-allowed disabled:opacity-60"
+          className="rounded-full border border-slate-200 bg-white px-3 py-2 text-xs font-bold text-slate-600 shadow-sm transition hover:border-brand/20 hover:bg-brand-soft hover:text-brand disabled:cursor-not-allowed disabled:opacity-60"
         >
           {starter}
         </button>

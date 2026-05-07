@@ -8,7 +8,7 @@ export default function ListingFilters({ type, filters, setFilters }) {
     <aside className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
       <div className="mb-5 flex items-center justify-between">
         <h3 className="text-lg font-extrabold text-slate-950">Filters</h3>
-        <button className="text-sm font-semibold text-indigo-600" onClick={() => setFilters({})}>Reset</button>
+        <button className="text-sm font-semibold text-brand" onClick={() => setFilters({})}>Reset</button>
       </div>
       <div className="grid gap-4">
         <div className="grid grid-cols-2 gap-3">

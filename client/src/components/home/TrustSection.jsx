@@ -10,8 +10,8 @@ export default function TrustSection() {
   return (
     <div className="grid gap-4 md:grid-cols-3">
       {items.map(({ title, icon: Icon }) => (
-        <div key={title} className="rounded-2xl bg-slate-50 p-6">
-          <Icon className="h-7 w-7 text-emerald-500" />
+        <div key={title} className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+          <Icon className="h-7 w-7 text-brand" />
           <p className="mt-4 font-bold text-slate-900">{title}</p>
         </div>
       ))}

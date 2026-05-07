@@ -7,7 +7,16 @@ export default {
         sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif']
       },
       boxShadow: {
-        soft: '0 18px 45px rgba(15, 23, 42, 0.08)'
+        soft: '0 18px 45px rgba(15, 23, 42, 0.08)',
+        brand: '0 18px 45px rgba(30, 53, 102, 0.16)'
+      },
+      colors: {
+        brand: {
+          DEFAULT: '#1e3566',
+          dark: '#15264d',
+          soft: '#eef3fb',
+          gold: '#f2b544'
+        }
       }
     }
   },

@@ -6,6 +6,7 @@ import StatCard from '../components/common/StatCard.jsx';
 import CategoryCards from '../components/home/CategoryCards.jsx';
 import FeaturedListings from '../components/home/FeaturedListings.jsx';
 import BusinessCTA from '../components/home/BusinessCTA.jsx';
+import Seo from '../components/common/Seo.jsx';
 import api from '../api/axios.js';
 
 export default function CollegePage() {
@@ -16,10 +17,14 @@ export default function CollegePage() {
   const featured = [...(data?.featuredPG || []), ...(data?.featuredMess || [])];
   return (
     <>
+      <Seo
+        title="Thakur College PG, Hostel and Mess Listings"
+        description="Browse PG, hostel, mess and tiffin listings around Thakur College, Kandivali with MyCampusAdda."
+      />
       <section className="bg-slate-50 py-16">
         <Container className="grid gap-8 lg:grid-cols-[1fr_0.8fr] lg:items-center">
           <div>
-            <p className="font-bold text-indigo-600">Kandivali East, Mumbai</p>
+            <p className="font-bold text-brand">Kandivali East, Mumbai</p>
             <h1 className="mt-3 text-5xl font-extrabold text-slate-950">Thakur College listings</h1>
             <p className="mt-4 max-w-2xl text-lg text-slate-600">Browse admin-reviewed PG/Hostel and Mess/Tiffin services around Thakur College.</p>
             <Button className="mt-7" as="a" href="#categories">Explore categories</Button>
