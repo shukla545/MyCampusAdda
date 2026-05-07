@@ -1,0 +1,50 @@
+const relatedKeywords = [
+  'pg', 'hostel', 'room', 'rent', 'deposit', 'boys pg', 'girls pg', 'mess', 'tiffin',
+  'food', 'lunch', 'dinner', 'veg', 'non-veg', 'non veg', 'budget', 'thakur college',
+  'kandivali', 'move-in', 'move in', 'facilities', 'wifi', 'wi-fi', 'study table',
+  'laundry', 'ac', 'distance', 'near', 'college', 'stay', 'bed', 'meal', 'menu',
+  'mycampusadda', 'website', 'contact', 'support', 'admin', 'owner', 'developer',
+  'message', 'help', 'complaint', 'correction'
+];
+
+const pgKeywords = ['pg', 'hostel', 'room', 'stay', 'bed', 'rent', 'deposit'];
+const messKeywords = ['mess', 'tiffin', 'food', 'lunch', 'dinner', 'meal', 'menu', 'veg', 'non-veg', 'non veg'];
+const moveInKeywords = ['move-in', 'move in', 'moving', 'shift', 'checklist', 'plan'];
+const websiteKeywords = ['mycampusadda', 'website', 'contact', 'support', 'admin', 'owner', 'developer', 'message', 'complaint', 'correction'];
+
+const includesAny = (text, words) => words.some((word) => text.includes(word));
+
+const extractBudget = (text) => {
+  const matches = text.match(/\b\d{3,6}\b/g);
+  if (!matches) return null;
+  return Math.max(...matches.map((value) => Number(value)).filter((value) => Number.isFinite(value)));
+};
+
+export const detectIntent = (message = '') => {
+  const text = String(message).toLowerCase();
+  const related = includesAny(text, relatedKeywords);
+  const wantsPG = includesAny(text, pgKeywords);
+  const wantsMess = includesAny(text, messKeywords);
+  const moveIn = includesAny(text, moveInKeywords);
+  const website = includesAny(text, websiteKeywords);
+  const gender = text.includes('boys') || text.includes('boy') ? 'boys'
+    : text.includes('girls') || text.includes('girl') ? 'girls'
+      : text.includes('co-living') || text.includes('coliving') ? 'co-living'
+        : null;
+  const foodType = text.includes('non-veg') || text.includes('non veg') ? 'non-veg'
+    : text.includes('veg') ? 'veg'
+      : null;
+
+  return {
+    related,
+    type: wantsPG && !wantsMess ? 'pg' : wantsMess && !wantsPG ? 'mess' : null,
+    budget: extractBudget(text),
+    gender,
+    foodType,
+    moveIn,
+    website,
+    wantsPG,
+    wantsMess,
+    terms: relatedKeywords.filter((word) => text.includes(word))
+  };
+};
