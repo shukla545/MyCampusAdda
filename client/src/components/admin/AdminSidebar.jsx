@@ -11,13 +11,14 @@ const links = [
 
 export default function AdminSidebar() {
   const logout = () => {
+    localStorage.removeItem('campusnest_admin_token');
     localStorage.removeItem('mca_admin_token');
     window.location.href = '/admin/login';
   };
   return (
     <>
       <aside className="fixed inset-y-0 left-0 z-40 hidden w-72 border-r border-slate-200 bg-white p-5 lg:block">
-        <div className="text-xl font-extrabold text-slate-950">MyCampusAdda</div>
+        <div className="text-xl font-extrabold text-slate-950">CampusNest</div>
         <p className="mt-1 text-sm text-slate-500">Admin panel</p>
         <nav className="mt-8 grid gap-2">
           {links.map(({ to, label, icon: Icon }) => (

@@ -1,6 +1,6 @@
-# MyCampusAdda
+# CampusNest
 
-MyCampusAdda is a full-stack MERN listing platform for college students. The MVP targets Thakur College, Kandivali, Mumbai and helps students discover nearby PG/Hostel and Mess/Tiffin services, with verified login for Campus AI and owner submissions.
+CampusNest is a full-stack MERN listing platform for college students. The MVP targets Thakur College, Kandivali, Mumbai and helps students discover nearby PG/Hostel and Mess/Tiffin services, with verified login for Campus AI and owner submissions.
 
 ## Features
 
@@ -28,7 +28,7 @@ Backend: Node.js, Express.js, MongoDB Atlas, Mongoose, JWT, bcryptjs, cookie-par
 ## Folder Structure
 
 ```txt
-mycampusadda/
+campusnest/
   client/   Vite + React JavaScript app
   server/   Node.js + Express JavaScript API
   README.md
@@ -61,7 +61,7 @@ Client runs on `http://localhost:5173`. Server runs on `http://localhost:5000`.
 
 ```env
 VITE_API_BASE_URL=http://localhost:5000/api
-VITE_APP_NAME=MyCampusAdda
+VITE_APP_NAME=CampusNest
 VITE_DEFAULT_COLLEGE_SLUG=thakur-college
 ```
 
@@ -88,10 +88,10 @@ RAZORPAY_WEBHOOK_SECRET=your_test_webhook_secret
 
 BREVO_API_KEY=optional_for_real_email_otp
 CONTACT_FROM_EMAIL=noreply@yourdomain.com
-CONTACT_FROM_NAME=MyCampusAdda
+CONTACT_FROM_NAME=CampusNest
 
 ADMIN_NAME=Nikhil
-ADMIN_EMAIL=admin@mycampusadda.in
+ADMIN_EMAIL=admin@campusnest.online
 ADMIN_PASSWORD=admin12345
 ```
 
@@ -121,7 +121,7 @@ Request:
 }
 ```
 
-The chatbot only answers MyCampusAdda-related questions about PGs, Mess/Tiffin, rent, budget, facilities, food, distance and move-in planning near Thakur College. It searches approved MongoDB listings and returns concise answers, related listings and suggested actions.
+The chatbot only answers CampusNest-related questions about PGs, Mess/Tiffin, rent, budget, facilities, food, distance and move-in planning near Thakur College. It searches approved MongoDB listings and returns concise answers, related listings and suggested actions.
 
 If `OPENAI_API_KEY` is configured, the backend sends only the user message and top relevant listing summaries to OpenAI for a short answer. If `OPENAI_API_KEY` is missing or a placeholder, the bot still works using template-based fallback answers. The bot never guarantees availability and always reminds users to confirm rent, menu, availability and facilities directly with the owner.
 
@@ -171,7 +171,7 @@ npm run seed:samples
 
 Seeded admin defaults come from env:
 
-- Email: `admin@mycampusadda.in`
+- Email: `admin@campusnest.online`
 - Password: `admin12345`
 
 Change these before production.
@@ -196,7 +196,7 @@ Open `http://localhost:5173`.
 
 ## Admin Login
 
-Go to `http://localhost:5173/admin/login`, sign in with the seeded admin credentials, and the JWT is stored in localStorage as `mca_admin_token`.
+Go to `http://localhost:5173/admin/login`, sign in with the seeded admin credentials, and the JWT is stored in localStorage as `campusnest_admin_token`.
 
 ## Deployment Guide
 

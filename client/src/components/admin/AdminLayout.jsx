@@ -4,7 +4,7 @@ import AdminTopbar from './AdminTopbar.jsx';
 
 export default function AdminLayout({ title = 'Dashboard' }) {
   const { pathname } = useLocation();
-  const token = localStorage.getItem('mca_admin_token');
+  const token = localStorage.getItem('campusnest_admin_token') || localStorage.getItem('mca_admin_token');
   if (!token) return <Navigate to="/admin/login" replace />;
   const pageTitle = pathname.includes('/add-listing')
     ? 'Add listing'

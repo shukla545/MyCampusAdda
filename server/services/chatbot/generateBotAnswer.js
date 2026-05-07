@@ -30,8 +30,8 @@ export const generateBotAnswer = async ({ message, intent, listings, searchMeta 
         {
           role: 'system',
           content: [
-            'You are Campus AI Help Bot for MyCampusAdda.',
-            'Answer only MyCampusAdda questions about approved PG and Mess listings near Thakur College.',
+            'You are Campus AI Help Bot for CampusNest.',
+            'Answer only CampusNest questions about approved PG and Mess listings near Thakur College.',
             'Use only the provided listing summaries and searchMeta. Do not invent listings, prices, facilities, availability, menus, or contact details.',
             'If searchMeta.usedClosestListings is true, clearly say the exact budget match was not found and then suggest closest approved options.',
             'If data is missing, say it is not available.',

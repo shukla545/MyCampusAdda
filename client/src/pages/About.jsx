@@ -12,8 +12,8 @@ export default function About() {
   return (
     <main className="bg-white">
       <Seo
-        title="About MyCampusAdda"
-        description="About MyCampusAdda, a student-focused platform for finding PGs, hostels, mess and tiffin services near Thakur College, Kandivali."
+        title="About CampusNest"
+        description="About CampusNest, a student-focused platform for finding PGs, hostels, mess and tiffin services near Thakur College, Kandivali."
       />
       <section className="bg-brand py-14 text-white">
         <Container>
@@ -24,7 +24,7 @@ export default function About() {
             Helping students find campus stays and meals without guesswork.
           </h1>
           <p className="mt-5 max-w-3xl text-lg leading-8 text-white/75">
-            MyCampusAdda connects students near Thakur College with admin-reviewed PG, hostel, mess and tiffin options, backed by a Campus AI assistant for faster shortlisting.
+            CampusNest connects students near Thakur College with admin-reviewed PG, hostel, mess and tiffin options, backed by a Campus AI assistant for faster shortlisting.
           </p>
         </Container>
       </section>
@@ -32,9 +32,9 @@ export default function About() {
       <section className="py-14">
         <Container className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
           <div className="rounded-3xl border border-slate-200 bg-brand-soft p-6">
-            <h2 className="text-2xl font-extrabold text-brand">What MyCampusAdda solves</h2>
+            <h2 className="text-2xl font-extrabold text-brand">What CampusNest solves</h2>
             <p className="mt-4 leading-8 text-slate-700">
-              Students often compare PGs, hostels and mess plans across scattered WhatsApp forwards, calls and random listings. MyCampusAdda brings that search into one clean place with filters, direct contact paths and AI recommendations.
+              Students often compare PGs, hostels and mess plans across scattered WhatsApp forwards, calls and random listings. CampusNest brings that search into one clean place with filters, direct contact paths and AI recommendations.
             </p>
             <div className="mt-6 grid gap-3 sm:grid-cols-2">
               <div className="rounded-2xl bg-white p-4 shadow-sm">

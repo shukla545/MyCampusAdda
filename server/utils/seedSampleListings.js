@@ -69,7 +69,7 @@ const run = async () => {
         college: college._id,
         address: `${item.area}, Mumbai`,
         images: [image],
-        contactName: 'MyCampusAdda Partner',
+        contactName: 'CampusNest Partner',
         whatsappNumber: '919876543210',
         status: 'approved',
         isVerified: true,

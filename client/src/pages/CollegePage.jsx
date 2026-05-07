@@ -26,7 +26,7 @@ export default function CollegePage() {
     <>
       <Seo
         title="Thakur College PG, Hostel and Mess Listings"
-        description="Browse PG, hostel, mess and tiffin listings around Thakur College, Kandivali with MyCampusAdda."
+        description="Browse PG, hostel, mess and tiffin listings around Thakur College, Kandivali with CampusNest."
       />
       <section className="bg-slate-50 py-16">
         <Container className="grid gap-8 lg:grid-cols-[1fr_0.8fr] lg:items-center">

@@ -15,6 +15,6 @@ export const uploadImagesController = (folder) => asyncHandler(async (req, res) 
     res.status(400);
     throw new Error('Cloudinary is not configured. Add Cloudinary keys to server/.env.');
   }
-  const urls = await Promise.all((req.files || []).map((file) => uploadBuffer(file, `mycampusadda/${folder}`)));
+  const urls = await Promise.all((req.files || []).map((file) => uploadBuffer(file, `campusnest/${folder}`)));
   res.json({ urls });
 });

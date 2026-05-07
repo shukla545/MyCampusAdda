@@ -49,7 +49,7 @@ export default function Contact() {
         <div className="max-w-xl rounded-xl border border-slate-200 bg-white p-8 text-center shadow-soft">
           <CheckCircle2 className="mx-auto h-14 w-14 text-emerald-500" />
           <h1 className="mt-5 text-3xl font-extrabold text-slate-950">Message sent</h1>
-          <p className="mt-3 text-slate-600">Thanks. Your verified message is saved for the MyCampusAdda admin.</p>
+          <p className="mt-3 text-slate-600">Thanks. Your verified message is saved for the CampusNest admin.</p>
           <Button className="mt-6" onClick={() => setDone(false)}>Send another message</Button>
         </div>
       </Container>
@@ -59,14 +59,14 @@ export default function Contact() {
   return (
     <main className="bg-slate-50 py-10">
       <Seo
-        title="Contact MyCampusAdda"
-        description="Contact MyCampusAdda for PG, hostel, mess and tiffin listing support near Thakur College, Kandivali."
+        title="Contact CampusNest"
+        description="Contact CampusNest for PG, hostel, mess and tiffin listing support near Thakur College, Kandivali."
       />
       <Container className="max-w-4xl">
         <div className="mb-7 grid gap-5 lg:grid-cols-[1fr_360px] lg:items-end">
           <div>
             <p className="font-bold text-brand">Verified contact</p>
-            <h1 className="mt-2 text-4xl font-extrabold text-slate-950">Contact MyCampusAdda</h1>
+            <h1 className="mt-2 text-4xl font-extrabold text-slate-950">Contact CampusNest</h1>
             <p className="mt-3 max-w-2xl text-slate-600">Any query related to the website? Please message the admin or developer after verifying your email.</p>
           </div>
           <div className="rounded-xl border border-brand/10 bg-brand-soft p-4 text-sm font-semibold text-brand">

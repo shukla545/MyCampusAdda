@@ -3,14 +3,14 @@ const relatedKeywords = [
   'food', 'lunch', 'dinner', 'veg', 'non-veg', 'non veg', 'budget', 'thakur college',
   'kandivali', 'move-in', 'move in', 'facilities', 'wifi', 'wi-fi', 'study table',
   'laundry', 'ac', 'distance', 'near', 'college', 'stay', 'bed', 'meal', 'menu',
-  'mycampusadda', 'website', 'contact', 'support', 'admin', 'owner', 'developer',
+  'campusnest', 'website', 'contact', 'support', 'admin', 'owner', 'developer',
   'message', 'help', 'complaint', 'correction'
 ];
 
 const pgKeywords = ['pg', 'hostel', 'room', 'stay', 'bed', 'rent', 'deposit'];
 const messKeywords = ['mess', 'tiffin', 'food', 'lunch', 'dinner', 'meal', 'menu', 'veg', 'non-veg', 'non veg'];
 const moveInKeywords = ['move-in', 'move in', 'moving', 'shift', 'checklist', 'plan'];
-const websiteKeywords = ['mycampusadda', 'website', 'contact', 'support', 'admin', 'owner', 'developer', 'message', 'complaint', 'correction'];
+const websiteKeywords = ['campusnest', 'website', 'contact', 'support', 'admin', 'owner', 'developer', 'message', 'complaint', 'correction'];
 
 const includesAny = (text, words) => words.some((word) => text.includes(word));
 

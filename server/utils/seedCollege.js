@@ -14,7 +14,7 @@ const run = async () => {
       city: 'Mumbai',
       area: 'Kandivali East',
       address: 'Thakur Village, Kandivali East, Mumbai',
-      description: 'A focused launch college for MyCampusAdda listings around Thakur Village and nearby student-friendly areas.',
+      description: 'A focused launch college for CampusNest listings around Thakur Village and nearby student-friendly areas.',
       isActive: true
     },
     { upsert: true, new: true }

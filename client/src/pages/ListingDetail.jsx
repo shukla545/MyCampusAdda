@@ -31,7 +31,7 @@ export default function ListingDetail() {
     <main className="bg-slate-50 py-8">
       <Seo
         title={`${listing.title} near Thakur College`}
-        description={`${listing.title} in ${listing.area || 'Kandivali'} on MyCampusAdda. View price, facilities, distance and contact options.`}
+        description={`${listing.title} in ${listing.area || 'Kandivali'} on CampusNest. View price, facilities, distance and contact options.`}
         image={listing.images?.[0]}
       />
       <Container className="space-y-8">

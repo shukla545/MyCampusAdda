@@ -50,7 +50,7 @@ if (process.env.NODE_ENV === 'development') app.use(morgan('dev'));
 
 const ownerLimiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 20, standardHeaders: true, legacyHeaders: false });
 
-app.get('/api/health', (req, res) => res.json({ ok: true, app: 'MyCampusAdda API' }));
+app.get('/api/health', (req, res) => res.json({ ok: true, app: 'CampusNest API' }));
 app.use('/api/auth', authRoutes);
 app.use('/api/billing', billingRoutes);
 app.use('/api/colleges', collegeRoutes);
@@ -66,5 +66,5 @@ app.use(notFound);
 app.use(errorHandler);
 
 app.listen(port, () => {
-  console.log(`MyCampusAdda API running on port ${port}`);
+  console.log(`CampusNest API running on port ${port}`);
 });

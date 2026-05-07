@@ -12,13 +12,14 @@ export default function AdminLogin() {
   const { register, handleSubmit, formState: { isSubmitting } } = useForm();
 
   useEffect(() => {
-    if (localStorage.getItem('mca_admin_token')) navigate('/admin/dashboard', { replace: true });
+    if (localStorage.getItem('campusnest_admin_token') || localStorage.getItem('mca_admin_token')) navigate('/admin/dashboard', { replace: true });
   }, [navigate]);
 
   const submit = async (values) => {
     try {
       const { data } = await api.post('/admin/login', values);
-      localStorage.setItem('mca_admin_token', data.token);
+      localStorage.setItem('campusnest_admin_token', data.token);
+      localStorage.removeItem('mca_admin_token');
       navigate('/admin/dashboard');
     } catch (error) {
       toast.error(error.response?.data?.message || 'Login failed');

@@ -3,14 +3,14 @@ import { ArrowRight, Building2, Mail, MapPin, Utensils } from 'lucide-react';
 import Container from './Container.jsx';
 
 export default function Footer() {
-  const adminPath = localStorage.getItem('mca_admin_token') ? '/admin/dashboard' : '/admin/login';
+  const adminPath = (localStorage.getItem('campusnest_admin_token') || localStorage.getItem('mca_admin_token')) ? '/admin/dashboard' : '/admin/login';
   return (
     <footer className="bg-brand text-white">
       <Container className="grid gap-10 py-12 md:grid-cols-[1.1fr_0.9fr_0.9fr]">
         <div>
           <Link to="/" className="inline-flex items-center gap-3">
-            <span className="grid h-11 w-11 place-items-center rounded-2xl bg-white text-xl font-black text-brand">M</span>
-            <span className="text-xl font-extrabold">MyCampusAdda</span>
+            <span className="grid h-11 w-11 place-items-center rounded-2xl bg-white text-xl font-black text-brand">C</span>
+            <span className="text-xl font-extrabold">CampusNest</span>
           </Link>
           <p className="mt-4 max-w-sm text-sm leading-6 text-white/75">
             Student-first PG, hostel, mess and tiffin discovery near Thakur College, Kandivali.

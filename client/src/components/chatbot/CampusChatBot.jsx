@@ -154,7 +154,7 @@ export default function CampusChatBot() {
         key: data.keyId,
         amount: data.order.amount,
         currency: data.order.currency,
-        name: 'MyCampusAdda',
+        name: 'CampusNest',
         description: data.plan.label,
         order_id: data.order.id,
         prefill: {

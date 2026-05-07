@@ -30,7 +30,7 @@ export default function ListingPageShell({ type, title, searchPlaceholder }) {
     <main className="bg-slate-50 py-10">
       <Seo
         title={title}
-        description={`${title}. Compare budget, food preference, distance, facilities and direct contact options on MyCampusAdda.`}
+        description={`${title}. Compare budget, food preference, distance, facilities and direct contact options on CampusNest.`}
       />
       <Container>
         <div className="mb-8">

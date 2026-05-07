@@ -7,7 +7,7 @@ dotenv.config();
 
 const run = async () => {
   await mongoose.connect(process.env.MONGO_URI);
-  const email = process.env.ADMIN_EMAIL || 'admin@mycampusadda.in';
+  const email = process.env.ADMIN_EMAIL || 'admin@campusnest.online';
   const existing = await Admin.findOne({ email });
   if (existing) {
     console.log(`Admin already exists: ${email}`);

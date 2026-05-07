@@ -8,7 +8,8 @@ import UserOtp from '../models/UserOtp.js';
 import { asyncHandler } from '../middleware/errorMiddleware.js';
 import { sendSignupOtpEmail } from '../services/auth/sendSignupOtpEmail.js';
 
-const COOKIE_NAME = 'mca_user_token';
+const COOKIE_NAME = 'campusnest_user_token';
+const LEGACY_COOKIE_NAME = 'mca_user_token';
 const OTP_EXPIRY_SECONDS = 10 * 60;
 const isProduction = process.env.NODE_ENV === 'production';
 
@@ -17,7 +18,7 @@ const cleanName = (name) => String(name || '').trim().replace(/\s+/g, ' ');
 const createOtp = () => String(Math.floor(100000 + Math.random() * 900000));
 
 const hashOtp = (email, otp) =>
-  crypto.createHash('sha256').update(`${email}:${otp}:${process.env.JWT_SECRET || 'mycampusadda'}:signup`).digest('hex');
+  crypto.createHash('sha256').update(`${email}:${otp}:${process.env.JWT_SECRET || 'campusnest'}:signup`).digest('hex');
 
 const signUserToken = (id) => jwt.sign({ id, type: 'user' }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRES_IN || '7d' });
 
@@ -46,6 +47,11 @@ const setUserCookie = (res, user) => {
 
 const clearUserCookie = (res) => {
   res.clearCookie(COOKIE_NAME, {
+    httpOnly: true,
+    sameSite: isProduction ? 'none' : 'lax',
+    secure: isProduction
+  });
+  res.clearCookie(LEGACY_COOKIE_NAME, {
     httpOnly: true,
     sameSite: isProduction ? 'none' : 'lax',
     secure: isProduction

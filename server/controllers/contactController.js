@@ -8,7 +8,7 @@ import { sendOtpEmail } from '../services/contact/sendOtpEmail.js';
 const normalizeEmail = (email) => String(email || '').trim().toLowerCase();
 
 const hashOtp = (email, otp) =>
-  crypto.createHash('sha256').update(`${email}:${otp}:${process.env.JWT_SECRET || 'mycampusadda'}`).digest('hex');
+  crypto.createHash('sha256').update(`${email}:${otp}:${process.env.JWT_SECRET || 'campusnest'}`).digest('hex');
 
 const createOtp = () => String(Math.floor(100000 + Math.random() * 900000));
 
@@ -85,7 +85,7 @@ export const submitContactMessage = asyncHandler(async (req, res) => {
   });
   await ContactOtp.deleteOne({ email });
 
-  res.status(201).json({ success: true, message: 'Message sent to MyCampusAdda admin', contactMessage });
+  res.status(201).json({ success: true, message: 'Message sent to CampusNest admin', contactMessage });
 });
 
 export const getContactMessages = asyncHandler(async (req, res) => {

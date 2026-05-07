@@ -79,9 +79,9 @@ export const askChatbot = asyncHandler(async (req, res) => {
   if (intent.website && !intent.wantsPG && !intent.wantsMess) {
     res.json({
       success: true,
-      answer: 'Yes, you can contact the MyCampusAdda admin from the Contact page. For safety, you will need to verify your email with a 10 minute OTP before sending a message.',
+      answer: 'Yes, you can contact the CampusNest admin from the Contact page. For safety, you will need to verify your email with a 10 minute OTP before sending a message.',
       relatedListings: [],
-      suggestedActions: [{ label: 'Contact MyCampusAdda', path: '/contact' }],
+      suggestedActions: [{ label: 'Contact CampusNest', path: '/contact' }],
       chatUsage: toChatUsage(reservation)
     });
     return;

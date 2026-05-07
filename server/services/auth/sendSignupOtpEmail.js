@@ -14,14 +14,14 @@ export const sendSignupOtpEmail = async ({ email, name, otp }) => {
     },
     body: JSON.stringify({
       sender: {
-        name: process.env.CONTACT_FROM_NAME || 'MyCampusAdda',
+        name: process.env.CONTACT_FROM_NAME || 'CampusNest',
         email: process.env.CONTACT_FROM_EMAIL
       },
       to: [{ email, name }],
-      subject: 'Verify your MyCampusAdda account',
+      subject: 'Verify your CampusNest account',
       htmlContent: `
         <div style="font-family:Arial,sans-serif;color:#0f172a;line-height:1.6">
-          <h2>Verify your MyCampusAdda account</h2>
+          <h2>Verify your CampusNest account</h2>
           <p>Hi ${name || 'there'}, use this OTP to verify your email before creating your account:</p>
           <p style="font-size:28px;font-weight:800;letter-spacing:4px">${otp}</p>
           <p>This OTP is valid for 10 minutes.</p>

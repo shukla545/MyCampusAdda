@@ -30,7 +30,7 @@ export const protect = asyncHandler(async (req, res, next) => {
 export const protectUser = asyncHandler(async (req, res, next) => {
   const header = req.headers.authorization || '';
   const bearerToken = header.startsWith('Bearer ') ? header.split(' ')[1] : null;
-  const token = req.cookies?.mca_user_token || bearerToken;
+  const token = req.cookies?.campusnest_user_token || req.cookies?.mca_user_token || bearerToken;
 
   if (!token) {
     res.status(401);

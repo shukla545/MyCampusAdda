@@ -7,7 +7,7 @@ import Seo from '../components/common/Seo.jsx';
 export default function NotFound() {
   return (
     <main className="bg-white">
-      <Seo title="404 - Page not found" description="This MyCampusAdda page could not be found." />
+      <Seo title="404 - Page not found" description="This CampusNest page could not be found." />
       <Container className="grid min-h-[70vh] place-items-center py-16 text-center">
         <div className="w-full max-w-2xl rounded-3xl border border-slate-200 bg-white p-8 shadow-soft sm:p-10">
           <div className="mx-auto grid h-16 w-16 place-items-center rounded-2xl bg-brand-soft text-brand">

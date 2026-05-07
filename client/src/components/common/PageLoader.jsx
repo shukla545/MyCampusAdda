@@ -1,6 +1,6 @@
 import { Loader2 } from 'lucide-react';
 
-export default function PageLoader({ label = 'Loading MyCampusAdda...' }) {
+export default function PageLoader({ label = 'Loading CampusNest...' }) {
   return (
     <div className="grid min-h-[45vh] place-items-center bg-white px-4 py-16 text-center">
       <div>

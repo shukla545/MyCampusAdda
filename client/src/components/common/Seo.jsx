@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
-const defaultDescription = 'Find student-friendly PGs, hostels, mess and tiffin services near Thakur College, Kandivali with MyCampusAdda.';
+const defaultDescription = 'Find student-friendly PGs, hostels, mess and tiffin services near Thakur College, Kandivali with CampusNest.';
 const defaultImage = 'https://res.cloudinary.com/dugeiu4id/image/upload/v1778184435/ChatGPT_Image_May_8_2026_01_35_21_AM_ozmdeg.png';
 
 const upsertMeta = (selector, attributes) => {
@@ -23,11 +23,11 @@ const upsertCanonical = (href) => {
   element.setAttribute('href', href);
 };
 
-export default function Seo({ title = 'MyCampusAdda', description = defaultDescription, image = defaultImage }) {
+export default function Seo({ title = 'CampusNest', description = defaultDescription, image = defaultImage }) {
   const { pathname } = useLocation();
 
   useEffect(() => {
-    const pageTitle = title.includes('MyCampusAdda') ? title : `${title} | MyCampusAdda`;
+    const pageTitle = title.includes('CampusNest') ? title : `${title} | CampusNest`;
     const url = `${window.location.origin}${pathname}`;
     const finalImage = image || defaultImage;
 

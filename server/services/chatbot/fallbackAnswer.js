@@ -1,11 +1,11 @@
 const disclaimer = 'Rent, menu, availability and facilities may change. Please confirm directly with owner.';
 
 export const unrelatedAnswer =
-  'I can help with PG, Mess, budget, facilities, rent and listings near Thakur College. Please ask a MyCampusAdda related question.';
+  'I can help with PG, Mess, budget, facilities, rent and listings near Thakur College. Please ask a CampusNest related question.';
 
 export const buildSuggestedActions = (intent) => {
   const actions = [];
-  if (intent.website) actions.push({ label: 'Contact MyCampusAdda', path: '/contact' });
+  if (intent.website) actions.push({ label: 'Contact CampusNest', path: '/contact' });
   if (intent.wantsPG || intent.type === 'pg') actions.push({ label: 'Explore PGs', path: '/college/thakur-college/pg' });
   if (intent.wantsMess || intent.type === 'mess') actions.push({ label: 'Explore Mess', path: '/college/thakur-college/mess' });
   if (!actions.length) {
@@ -23,7 +23,7 @@ const describeListing = (listing) => {
 
 export const fallbackAnswer = ({ intent, listings, searchMeta = {} }) => {
   if (intent.website && !intent.wantsPG && !intent.wantsMess) {
-    return 'Yes, you can contact the MyCampusAdda admin from the Contact page. For safety, you will need to verify your email with a 10 minute OTP before sending a message.';
+    return 'Yes, you can contact the CampusNest admin from the Contact page. For safety, you will need to verify your email with a 10 minute OTP before sending a message.';
   }
 
   if (!listings.length) {

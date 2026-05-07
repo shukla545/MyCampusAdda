@@ -43,7 +43,7 @@ export default function BusinessRegister() {
         <div className="max-w-xl rounded-xl border border-slate-200 bg-white p-8 text-center shadow-soft">
           <CheckCircle2 className="mx-auto h-14 w-14 text-emerald-500" />
           <h1 className="mt-5 text-3xl font-extrabold text-slate-950">Your business has been submitted.</h1>
-          <p className="mt-3 text-slate-600">After approval, your business will appear on MyCampusAdda. You will get a message from our team.</p>
+          <p className="mt-3 text-slate-600">After approval, your business will appear on CampusNest. You will get a message from our team.</p>
           <Button className="mt-6" onClick={() => setDone(false)}>Add another listing</Button>
         </div>
       </Container>
@@ -54,7 +54,7 @@ export default function BusinessRegister() {
     <main className="bg-slate-50 py-10">
       <Seo
         title="List your PG or Mess near Thakur College"
-        description="Submit your PG, hostel, mess or tiffin business for review on MyCampusAdda near Thakur College, Kandivali."
+        description="Submit your PG, hostel, mess or tiffin business for review on CampusNest near Thakur College, Kandivali."
       />
       <Container className="max-w-4xl">
         <div className="mb-6">

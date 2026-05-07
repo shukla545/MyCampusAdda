@@ -274,7 +274,7 @@ export const createChatCreditQr = asyncHandler(async (req, res) => {
     },
     body: JSON.stringify({
       type: 'upi_qr',
-      name: `${plan.name} - MyCampusAdda AI`,
+      name: `${plan.name} - CampusNest AI`,
       usage: 'single_use',
       fixed_amount: true,
       payment_amount: plan.amount,
