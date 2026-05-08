@@ -22,7 +22,7 @@ export const getPublicChatPlans = () => CHAT_PLANS.map((plan) => ({
 
 const requireRazorpayConfig = () => {
   if (!process.env.RAZORPAY_KEY_ID || !process.env.RAZORPAY_KEY_SECRET) {
-    const error = new Error('Razorpay test keys are not configured');
+    const error = new Error('Razorpay keys are not configured');
     error.statusCode = 500;
     throw error;
   }

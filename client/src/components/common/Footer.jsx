@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { ArrowRight, Building2, Mail, MapPin, Utensils } from 'lucide-react';
+import { ArrowRight, Building2, Mail, MapPin, ShieldCheck, Utensils } from 'lucide-react';
 import Container from './Container.jsx';
 
 export default function Footer() {
@@ -9,7 +9,9 @@ export default function Footer() {
       <Container className="grid gap-10 py-12 md:grid-cols-[1.1fr_0.9fr_0.9fr]">
         <div>
           <Link to="/" className="inline-flex items-center gap-3">
-            <span className="grid h-11 w-11 place-items-center rounded-2xl bg-white text-xl font-black text-brand">C</span>
+            <span className="grid h-11 w-11 place-items-center overflow-hidden rounded-2xl bg-white p-1">
+              <img src="/campusnest-logo.png" alt="" className="h-full w-full object-contain" />
+            </span>
             <span className="text-xl font-extrabold">CampusNest</span>
           </Link>
           <p className="mt-4 max-w-sm text-sm leading-6 text-white/75">
@@ -33,7 +35,12 @@ export default function Footer() {
           <div className="mt-4 grid gap-3 text-sm font-semibold text-white/80">
             <Link className="hover:text-white" to="/about">About us</Link>
             <Link className="inline-flex items-center gap-2 hover:text-white" to="/contact"><Mail className="h-4 w-4" />Contact</Link>
+            <Link className="inline-flex items-center gap-2 hover:text-white" to="/pricing"><ShieldCheck className="h-4 w-4" />Pricing</Link>
+            <Link className="hover:text-white" to="/terms">Terms of use</Link>
             <Link className="hover:text-white" to="/privacy">Privacy policy</Link>
+            <Link className="hover:text-white" to="/refund-policy">Refund policy</Link>
+            <Link className="hover:text-white" to="/delivery-policy">Delivery policy</Link>
+            <Link className="hover:text-white" to="/cookies">Cookie policy</Link>
             <Link className="hover:text-white" to={adminPath}>Admin</Link>
           </div>
         </div>

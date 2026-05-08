@@ -90,7 +90,9 @@ export default function Navbar() {
     <header className="glass-nav sticky top-0 z-50 border-b border-white/10 shadow-sm">
       <Container className="flex h-16 items-center justify-between">
         <Link to="/" className="flex items-center gap-3">
-          <span className="grid h-10 w-10 place-items-center rounded-2xl bg-white text-lg font-black text-brand">C</span>
+          <span className="grid h-10 w-10 place-items-center overflow-hidden rounded-2xl bg-white p-1">
+            <img src="/campusnest-logo.png" alt="" className="h-full w-full object-contain" />
+          </span>
           <span className="text-lg font-extrabold text-white">CampusNest</span>
         </Link>
         <nav className="hidden items-center gap-7 md:flex">

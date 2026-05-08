@@ -12,7 +12,7 @@ CampusNest is a full-stack MERN listing platform for college students. The MVP t
 - OTP-verified contact page for users to message the admin
 - Email OTP signup/login for protected user actions
 - Campus AI Help Bot with 1 free answer after signup and paid credit packs
-- Razorpay Test Mode billing for AI message credits
+- Razorpay billing for AI message credits
 - Admin JWT login
 - Admin dashboard with listing and submission stats
 - Admin listing CRUD with approve, reject, verify, feature and delete actions
@@ -82,9 +82,9 @@ CLOUDINARY_API_SECRET=your_cloudinary_api_secret
 OPENAI_API_KEY=your_openai_api_key_optional
 OPENAI_CHATBOT_MODEL=gpt-4.1-mini
 
-RAZORPAY_KEY_ID=rzp_test_your_key_id
-RAZORPAY_KEY_SECRET=your_razorpay_test_key_secret
-RAZORPAY_WEBHOOK_SECRET=your_test_webhook_secret
+RAZORPAY_KEY_ID=rzp_test_or_live_key_id
+RAZORPAY_KEY_SECRET=rzp_test_or_live_key_secret
+RAZORPAY_WEBHOOK_SECRET=your_razorpay_webhook_secret
 
 BREVO_API_KEY=optional_for_real_email_otp
 CONTACT_FROM_EMAIL=noreply@yourdomain.com
@@ -125,14 +125,14 @@ The chatbot only answers CampusNest-related questions about PGs, Mess/Tiffin, re
 
 If `OPENAI_API_KEY` is configured, the backend sends only the user message and top relevant listing summaries to OpenAI for a short answer. If `OPENAI_API_KEY` is missing or a placeholder, the bot still works using template-based fallback answers. The bot never guarantees availability and always reminds users to confirm rent, menu, availability and facilities directly with the owner.
 
-## Razorpay Test Mode
+## Razorpay Setup
 
-Create a Razorpay account and use Test Mode while building. In the Razorpay dashboard:
+Create a Razorpay account and use Test Mode while building. Switch to Live Mode only after account activation, website verification and KYC are complete. In the Razorpay dashboard:
 
-1. Switch to Test Mode.
+1. Switch to Test Mode or Live Mode.
 2. Generate API keys.
 3. Add `RAZORPAY_KEY_ID` and `RAZORPAY_KEY_SECRET` to `server/.env`.
-4. Add a test webhook pointing to your backend route:
+4. Add a webhook pointing to your backend route.
 
 ```txt
 http://localhost:5000/api/billing/webhook
@@ -144,7 +144,13 @@ For local webhook testing, use a public tunnel such as ngrok and set the webhook
 https://your-ngrok-url.ngrok-free.app/api/billing/webhook
 ```
 
-Subscribe to `payment.captured` and `order.paid`, then copy the webhook secret into `RAZORPAY_WEBHOOK_SECRET`.
+For production, use:
+
+```txt
+https://mycampusadda-api-buddh369.onrender.com/api/billing/webhook
+```
+
+Subscribe to `payment.captured`, `order.paid` and `payment_link.paid`, then copy the webhook secret into `RAZORPAY_WEBHOOK_SECRET`.
 
 The frontend verifies checkout success with `/api/billing/verify`, and the webhook also safely grants credits after payment. In production, replace test keys with live keys after Razorpay Live Mode/KYC approval.
 

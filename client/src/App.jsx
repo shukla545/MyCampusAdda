@@ -18,6 +18,7 @@ const Contact = lazy(() => import('./pages/Contact.jsx'));
 const AuthPage = lazy(() => import('./pages/AuthPage.jsx'));
 const About = lazy(() => import('./pages/About.jsx'));
 const PrivacyPolicy = lazy(() => import('./pages/PrivacyPolicy.jsx'));
+const LegalPage = lazy(() => import('./pages/LegalPage.jsx'));
 const NotFound = lazy(() => import('./pages/NotFound.jsx'));
 const AdminLogin = lazy(() => import('./pages/admin/AdminLogin.jsx'));
 const AdminDashboard = lazy(() => import('./pages/admin/AdminDashboard.jsx'));
@@ -46,7 +47,12 @@ export default function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/login" element={<AuthPage />} />
           <Route path="/signup" element={<AuthPage />} />
+          <Route path="/pricing" element={<LegalPage page="pricing" />} />
+          <Route path="/terms" element={<LegalPage page="terms" />} />
           <Route path="/privacy" element={<PrivacyPolicy />} />
+          <Route path="/refund-policy" element={<LegalPage page="refund" />} />
+          <Route path="/delivery-policy" element={<LegalPage page="delivery" />} />
+          <Route path="/cookies" element={<LegalPage page="cookies" />} />
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/admin" element={<AdminLayout title="Dashboard" />}>
             <Route index element={<Navigate to="dashboard" replace />} />

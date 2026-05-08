@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
-import { CheckCircle2, MessageSquareText, ShieldCheck } from 'lucide-react';
+import { CheckCircle2, Mail, MapPin, MessageSquareText, ShieldCheck } from 'lucide-react';
 import Container from '../components/common/Container.jsx';
 import Button from '../components/common/Button.jsx';
 import FormInput from '../components/forms/FormInput.jsx';
@@ -73,6 +73,10 @@ export default function Contact() {
             <div className="flex items-start gap-3">
               <MessageSquareText className="mt-0.5 h-5 w-5" />
               <p>Your email is used only for OTP verification before sending a message.</p>
+            </div>
+            <div className="mt-4 grid gap-2 border-t border-brand/10 pt-4 text-slate-700">
+              <p className="flex items-center gap-2"><Mail className="h-4 w-4 text-brand" />support@campusnest.online</p>
+              <p className="flex items-center gap-2"><MapPin className="h-4 w-4 text-brand" />Kandivali East, Mumbai</p>
             </div>
           </div>
         </div>
