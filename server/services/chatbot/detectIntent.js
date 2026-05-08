@@ -4,13 +4,15 @@ const relatedKeywords = [
   'kandivali', 'move-in', 'move in', 'facilities', 'wifi', 'wi-fi', 'study table',
   'laundry', 'ac', 'distance', 'near', 'college', 'stay', 'bed', 'meal', 'menu',
   'campusnest', 'website', 'contact', 'support', 'admin', 'owner', 'developer',
-  'message', 'help', 'complaint', 'correction'
+  'message', 'help', 'complaint', 'correction', 'study material', 'old books', 'notes',
+  'sell product', 'sell books', 'project', 'marketplace', 'seller contact', 'sell pass'
 ];
 
 const pgKeywords = ['pg', 'hostel', 'room', 'stay', 'bed', 'rent', 'deposit'];
 const messKeywords = ['mess', 'tiffin', 'food', 'lunch', 'dinner', 'meal', 'menu', 'veg', 'non-veg', 'non veg'];
 const moveInKeywords = ['move-in', 'move in', 'moving', 'shift', 'checklist', 'plan'];
 const websiteKeywords = ['campusnest', 'website', 'contact', 'support', 'admin', 'owner', 'developer', 'message', 'complaint', 'correction'];
+const marketplaceKeywords = ['study material', 'old books', 'notes', 'sell product', 'sell books', 'project', 'marketplace', 'seller contact', 'sell pass', 'product listing'];
 
 const includesAny = (text, words) => words.some((word) => text.includes(word));
 
@@ -27,6 +29,7 @@ export const detectIntent = (message = '') => {
   const wantsMess = includesAny(text, messKeywords);
   const moveIn = includesAny(text, moveInKeywords);
   const website = includesAny(text, websiteKeywords);
+  const marketplace = includesAny(text, marketplaceKeywords);
   const gender = text.includes('boys') || text.includes('boy') ? 'boys'
     : text.includes('girls') || text.includes('girl') ? 'girls'
       : text.includes('co-living') || text.includes('coliving') ? 'co-living'
@@ -43,6 +46,7 @@ export const detectIntent = (message = '') => {
     foodType,
     moveIn,
     website,
+    marketplace,
     wantsPG,
     wantsMess,
     terms: relatedKeywords.filter((word) => text.includes(word))

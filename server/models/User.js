@@ -9,6 +9,7 @@ const userSchema = new mongoose.Schema(
     role: { type: String, default: 'user' },
     freeChatUsed: { type: Boolean, default: false },
     chatCredits: { type: Number, default: 0, min: 0 },
+    marketplaceSellPasses: { type: Number, default: 0, min: 0 },
     totalChatMessages: { type: Number, default: 0 },
     lastChatAt: Date
   },

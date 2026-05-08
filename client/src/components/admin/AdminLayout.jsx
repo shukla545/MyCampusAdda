@@ -12,11 +12,13 @@ export default function AdminLayout({ title = 'Dashboard' }) {
       ? 'Edit listing'
       : pathname.includes('/listings')
         ? 'Listings'
-        : pathname.includes('/submissions')
-          ? 'Submissions'
-          : pathname.includes('/messages')
-            ? 'Messages'
-            : title;
+        : pathname.includes('/marketplace')
+          ? 'Marketplace'
+          : pathname.includes('/submissions')
+            ? 'Submissions'
+            : pathname.includes('/messages')
+              ? 'Messages'
+              : title;
   return (
     <div className="admin-shell bg-slate-50">
       <AdminSidebar />

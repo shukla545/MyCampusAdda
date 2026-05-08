@@ -1,13 +1,16 @@
 import { NavLink } from 'react-router-dom';
-import { Home, Inbox, ListChecks, LogOut, PlusCircle, UserRoundCheck } from 'lucide-react';
+import { Home, Inbox, ListChecks, LogOut, PlusCircle, ShoppingBag, UserRoundCheck } from 'lucide-react';
 
 const links = [
   { to: '/admin/dashboard', label: 'Dashboard', icon: Home },
+  { to: '/admin/marketplace', label: 'Marketplace', icon: ShoppingBag },
   { to: '/admin/listings', label: 'Listings', icon: ListChecks },
   { to: '/admin/add-listing', label: 'Add listing', icon: PlusCircle },
   { to: '/admin/submissions', label: 'Submissions', icon: UserRoundCheck },
   { to: '/admin/messages', label: 'Messages', icon: Inbox }
 ];
+
+const mobileLinks = links.filter((link) => link.to !== '/admin/add-listing');
 
 export default function AdminSidebar() {
   const logout = () => {
@@ -32,8 +35,8 @@ export default function AdminSidebar() {
         </button>
       </aside>
 
-      <nav className="fixed inset-x-3 bottom-3 z-50 grid grid-cols-5 rounded-xl border border-slate-200 bg-white p-2 shadow-soft lg:hidden">
-        {links.map(({ to, label, icon: Icon }) => (
+      <nav className="fixed inset-x-3 bottom-3 z-50 grid grid-cols-6 rounded-xl border border-slate-200 bg-white p-2 shadow-soft lg:hidden">
+        {mobileLinks.map(({ to, label, icon: Icon }) => (
           <NavLink key={to} to={to} className={({ isActive }) => `grid place-items-center gap-1 rounded-lg px-1 py-2 text-[11px] font-bold transition ${isActive ? 'bg-indigo-50 text-indigo-700' : 'text-slate-500'}`}>
             <Icon className="h-5 w-5" /><span className="truncate">{label.replace(' listing', '')}</span>
           </NavLink>

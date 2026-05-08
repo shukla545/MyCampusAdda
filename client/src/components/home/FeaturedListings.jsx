@@ -7,7 +7,7 @@ export default function FeaturedListings({ listings = [], loading = false }) {
   return (
     <section className="bg-slate-50 py-16">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <SectionTitle title="Featured near campus" subtitle="Admin-reviewed stays and food services students can contact directly." />
+        <SectionTitle title="PG and Mess support" subtitle="Secondary campus help for students who also need stays and food services." />
         <div className="mt-10">
           {loading ? (
             <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">

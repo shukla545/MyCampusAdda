@@ -21,6 +21,11 @@ import {
   approveSubmission,
   rejectSubmission
 } from '../controllers/adminController.js';
+import {
+  deleteMarketplaceListing,
+  getAdminMarketplaceListings,
+  setMarketplaceListingStatus
+} from '../controllers/marketplaceController.js';
 
 const router = express.Router();
 const authLimiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 15, standardHeaders: true, legacyHeaders: false });
@@ -48,6 +53,10 @@ router.patch('/listings/:id/approve', protect, setListingStatus('approved'));
 router.patch('/listings/:id/reject', protect, setListingStatus('rejected'));
 router.patch('/listings/:id/verify', protect, toggleListingFlag('isVerified'));
 router.patch('/listings/:id/feature', protect, toggleListingFlag('isFeatured'));
+router.get('/marketplace', protect, getAdminMarketplaceListings);
+router.patch('/marketplace/:id/approve', protect, setMarketplaceListingStatus('approved'));
+router.patch('/marketplace/:id/reject', protect, setMarketplaceListingStatus('rejected'));
+router.delete('/marketplace/:id', protect, deleteMarketplaceListing);
 router.get('/submissions', protect, getSubmissions);
 router.get('/submissions/:id', protect, getSubmission);
 router.patch('/submissions/:id/approve', protect, approveSubmission);

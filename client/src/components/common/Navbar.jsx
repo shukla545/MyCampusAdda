@@ -1,5 +1,5 @@
 import { Link, NavLink } from 'react-router-dom';
-import { Bot, ChevronDown, CreditCard, LogOut, Menu, ShieldCheck, X } from 'lucide-react';
+import { Bot, ChevronDown, CreditCard, LogOut, Menu, PackagePlus, ShieldCheck, ShoppingBag, X } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
 import Container from './Container.jsx';
@@ -8,9 +8,11 @@ import { useAuth } from '../../context/AuthContext.jsx';
 
 const nav = [
   { to: '/', label: 'Home' },
+  { to: '/marketplace', label: 'Marketplace' },
+  { to: '/marketplace/sell', label: 'Sell material' },
   { to: '/college/thakur-college/pg', label: 'PGs' },
   { to: '/college/thakur-college/mess', label: 'Mess' },
-  { to: '/business/register', label: 'List business' }
+  { to: '/business/register', label: 'List PG/Mess' }
 ];
 
 const getInitial = (name = 'User') => name.trim().charAt(0).toUpperCase() || 'U';
@@ -62,7 +64,7 @@ export default function Navbar() {
           </span>
         </div>
       </div>
-      <div className="mt-4 grid grid-cols-2 gap-2">
+      <div className="mt-4 grid grid-cols-3 gap-2">
         <div className="rounded-xl bg-slate-50 p-3">
           <p className="flex items-center gap-1 text-xs font-bold text-slate-500"><Bot className="h-3.5 w-3.5" />Free</p>
           <p className="mt-1 text-xl font-black text-slate-950">{user.remainingFreeMessages || 0}</p>
@@ -70,6 +72,10 @@ export default function Navbar() {
         <div className="rounded-xl bg-slate-50 p-3">
           <p className="flex items-center gap-1 text-xs font-bold text-slate-500"><CreditCard className="h-3.5 w-3.5" />Credits</p>
           <p className="mt-1 text-xl font-black text-slate-950">{user.chatCredits || 0}</p>
+        </div>
+        <div className="rounded-xl bg-slate-50 p-3">
+          <p className="flex items-center gap-1 text-xs font-bold text-slate-500"><ShoppingBag className="h-3.5 w-3.5" />Passes</p>
+          <p className="mt-1 text-xl font-black text-slate-950">{user.marketplaceSellPasses || 0}</p>
         </div>
       </div>
       {user.role === 'admin' && (
@@ -80,6 +86,9 @@ export default function Navbar() {
       <button type="button" onClick={openCreditPacks} className="mt-3 flex w-full items-center justify-center gap-2 rounded-xl bg-brand px-4 py-3 text-sm font-extrabold text-white transition hover:bg-brand-dark">
         <CreditCard className="h-4 w-4" />Buy credits
       </button>
+      <Link to="/marketplace/sell" onClick={() => { setAccountOpen(false); setOpen(false); }} className="mt-2 flex w-full items-center justify-center gap-2 rounded-xl bg-emerald-600 px-4 py-3 text-sm font-extrabold text-white transition hover:bg-emerald-700">
+        <PackagePlus className="h-4 w-4" />Sell material
+      </Link>
       <button type="button" onClick={logoutUser} className="mt-2 flex w-full items-center justify-center gap-2 rounded-xl bg-slate-100 px-4 py-3 text-sm font-extrabold text-slate-700 transition hover:bg-slate-200">
         <LogOut className="h-4 w-4" />Logout
       </button>
@@ -95,7 +104,7 @@ export default function Navbar() {
           </span>
           <span className="text-lg font-extrabold text-white">CampusNest</span>
         </Link>
-        <nav className="hidden items-center gap-7 md:flex">
+        <nav className="hidden items-center gap-3 lg:gap-5 md:flex">
           {nav.map((item) => <NavLink key={item.to} to={item.to} className={linkClass}>{item.label}</NavLink>)}
         </nav>
         <div className="hidden items-center gap-3 md:flex">

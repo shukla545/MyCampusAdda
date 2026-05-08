@@ -38,6 +38,7 @@ const toPublicUser = (user) => ({
   freeChatUsed: Boolean(user.freeChatUsed),
   remainingFreeMessages: user.freeChatUsed ? 0 : 1,
   chatCredits: user.chatCredits || 0,
+  marketplaceSellPasses: user.marketplaceSellPasses || 0,
   totalChatMessages: user.totalChatMessages || 0
 });
 

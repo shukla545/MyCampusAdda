@@ -1,9 +1,9 @@
-import { Bot, MessageCircle, Search } from 'lucide-react';
+import { LockKeyhole, Search, ShieldCheck } from 'lucide-react';
 
 const steps = [
-  { title: 'Ask Campus AI', text: 'Share budget, food preference and facilities in one prompt.', icon: Bot },
-  { title: 'Compare the shortlist', text: 'Open matched PG and Mess listings with student-friendly details.', icon: Search },
-  { title: 'Contact directly', text: 'Use WhatsApp or listing actions without a student login.', icon: MessageCircle }
+  { title: 'Browse products', text: 'See approved study material, images, price and product details without login.', icon: Search },
+  { title: 'Login for contact', text: 'Seller number, branch and student details unlock only for logged-in users.', icon: LockKeyhole },
+  { title: 'Pay on handover', text: 'Meet, check the product, then pay. Do not send advance payment.', icon: ShieldCheck }
 ];
 
 export default function HowItWorks() {

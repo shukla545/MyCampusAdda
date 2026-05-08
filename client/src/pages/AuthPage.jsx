@@ -74,15 +74,15 @@ export default function AuthPage() {
                 <ShieldCheck className="h-4 w-4" /> Verified student access
               </p>
               <h1 className="mt-6 text-4xl font-extrabold leading-tight">
-                Login once, then use Campus AI and list a business safely.
+                Login once, then unlock seller contact and list study material safely.
               </h1>
               <p className="mt-4 leading-7 text-slate-300">
-                Email verification keeps fake emails away from owner submissions and AI usage. Admin credentials can also login here for user-side access.
+                Email verification keeps fake emails away from marketplace contacts, seller submissions and AI usage. Admin credentials can also login here for user-side access.
               </p>
               <div className="mt-8 grid gap-3 text-sm font-semibold text-slate-200">
                 <div className="rounded-xl bg-white/10 p-4">Signup uses name, email OTP and password.</div>
                 <div className="rounded-xl bg-white/10 p-4">Session stays active until logout using a secure cookie.</div>
-                <div className="rounded-xl bg-white/10 p-4">Chatbot and business listing are available after login.</div>
+                <div className="rounded-xl bg-white/10 p-4">Marketplace selling, contact unlocks and business listing are available after login.</div>
                 <div className="rounded-xl bg-white/10 p-4">Admins get one fresh AI answer every time they login again.</div>
               </div>
             </div>

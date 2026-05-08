@@ -1,6 +1,7 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import Listing from '../models/Listing.js';
+import MarketplaceListing from '../models/MarketplaceListing.js';
 import OwnerSubmission from '../models/OwnerSubmission.js';
 import Admin from '../models/Admin.js';
 import { asyncHandler } from '../middleware/errorMiddleware.js';
@@ -77,7 +78,22 @@ export const getMe = asyncHandler(async (req, res) => {
 });
 
 export const getDashboard = asyncHandler(async (req, res) => {
-  const [totalListings, totalPGs, totalMess, pendingListings, approvedListings, featuredListings, verifiedListings, newSubmissions, recentListings, recentSubmissions] = await Promise.all([
+  const [
+    totalListings,
+    totalPGs,
+    totalMess,
+    pendingListings,
+    approvedListings,
+    featuredListings,
+    verifiedListings,
+    newSubmissions,
+    totalMarketplaceProducts,
+    pendingMarketplaceProducts,
+    approvedMarketplaceProducts,
+    recentListings,
+    recentSubmissions,
+    recentMarketplaceProducts
+  ] = await Promise.all([
     Listing.countDocuments(),
     Listing.countDocuments({ type: 'pg' }),
     Listing.countDocuments({ type: 'mess' }),
@@ -86,11 +102,30 @@ export const getDashboard = asyncHandler(async (req, res) => {
     Listing.countDocuments({ isFeatured: true }),
     Listing.countDocuments({ isVerified: true }),
     OwnerSubmission.countDocuments({ status: 'new' }),
+    MarketplaceListing.countDocuments(),
+    MarketplaceListing.countDocuments({ status: 'pending' }),
+    MarketplaceListing.countDocuments({ status: 'approved' }),
     Listing.find().sort({ createdAt: -1 }).limit(6).populate('college', 'name'),
-    OwnerSubmission.find().sort({ createdAt: -1 }).limit(6).populate('college', 'name')
+    OwnerSubmission.find().sort({ createdAt: -1 }).limit(6).populate('college', 'name'),
+    MarketplaceListing.find().sort({ createdAt: -1 }).limit(6).populate('seller', 'name email')
   ]);
 
-  res.json({ totalListings, totalPGs, totalMess, pendingListings, approvedListings, featuredListings, verifiedListings, newSubmissions, recentListings, recentSubmissions });
+  res.json({
+    totalListings,
+    totalPGs,
+    totalMess,
+    pendingListings,
+    approvedListings,
+    featuredListings,
+    verifiedListings,
+    newSubmissions,
+    totalMarketplaceProducts,
+    pendingMarketplaceProducts,
+    approvedMarketplaceProducts,
+    recentListings,
+    recentSubmissions,
+    recentMarketplaceProducts
+  });
 });
 
 export const getAdminListings = asyncHandler(async (req, res) => {

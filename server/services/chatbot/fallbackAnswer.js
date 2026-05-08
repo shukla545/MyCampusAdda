@@ -1,10 +1,14 @@
 const disclaimer = 'Rent, menu, availability and facilities may change. Please confirm directly with owner.';
 
 export const unrelatedAnswer =
-  'I can help with PG, Mess, budget, facilities, rent and listings near Thakur College. Please ask a CampusNest related question.';
+  'I can help with TCET Marketplace, study material selling, PG, Mess, budget, facilities, rent and listings near Thakur College. Please ask a CampusNest related question.';
 
 export const buildSuggestedActions = (intent) => {
   const actions = [];
+  if (intent.marketplace) {
+    actions.push({ label: 'Browse Marketplace', path: '/marketplace' });
+    actions.push({ label: 'Sell Study Material', path: '/marketplace/sell' });
+  }
   if (intent.website) actions.push({ label: 'Contact CampusNest', path: '/contact' });
   if (intent.wantsPG || intent.type === 'pg') actions.push({ label: 'Explore PGs', path: '/college/thakur-college/pg' });
   if (intent.wantsMess || intent.type === 'mess') actions.push({ label: 'Explore Mess', path: '/college/thakur-college/mess' });
@@ -22,6 +26,10 @@ const describeListing = (listing) => {
 };
 
 export const fallbackAnswer = ({ intent, listings, searchMeta = {} }) => {
+  if (intent.marketplace) {
+    return 'CampusNest Marketplace is for TCET students to sell old books, notes, lab files and projects. Sellers must login, upload at least 1 product image, add product details and contact details, then wait for admin approval before the product goes live. First 2 product listings are free; after that sellers can buy Sell Passes: Rs. 12 for 1 product, Rs. 35 for 3 products, or Rs. 50 for 5 products. Buyers can browse products without login, but seller contact details unlock only after login. Safety note: product haath milne ke baad hi payment karein, pehle advance payment na karein.';
+  }
+
   if (intent.website && !intent.wantsPG && !intent.wantsMess) {
     return 'Yes, you can contact the CampusNest admin from the Contact page. For safety, you will need to verify your email with a 10 minute OTP before sending a message.';
   }

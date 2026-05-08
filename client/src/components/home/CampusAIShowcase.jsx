@@ -1,16 +1,17 @@
-import { Bot, Building2, CheckCircle2, MessageCircle, Sparkles, Utensils } from 'lucide-react';
+import { Bot, BookOpen, CheckCircle2, MessageCircle, Sparkles, Utensils } from 'lucide-react';
 import Container from '../common/Container.jsx';
 
 const prompts = [
+  'How can I sell old study material?',
+  'Do I need login for seller contact?',
   'Best boys PG under Rs. 9000 with mess nearby',
-  'Veg mess near Thakur College with trial meal',
-  'PG with food, WiFi and direct WhatsApp contact'
+  'Veg mess near Thakur College with trial meal'
 ];
 
 const strengths = [
-  { title: 'Reads natural prompts', text: 'Budget, gender, food type, facilities and distance can be asked together.', icon: MessageCircle },
-  { title: 'Recommends PG and Mess', text: 'The answer can shortlist stays, meal options and next actions in one flow.', icon: CheckCircle2 },
-  { title: 'Uses approved listings', text: 'Recommendations stay tied to listings students can view and contact.', icon: Sparkles }
+  { title: 'Answers marketplace rules', text: 'Free product limit, Sell Pass pricing, admin approval and contact lock are covered.', icon: MessageCircle },
+  { title: 'Still recommends PG and Mess', text: 'Campus AI keeps the support categories searchable for stays and food.', icon: CheckCircle2 },
+  { title: 'Uses approved data', text: 'Answers stay tied to approved listings and safety disclaimers.', icon: Sparkles }
 ];
 
 const openCampusAI = (prompt) => {
@@ -27,10 +28,10 @@ export default function CampusAIShowcase() {
               <Bot className="h-4 w-4" /> Campus AI Agent
             </p>
             <h2 className="mt-5 max-w-2xl text-3xl font-extrabold leading-tight text-slate-950 sm:text-4xl">
-              One prompt. Smarter PG and Mess recommendations.
+              One prompt for marketplace, PG and Mess help.
             </h2>
             <p className="mt-4 max-w-2xl text-base leading-8 text-slate-600">
-              Students can ask in simple language and get a focused answer for the best PG, Mess or combined stay-and-food fit around Thakur College.
+              Students can ask in simple language about selling old material, login-gated contact, pricing packs, PGs, Mess or combined campus needs.
             </p>
 
             <div className="mt-7 grid gap-3">
@@ -68,18 +69,18 @@ export default function CampusAIShowcase() {
                   Best PG with veg mess under Rs. 12000 near college
                 </div>
                 <div className="max-w-[90%] rounded-xl bg-slate-100 px-4 py-3 text-sm leading-6 text-slate-700">
-                  Campus AI checks budget, food preference, distance and facilities, then returns a short recommendation list with direct listing actions.
+                  Campus AI explains marketplace approval, Sell Passes and safety rules, while still helping with PG and Mess shortlists.
                 </div>
                 <div className="grid gap-3 sm:grid-cols-2">
                   <div className="rounded-xl border border-slate-200 bg-white p-4">
-                    <Building2 className="h-5 w-5 text-brand" />
-                    <p className="mt-3 text-sm font-extrabold text-slate-950">PG match</p>
-                    <p className="mt-1 text-xs leading-5 text-slate-500">Budget, sharing, food, WiFi, distance.</p>
+                    <BookOpen className="h-5 w-5 text-brand" />
+                    <p className="mt-3 text-sm font-extrabold text-slate-950">Marketplace rules</p>
+                    <p className="mt-1 text-xs leading-5 text-slate-500">2 free listings, Sell Passes, approval, contact lock.</p>
                   </div>
                   <div className="rounded-xl border border-slate-200 bg-white p-4">
                     <Utensils className="h-5 w-5 text-emerald-600" />
-                    <p className="mt-3 text-sm font-extrabold text-slate-950">Mess match</p>
-                    <p className="mt-1 text-xs leading-5 text-slate-500">Veg, non-veg, monthly plan, trial meal.</p>
+                    <p className="mt-3 text-sm font-extrabold text-slate-950">Campus support</p>
+                    <p className="mt-1 text-xs leading-5 text-slate-500">PG, Mess, budget, facilities and direct listing actions.</p>
                   </div>
                 </div>
               </div>

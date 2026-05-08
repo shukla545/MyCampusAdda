@@ -1,9 +1,9 @@
-import { BadgeCheck, Bot, MessageCircle } from 'lucide-react';
+import { BadgeCheck, LockKeyhole, ShieldCheck } from 'lucide-react';
 
 const items = [
-  { title: 'Admin reviewed listings', icon: BadgeCheck },
-  { title: 'AI-guided recommendations', icon: Bot },
-  { title: 'Direct WhatsApp contact', icon: MessageCircle }
+  { title: 'Admin approved products', icon: BadgeCheck },
+  { title: 'Login protected seller contact', icon: LockKeyhole },
+  { title: 'Payment only after handover', icon: ShieldCheck }
 ];
 
 export default function TrustSection() {

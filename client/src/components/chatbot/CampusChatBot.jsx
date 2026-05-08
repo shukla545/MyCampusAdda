@@ -12,7 +12,7 @@ import { useAuth } from '../../context/AuthContext.jsx';
 
 const welcome = {
   role: 'bot',
-  text: 'Hi, I am Campus AI. Ask me about PGs, Mess, budget, food options or facilities near Thakur College.'
+  text: 'Hi, I am Campus AI. Ask me about TCET Marketplace, selling study material, PGs, Mess, budget or facilities near Thakur College.'
 };
 
 const loadRazorpayCheckout = () =>
@@ -291,7 +291,7 @@ export default function CampusChatBot() {
                       ? (user.remainingFreeMessages || 0) > 0
                         ? '1 free AI answer left'
                         : `${user.chatCredits || 0} paid messages left`
-                      : 'Ask about PGs, Mess, budget or facilities'}
+                    : 'Ask about Marketplace, PGs, Mess or budget'}
                   </p>
                 </div>
               </div>
@@ -386,7 +386,7 @@ export default function CampusChatBot() {
                   <div className="rounded-2xl border border-slate-200 bg-white p-6 text-center shadow-sm">
                     <LockKeyhole className="mx-auto h-10 w-10 text-brand" />
                     <h3 className="mt-4 text-xl font-extrabold text-slate-950">Login to use Campus AI</h3>
-                    <p className="mt-2 text-sm leading-6 text-slate-500">Verified accounts can ask AI recommendations and access protected listing tools.</p>
+                    <p className="mt-2 text-sm leading-6 text-slate-500">Verified accounts can ask AI recommendations, unlock seller contacts and access protected listing tools.</p>
                     <div className="mt-5 grid gap-2 sm:grid-cols-2">
                       <Button as={Link} to="/login"><LockKeyhole className="h-4 w-4" />Login</Button>
                       <Button as={Link} to="/signup" variant="secondary"><UserPlus className="h-4 w-4" />Signup</Button>
@@ -403,7 +403,7 @@ export default function CampusChatBot() {
                   <input
                     value={input}
                     onChange={(event) => setInput(event.target.value)}
-                    placeholder={listening ? 'Listening...' : 'Ask about PG, Mess or budget...'}
+                    placeholder={listening ? 'Listening...' : 'Ask about marketplace, PG, Mess...'}
                     disabled={!user || needsCredits}
                     className="input h-12 flex-1 rounded-xl"
                   />

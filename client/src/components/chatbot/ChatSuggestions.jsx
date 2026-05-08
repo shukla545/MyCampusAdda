@@ -1,6 +1,7 @@
 const starters = [
+  'How can I sell old study material?',
+  'Do I need login for seller contact?',
   'Boys PG under Rs. 9000',
-  'Best PG + mess combo',
   'Veg mess near Thakur College'
 ];
 

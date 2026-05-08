@@ -1,7 +1,9 @@
 import crypto from 'crypto';
 import ChatPayment from '../models/ChatPayment.js';
+import MarketplacePayment from '../models/MarketplacePayment.js';
 import User from '../models/User.js';
 import { asyncHandler } from '../middleware/errorMiddleware.js';
+import { getMarketplacePassPlan, getPublicMarketplacePassPlans } from '../utils/marketplacePlans.js';
 
 const CHAT_PLANS = [
   { id: 'starter', name: 'Starter', price: 19, amount: 1900, credits: 10, label: '10 AI messages' },
@@ -19,6 +21,10 @@ export const getPublicChatPlans = () => CHAT_PLANS.map((plan) => ({
   credits: plan.credits,
   label: plan.label
 }));
+
+export const getMarketplacePassPlans = asyncHandler(async (req, res) => {
+  res.json({ plans: getPublicMarketplacePassPlans() });
+});
 
 const requireRazorpayConfig = () => {
   if (!process.env.RAZORPAY_KEY_ID || !process.env.RAZORPAY_KEY_SECRET) {
@@ -48,6 +54,24 @@ const grantCreditsForOrder = async ({ orderId, paymentId, rawPayload }) => {
   if (!payment) return ChatPayment.findOne({ razorpayOrderId: orderId });
 
   await User.findByIdAndUpdate(payment.user, { $inc: { chatCredits: payment.credits } });
+  return payment;
+};
+
+const grantMarketplacePassesForOrder = async ({ orderId, paymentId, rawPayload }) => {
+  const payment = await MarketplacePayment.findOneAndUpdate(
+    { razorpayOrderId: orderId, status: { $ne: 'paid' } },
+    {
+      status: 'paid',
+      razorpayPaymentId: paymentId,
+      rawPayload,
+      paidAt: new Date()
+    },
+    { new: true }
+  );
+
+  if (!payment) return MarketplacePayment.findOne({ razorpayOrderId: orderId });
+
+  await User.findByIdAndUpdate(payment.user, { $inc: { marketplaceSellPasses: payment.passes } });
   return payment;
 };
 
@@ -256,6 +280,68 @@ export const createChatCreditOrder = asyncHandler(async (req, res) => {
   });
 });
 
+export const createMarketplacePassOrder = asyncHandler(async (req, res) => {
+  requireRazorpayConfig();
+
+  const plan = getMarketplacePassPlan(req.body.planId);
+  if (!plan) {
+    res.status(422);
+    throw new Error('Invalid Sell Pass plan');
+  }
+
+  const receipt = `sell_${req.user._id}_${Date.now()}`.slice(0, 40);
+  const response = await fetch('https://api.razorpay.com/v1/orders', {
+    method: 'POST',
+    headers: {
+      Authorization: razorpayAuthHeader(),
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      amount: plan.amount,
+      currency: 'INR',
+      receipt,
+      notes: {
+        userId: String(req.user._id),
+        planId: plan.id,
+        passes: String(plan.passes),
+        product: 'student-marketplace-sell-passes'
+      }
+    })
+  });
+
+  const order = await response.json();
+  if (!response.ok) {
+    res.status(502);
+    throw new Error(order.error?.description || 'Could not create Razorpay order');
+  }
+
+  await MarketplacePayment.create({
+    user: req.user._id,
+    planId: plan.id,
+    passes: plan.passes,
+    amount: plan.amount,
+    currency: 'INR',
+    razorpayOrderId: order.id,
+    status: 'created'
+  });
+
+  res.status(201).json({
+    keyId: process.env.RAZORPAY_KEY_ID,
+    order,
+    plan: {
+      id: plan.id,
+      name: plan.name,
+      price: plan.price,
+      passes: plan.passes,
+      label: plan.label
+    },
+    user: {
+      name: req.user.name,
+      email: req.user.email
+    }
+  });
+});
+
 export const createChatCreditQr = asyncHandler(async (req, res) => {
   requireRazorpayConfig();
 
@@ -368,6 +454,46 @@ export const verifyChatCreditPayment = asyncHandler(async (req, res) => {
     message: `${paidPayment.credits} AI messages added`,
     creditsAdded: paidPayment.credits,
     chatCredits: user.chatCredits
+  });
+});
+
+export const verifyMarketplacePassPayment = asyncHandler(async (req, res) => {
+  requireRazorpayConfig();
+
+  const { razorpay_order_id: orderId, razorpay_payment_id: paymentId, razorpay_signature: signature } = req.body;
+  if (!orderId || !paymentId || !signature) {
+    res.status(422);
+    throw new Error('Payment verification details are missing');
+  }
+
+  const expectedSignature = crypto
+    .createHmac('sha256', process.env.RAZORPAY_KEY_SECRET)
+    .update(`${orderId}|${paymentId}`)
+    .digest('hex');
+
+  if (expectedSignature !== signature) {
+    res.status(400);
+    throw new Error('Payment signature verification failed');
+  }
+
+  const payment = await MarketplacePayment.findOne({ razorpayOrderId: orderId, user: req.user._id });
+  if (!payment) {
+    res.status(404);
+    throw new Error('Sell Pass order not found');
+  }
+
+  const paidPayment = await grantMarketplacePassesForOrder({
+    orderId,
+    paymentId,
+    rawPayload: { source: 'marketplace_checkout_verify', body: req.body }
+  });
+  const user = await User.findById(req.user._id).select('-passwordHash');
+
+  res.json({
+    success: true,
+    message: `${paidPayment.passes} Sell Pass${paidPayment.passes > 1 ? 'es' : ''} added`,
+    passesAdded: paidPayment.passes,
+    marketplaceSellPasses: user.marketplaceSellPasses || 0
   });
 });
 
@@ -528,6 +654,7 @@ export const handleRazorpayWebhook = asyncHandler(async (req, res) => {
 
   if (['payment.captured', 'order.paid'].includes(event.event) && orderId) {
     await grantCreditsForOrder({ orderId, paymentId, rawPayload: event });
+    await grantMarketplacePassesForOrder({ orderId, paymentId, rawPayload: event });
   }
   if (event.event === 'payment_link.paid' && paymentLinkId) {
     await grantCreditsForPaymentLink({ paymentLinkId, paymentId, rawPayload: event });

@@ -13,6 +13,9 @@ const CollegePage = lazy(() => import('./pages/CollegePage.jsx'));
 const PGPage = lazy(() => import('./pages/PGPage.jsx'));
 const MessPage = lazy(() => import('./pages/MessPage.jsx'));
 const ListingDetail = lazy(() => import('./pages/ListingDetail.jsx'));
+const MarketplacePage = lazy(() => import('./pages/MarketplacePage.jsx'));
+const MarketplaceDetail = lazy(() => import('./pages/MarketplaceDetail.jsx'));
+const SellStudyMaterial = lazy(() => import('./pages/SellStudyMaterial.jsx'));
 const BusinessRegister = lazy(() => import('./pages/BusinessRegister.jsx'));
 const Contact = lazy(() => import('./pages/Contact.jsx'));
 const AuthPage = lazy(() => import('./pages/AuthPage.jsx'));
@@ -23,6 +26,7 @@ const NotFound = lazy(() => import('./pages/NotFound.jsx'));
 const AdminLogin = lazy(() => import('./pages/admin/AdminLogin.jsx'));
 const AdminDashboard = lazy(() => import('./pages/admin/AdminDashboard.jsx'));
 const AdminListings = lazy(() => import('./pages/admin/AdminListings.jsx'));
+const AdminMarketplace = lazy(() => import('./pages/admin/AdminMarketplace.jsx'));
 const AdminAddListing = lazy(() => import('./pages/admin/AdminAddListing.jsx'));
 const AdminEditListing = lazy(() => import('./pages/admin/AdminEditListing.jsx'));
 const AdminSubmissions = lazy(() => import('./pages/admin/AdminSubmissions.jsx'));
@@ -42,6 +46,9 @@ export default function App() {
           <Route path="/college/thakur-college/pg" element={<PGPage />} />
           <Route path="/college/thakur-college/mess" element={<MessPage />} />
           <Route path="/listing/:slug" element={<ListingDetail />} />
+          <Route path="/marketplace" element={<MarketplacePage />} />
+          <Route path="/marketplace/sell" element={<RequireUser><SellStudyMaterial /></RequireUser>} />
+          <Route path="/marketplace/:slug" element={<MarketplaceDetail />} />
           <Route path="/business/register" element={<RequireUser><BusinessRegister /></RequireUser>} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
@@ -58,6 +65,7 @@ export default function App() {
             <Route index element={<Navigate to="dashboard" replace />} />
             <Route path="dashboard" element={<AdminDashboard />} />
             <Route path="listings" element={<AdminListings />} />
+            <Route path="marketplace" element={<AdminMarketplace />} />
             <Route path="add-listing" element={<AdminAddListing />} />
             <Route path="edit-listing/:id" element={<AdminEditListing />} />
             <Route path="submissions" element={<AdminSubmissions />} />

@@ -2,7 +2,7 @@ import { asyncHandler } from '../middleware/errorMiddleware.js';
 import { detectIntent } from '../services/chatbot/detectIntent.js';
 import { fetchRelevantListings } from '../services/chatbot/fetchRelevantListings.js';
 import { generateBotAnswer } from '../services/chatbot/generateBotAnswer.js';
-import { buildSuggestedActions, unrelatedAnswer } from '../services/chatbot/fallbackAnswer.js';
+import { buildSuggestedActions, fallbackAnswer, unrelatedAnswer } from '../services/chatbot/fallbackAnswer.js';
 import User from '../models/User.js';
 import { getPublicChatPlans } from './billingController.js';
 
@@ -71,6 +71,17 @@ export const askChatbot = asyncHandler(async (req, res) => {
         { label: 'Explore PGs', path: '/college/thakur-college/pg' },
         { label: 'Explore Mess', path: '/college/thakur-college/mess' }
       ],
+      chatUsage: toChatUsage(reservation)
+    });
+    return;
+  }
+
+  if (intent.marketplace) {
+    res.json({
+      success: true,
+      answer: fallbackAnswer({ intent, listings: [] }),
+      relatedListings: [],
+      suggestedActions: buildSuggestedActions(intent),
       chatUsage: toChatUsage(reservation)
     });
     return;
