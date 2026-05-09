@@ -100,7 +100,6 @@ export default function MarketplaceDetail() {
             </div>
             <h1 className="mt-4 text-3xl font-black leading-tight text-slate-950 sm:text-4xl">{listing.title}</h1>
             <p className="mt-4 text-3xl font-black text-brand">{listing.priceText || `Rs. ${listing.price}`}</p>
-            {listing.subject && <p className="mt-2 text-sm font-bold text-slate-500">Subject: {listing.subject}</p>}
             <p className="mt-6 whitespace-pre-line text-base leading-8 text-slate-600">{listing.description}</p>
 
             <div className="mt-6 rounded-lg border border-amber-200 bg-amber-50 p-4">
@@ -108,7 +107,7 @@ export default function MarketplaceDetail() {
                 <ShieldAlert className="mt-1 h-5 w-5 shrink-0 text-amber-700" />
                 <div>
                   <h2 className="font-extrabold text-amber-950">Safety disclaimer</h2>
-                  <p className="mt-1 text-sm leading-6 text-amber-800">Product haath milne ke baad hi payment karein. Pehle advance payment na karein.</p>
+                  <p className="mt-1 text-sm leading-6 text-amber-800">Pay only after you receive and inspect the product. Do not pay in advance.</p>
                 </div>
               </div>
             </div>
@@ -131,7 +130,7 @@ export default function MarketplaceDetail() {
               ) : contact ? (
                 <div className="mt-5 grid gap-3">
                   <ContactLine label="Seller" value={contact.sellerName} />
-                  <ContactLine label="Branch" value={[contact.branch, contact.semester].filter(Boolean).join(' - ')} />
+                  <ContactLine label="Branch" value={contact.branch} />
                   <ContactLine label="Number" value={`+${contact.primaryPhone}`} />
                   {contact.extraPhone && <ContactLine label="Optional number" value={`+${contact.extraPhone}`} />}
                   {contact.studentDetails && <ContactLine label="Student detail" value={contact.studentDetails} />}

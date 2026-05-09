@@ -123,7 +123,7 @@ function MarketplaceProductCard({ listing }) {
         <h2 className="mt-3 line-clamp-2 text-lg font-extrabold text-slate-950">{listing.title}</h2>
         <p className="mt-2 line-clamp-3 text-sm leading-6 text-slate-500">{listing.description}</p>
         <div className="mt-4 flex items-center gap-2 rounded-lg bg-amber-50 px-3 py-2 text-xs font-bold leading-5 text-amber-800 ring-1 ring-amber-100">
-          <ShieldCheck className="h-4 w-4 shrink-0" />Payment only after product handover.
+          <ShieldCheck className="h-4 w-4 shrink-0" />Pay only after product handover.
         </div>
         <div className="mt-4 grid grid-cols-[1fr_auto] gap-2">
           <Button as={Link} to={`/marketplace/${listing.slug}`} className="rounded-lg px-4 py-2">View details</Button>

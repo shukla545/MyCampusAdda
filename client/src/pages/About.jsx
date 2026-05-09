@@ -1,11 +1,11 @@
-import { BadgeCheck, Bot, Building2, HeartHandshake, MapPin, Utensils } from 'lucide-react';
+import { BadgeCheck, Bot, BookOpen, HeartHandshake, MapPin, ShieldCheck, ShoppingBag, Utensils } from 'lucide-react';
 import Container from '../components/common/Container.jsx';
 import Seo from '../components/common/Seo.jsx';
 
 const values = [
-  { title: 'Student-first discovery', text: 'Shortlists focus on practical decisions like budget, distance, food preference and direct contact.', icon: BadgeCheck },
+  { title: 'Student-first exchange', text: 'TCET students can list books, notes, lab files and projects after TCET email verification.', icon: BadgeCheck },
   { title: 'Local campus focus', text: 'The MVP starts around Thakur College, Kandivali so listings stay relevant instead of generic.', icon: MapPin },
-  { title: 'AI-assisted search', text: 'Campus AI helps students ask in normal language and compare PG plus Mess options faster.', icon: Bot }
+  { title: 'AI-assisted campus help', text: 'Campus AI answers marketplace rules and still helps students compare PG plus Mess options faster.', icon: Bot }
 ];
 
 export default function About() {
@@ -13,7 +13,7 @@ export default function About() {
     <main className="bg-white">
       <Seo
         title="About CampusNest"
-        description="About CampusNest, a student-focused platform for finding PGs, hostels, mess and tiffin services near Thakur College, Kandivali."
+        description="About CampusNest, a TCET-focused study material marketplace with PG, mess and AI support near Thakur College, Kandivali."
       />
       <section className="bg-brand py-14 text-white">
         <Container>
@@ -21,10 +21,10 @@ export default function About() {
             <HeartHandshake className="h-4 w-4" /> About us
           </p>
           <h1 className="mt-5 max-w-3xl text-4xl font-black leading-tight sm:text-5xl">
-            Helping students find campus stays and meals without guesswork.
+            Helping TCET students exchange study material and solve campus needs faster.
           </h1>
           <p className="mt-5 max-w-3xl text-lg leading-8 text-white/75">
-            CampusNest connects students near Thakur College with admin-reviewed PG, hostel, mess and tiffin options, backed by a Campus AI assistant for faster shortlisting.
+            CampusNest gives students a safer place to buy and sell old study material, while keeping PG, mess and Campus AI support close at hand.
           </p>
         </Container>
       </section>
@@ -34,16 +34,24 @@ export default function About() {
           <div className="rounded-3xl border border-slate-200 bg-brand-soft p-6">
             <h2 className="text-2xl font-extrabold text-brand">What CampusNest solves</h2>
             <p className="mt-4 leading-8 text-slate-700">
-              Students often compare PGs, hostels and mess plans across scattered WhatsApp forwards, calls and random listings. CampusNest brings that search into one clean place with filters, direct contact paths and AI recommendations.
+              Students often exchange books, notes and projects through scattered chats where trust is unclear. CampusNest adds admin review, TCET seller verification, login-protected contact details and clear safety reminders, while still supporting PG and mess discovery.
             </p>
             <div className="mt-6 grid gap-3 sm:grid-cols-2">
               <div className="rounded-2xl bg-white p-4 shadow-sm">
-                <Building2 className="h-6 w-6 text-brand" />
-                <p className="mt-3 font-extrabold text-slate-950">PG and hostel options</p>
+                <ShoppingBag className="h-6 w-6 text-brand" />
+                <p className="mt-3 font-extrabold text-slate-950">Study material marketplace</p>
+              </div>
+              <div className="rounded-2xl bg-white p-4 shadow-sm">
+                <ShieldCheck className="h-6 w-6 text-brand" />
+                <p className="mt-3 font-extrabold text-slate-950">TCET verified sellers</p>
+              </div>
+              <div className="rounded-2xl bg-white p-4 shadow-sm">
+                <BookOpen className="h-6 w-6 text-brand" />
+                <p className="mt-3 font-extrabold text-slate-950">PG and hostel support</p>
               </div>
               <div className="rounded-2xl bg-white p-4 shadow-sm">
                 <Utensils className="h-6 w-6 text-brand" />
-                <p className="mt-3 font-extrabold text-slate-950">Mess and tiffin options</p>
+                <p className="mt-3 font-extrabold text-slate-950">Mess and tiffin support</p>
               </div>
             </div>
           </div>

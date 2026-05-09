@@ -1,6 +1,6 @@
 const hasBrevoConfig = () => process.env.BREVO_API_KEY && process.env.CONTACT_FROM_EMAIL;
 
-export const sendSignupOtpEmail = async ({ email, name, otp }) => {
+export const sendSignupOtpEmail = async ({ email, name, otp, subject = 'Verify your CampusNest account', heading = 'Verify your CampusNest account', intro = 'use this OTP to verify your email before creating your account:' }) => {
   if (!hasBrevoConfig()) {
     return { sent: false, provider: 'dev' };
   }
@@ -18,11 +18,11 @@ export const sendSignupOtpEmail = async ({ email, name, otp }) => {
         email: process.env.CONTACT_FROM_EMAIL
       },
       to: [{ email, name }],
-      subject: 'Verify your CampusNest account',
+      subject,
       htmlContent: `
         <div style="font-family:Arial,sans-serif;color:#0f172a;line-height:1.6">
-          <h2>Verify your CampusNest account</h2>
-          <p>Hi ${name || 'there'}, use this OTP to verify your email before creating your account:</p>
+          <h2>${heading}</h2>
+          <p>Hi ${name || 'there'}, ${intro}</p>
           <p style="font-size:28px;font-weight:800;letter-spacing:4px">${otp}</p>
           <p>This OTP is valid for 10 minutes.</p>
         </div>

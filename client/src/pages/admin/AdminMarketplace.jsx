@@ -90,7 +90,7 @@ export default function AdminMarketplace() {
                         <img src={listing.images?.[0]} alt="" className="h-14 w-14 rounded-lg object-cover" />
                         <div>
                           <p className="font-extrabold text-slate-950">{listing.title}</p>
-                          <p className="mt-1 text-xs font-semibold text-slate-500">{listing.category} - {listing.subject || 'No subject'}</p>
+                          <p className="mt-1 text-xs font-semibold text-slate-500">{listing.category}</p>
                         </div>
                       </div>
                     </td>
@@ -98,7 +98,7 @@ export default function AdminMarketplace() {
                       <p className="font-bold text-slate-900">{listing.sellerName}</p>
                       <p className="text-xs text-slate-500">{listing.seller?.email}</p>
                     </td>
-                    <td>{[listing.branch, listing.semester].filter(Boolean).join(' - ')}</td>
+                    <td>{listing.branch}</td>
                     <td>
                       <p>+{listing.primaryPhone}</p>
                       {listing.extraPhone && <p className="text-xs text-slate-500">+{listing.extraPhone}</p>}

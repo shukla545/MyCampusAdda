@@ -1,7 +1,7 @@
 import express from 'express';
 import rateLimit from 'express-rate-limit';
 import { body } from 'express-validator';
-import { getCurrentUser, loginUser, logoutUser, requestSignupOtp, verifySignup } from '../controllers/authController.js';
+import { getCurrentUser, loginUser, logoutUser, requestSignupOtp, requestTcetSellerOtp, verifySignup, verifyTcetSellerEmail } from '../controllers/authController.js';
 import { protectUser } from '../middleware/authMiddleware.js';
 import { validate } from '../middleware/validateMiddleware.js';
 
@@ -45,5 +45,22 @@ router.post(
 
 router.post('/logout', logoutUser);
 router.get('/me', protectUser, getCurrentUser);
+router.post(
+  '/seller-tcet/request-otp',
+  protectUser,
+  [body('email').isEmail().withMessage('Valid TCET email is required')],
+  validate,
+  requestTcetSellerOtp
+);
+router.post(
+  '/seller-tcet/verify',
+  protectUser,
+  [
+    body('email').isEmail().withMessage('Valid TCET email is required'),
+    body('otp').notEmpty().withMessage('OTP is required')
+  ],
+  validate,
+  verifyTcetSellerEmail
+);
 
 export default router;

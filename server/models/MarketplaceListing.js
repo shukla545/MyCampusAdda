@@ -9,7 +9,6 @@ const marketplaceListingSchema = new mongoose.Schema(
     primaryPhone: { type: String, required: true, trim: true },
     extraPhone: { type: String, trim: true },
     branch: { type: String, required: true, trim: true },
-    semester: { type: String, trim: true },
     studentDetails: { type: String, trim: true },
     category: {
       type: String,
@@ -17,7 +16,6 @@ const marketplaceListingSchema = new mongoose.Schema(
       default: 'books',
       index: true
     },
-    subject: { type: String, trim: true },
     condition: {
       type: String,
       enum: ['new', 'like-new', 'good', 'used'],
@@ -50,7 +48,6 @@ const marketplaceListingSchema = new mongoose.Schema(
 marketplaceListingSchema.index({
   title: 'text',
   description: 'text',
-  subject: 'text',
   branch: 'text'
 });
 

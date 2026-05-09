@@ -27,7 +27,7 @@ const describeListing = (listing) => {
 
 export const fallbackAnswer = ({ intent, listings, searchMeta = {} }) => {
   if (intent.marketplace) {
-    return 'CampusNest Marketplace is for TCET students to sell old books, notes, lab files and projects. Sellers must login, upload at least 1 product image, add product details and contact details, then wait for admin approval before the product goes live. First 2 product listings are free; after that sellers can buy Sell Passes: Rs. 12 for 1 product, Rs. 35 for 3 products, or Rs. 50 for 5 products. Buyers can browse products without login, but seller contact details unlock only after login. Safety note: product haath milne ke baad hi payment karein, pehle advance payment na karein.';
+    return 'CampusNest Marketplace is for TCET students to sell old books, notes, lab files and projects. Buyers can browse with any account, but sellers must verify a TCET email ending with @tcetmumbai.in before listing. Sellers upload at least 1 product image, add product and contact details, then wait for admin approval before the product goes live. First 2 product listings are free; after that sellers can buy Sell Passes: Rs. 12 for 1 product, Rs. 35 for 3 products, or Rs. 50 for 5 products. Seller contact details unlock only after buyer login. Safety note: pay only after you receive and inspect the product. Do not pay in advance.';
   }
 
   if (intent.website && !intent.wantsPG && !intent.wantsMess) {

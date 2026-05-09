@@ -5,19 +5,19 @@ export default function PrivacyPolicy() {
   const sections = [
     {
       heading: 'Information we collect',
-      body: 'CampusNest may collect account details such as name and email, listing submission details such as owner name, business name, phone, area, price, facilities and photos, and contact form messages submitted by users.'
+      body: 'CampusNest may collect account details such as name and email, TCET seller verification email, marketplace product details, seller contact details, PG/Mess business submission details, photos, and contact form messages submitted by users.'
     },
     {
       heading: 'How we use information',
-      body: 'We use this information to verify accounts, review listings, display approved PG/Mess information, respond to support messages, prevent misuse and improve student shortlisting features.'
+      body: 'We use this information to verify accounts, verify TCET seller access, review marketplace and PG/Mess listings, display approved product details, respond to support messages, prevent misuse and improve student shortlisting features.'
     },
     {
       heading: 'Payments',
-      body: 'Payments are processed by Razorpay. CampusNest does not store card numbers, UPI PINs, netbanking passwords or sensitive payment credentials. We store payment references and status only to add Campus AI credits and support refund checks.'
+      body: 'Payments are processed by Razorpay. CampusNest does not store card numbers, UPI PINs, netbanking passwords or sensitive payment credentials. We store payment references and status only to add Campus AI credits, Sell Passes and support refund checks.'
     },
     {
       heading: 'Sharing and contact links',
-      body: 'Approved listing contact details may be visible to visitors so they can contact the PG, hostel, mess or tiffin provider. WhatsApp and mail links open external services controlled by their respective providers.'
+      body: 'Approved marketplace product details are visible to visitors, but seller contact details are shown only after buyer login. Approved PG/Mess contact details may be visible for direct contact. WhatsApp and mail links open external services controlled by their respective providers.'
     },
     {
       heading: 'Data safety',
@@ -27,11 +27,11 @@ export default function PrivacyPolicy() {
 
   return (
     <Container className="py-14 md:py-16">
-      <Seo title="Privacy Policy" description="CampusNest privacy policy for student visitors, payments and PG/Mess business submissions." />
+      <Seo title="Privacy Policy" description="CampusNest privacy policy for marketplace buyers, TCET sellers, payments and PG/Mess business submissions." />
       <div className="max-w-4xl">
         <p className="text-sm font-bold uppercase tracking-wide text-brand">CampusNest policy</p>
         <h1 className="mt-3 text-3xl font-extrabold text-slate-950 md:text-4xl">Privacy Policy</h1>
-        <p className="mt-3 text-sm font-semibold text-slate-500">Last updated: May 8, 2026</p>
+        <p className="mt-3 text-sm font-semibold text-slate-500">Last updated: May 9, 2026</p>
         <p className="mt-6 max-w-3xl text-lg leading-8 text-slate-700">
           This policy explains how CampusNest handles student accounts, listing submissions, contact messages and payment-related records.
         </p>

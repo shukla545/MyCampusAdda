@@ -14,6 +14,7 @@ const pages = {
         heading: 'Marketplace Sell Passes',
         body: [
           'First 2 study material product listings are free for every logged-in student account.',
+          'Selling requires TCET email verification ending with @tcetmumbai.in.',
           'Single Product Pass: Rs. 12 for 1 more product listing.',
           'Triple Product Pass: Rs. 35 for 3 more product listings.',
           'Five Product Pass: Rs. 50 for 5 more product listings.'

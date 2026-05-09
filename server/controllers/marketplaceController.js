@@ -56,7 +56,6 @@ const toPublicListing = (listing) => ({
   slug: listing.slug,
   category: listing.category,
   categoryLabel: categoryLabels[listing.category] || 'Material',
-  subject: listing.subject,
   condition: listing.condition,
   price: listing.price,
   priceText: listing.priceText,
@@ -75,7 +74,6 @@ const toSellerListing = (listing) => ({
   primaryPhone: listing.primaryPhone,
   extraPhone: listing.extraPhone,
   branch: listing.branch,
-  semester: listing.semester,
   studentDetails: listing.studentDetails,
   passUsed: listing.passUsed,
   adminNotes: listing.adminNotes,
@@ -87,6 +85,8 @@ const sellerAllowance = (user, activeListingCount) => ({
   activeListingCount,
   freeRemaining: Math.max(0, MARKETPLACE_FREE_LIMIT - activeListingCount),
   sellPasses: user?.marketplaceSellPasses || 0,
+  tcetEmail: user?.tcetEmail,
+  tcetEmailVerified: Boolean(user?.tcetEmailVerified),
   plans: getPublicMarketplacePassPlans()
 });
 
@@ -99,7 +99,6 @@ export const getMarketplaceListings = asyncHandler(async (req, res) => {
     filter.$or = [
       { title: search },
       { description: search },
-      { subject: search },
       { branch: search }
     ];
   }
@@ -113,7 +112,7 @@ export const getMarketplaceListings = asyncHandler(async (req, res) => {
   const sort = sortMap[req.query.sort] || sortMap.newest;
 
   const listings = await MarketplaceListing.find(filter).sort(sort).limit(80);
-  res.json({ listings: listings.map(toPublicListing), contactDisclaimer: 'Product haath milne ke baad hi payment karein. Pehle advance payment na karein.' });
+  res.json({ listings: listings.map(toPublicListing), contactDisclaimer: 'Pay only after you receive and inspect the product. Do not pay in advance.' });
 });
 
 export const getMarketplaceListingBySlug = asyncHandler(async (req, res) => {
@@ -130,7 +129,7 @@ export const getMarketplaceListingBySlug = asyncHandler(async (req, res) => {
 
   res.json({
     listing: toPublicListing(listing),
-    contactDisclaimer: 'Product haath milne ke baad hi payment karein. Pehle advance payment na karein.'
+    contactDisclaimer: 'Pay only after you receive and inspect the product. Do not pay in advance.'
   });
 });
 
@@ -152,10 +151,9 @@ export const getMarketplaceContact = asyncHandler(async (req, res) => {
       primaryPhone: listing.primaryPhone,
       extraPhone: listing.extraPhone,
       branch: listing.branch,
-      semester: listing.semester,
       studentDetails: listing.studentDetails
     },
-    disclaimer: 'Product haath milne ke baad hi payment karein. Pehle advance payment na karein.'
+    disclaimer: 'Pay only after you receive and inspect the product. Do not pay in advance.'
   });
 });
 
@@ -173,6 +171,15 @@ export const getMyMarketplaceListings = asyncHandler(async (req, res) => {
 });
 
 export const createMarketplaceListing = asyncHandler(async (req, res) => {
+  if (!req.user.tcetEmailVerified) {
+    res.status(403).json({
+      success: false,
+      code: 'TCET_EMAIL_REQUIRED',
+      message: 'Verify your TCET email before selling study material.'
+    });
+    return;
+  }
+
   const images = cleanImages(req.body.images);
   const title = cleanText(req.body.title);
   const description = cleanLongText(req.body.description);
@@ -239,10 +246,8 @@ export const createMarketplaceListing = asyncHandler(async (req, res) => {
       primaryPhone,
       extraPhone,
       branch,
-      semester: cleanText(req.body.semester),
       studentDetails: cleanLongText(req.body.studentDetails),
       category: cleanText(req.body.category) || 'books',
-      subject: cleanText(req.body.subject),
       condition: cleanText(req.body.condition) || 'good',
       price,
       priceText: `Rs. ${price}`,
@@ -277,7 +282,7 @@ export const getAdminMarketplaceListings = asyncHandler(async (req, res) => {
       { sellerName: search },
       { branch: search },
       { primaryPhone: search },
-      { subject: search }
+      { description: search }
     ];
   }
 
