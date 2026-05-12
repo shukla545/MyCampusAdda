@@ -23,9 +23,9 @@ export default function ImageUploader({ images = [], onChange, owner = false }) 
         <input type="file" multiple accept="image/*" className="hidden" onChange={(e) => upload(e.target.files)} />
       </label>
       <div className="mt-4 grid grid-cols-3 gap-3">
-        {images.map((image, index) => (
+        {images.map((image) => (
           <div key={image} className="relative overflow-hidden rounded-xl border border-slate-200">
-            <img src={image} alt={`Uploaded preview ${index + 1}`} width="160" height="96" className="h-24 w-full object-cover" />
+            <img src={image} alt="" className="h-24 w-full object-cover" />
             <button type="button" onClick={() => onChange(images.filter((item) => item !== image))} className="absolute right-2 top-2 rounded-full bg-white p-1 shadow"><X className="h-4 w-4" /></button>
           </div>
         ))}

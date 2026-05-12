@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import Button from '../common/Button.jsx';
 import Container from '../common/Container.jsx';
 
-const heroImage = 'https://res.cloudinary.com/dugeiu4id/image/upload/f_auto,q_auto,w_1200,c_fill,ar_16:9/v1778184435/ChatGPT_Image_May_8_2026_01_35_21_AM_ozmdeg.png';
+const heroImage = 'https://res.cloudinary.com/dugeiu4id/image/upload/v1778184435/ChatGPT_Image_May_8_2026_01_35_21_AM_ozmdeg.png';
 
 export default function Hero() {
   const openCampusAI = () => {
@@ -38,16 +38,7 @@ export default function Hero() {
         </motion.div>
         <motion.div initial={{ opacity: 0, scale: 0.96 }} animate={{ opacity: 1, scale: 1 }} className="relative">
           <div className="overflow-hidden rounded-3xl border border-slate-200 bg-white p-3 shadow-soft">
-            <img
-              src={heroImage}
-              alt="TCET students using CampusNest near campus"
-              width="1200"
-              height="675"
-              loading="eager"
-              decoding="async"
-              fetchPriority="high"
-              className="aspect-[16/9] w-full rounded-2xl object-cover object-[58%_center]"
-            />
+            <img src={heroImage} alt="Students near campus" loading="eager" decoding="async" fetchPriority="high" className="h-[280px] w-full rounded-2xl object-cover object-[58%_center] sm:h-[390px]" />
           </div>
           <div className="absolute -bottom-6 left-4 right-4 rounded-2xl bg-white p-5 shadow-soft ring-1 ring-slate-200 sm:left-6 sm:right-auto sm:min-w-[320px]">
             <p className="inline-flex items-center gap-2 text-sm font-bold text-brand"><MapPin className="h-4 w-4" />TCET-first exchange</p>

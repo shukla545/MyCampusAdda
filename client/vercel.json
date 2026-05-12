@@ -1,38 +1,8 @@
 {
-  "redirects": [
-    {
-      "source": "/:path*",
-      "has": [
-        {
-          "type": "host",
-          "value": "www.campusnest.online"
-        }
-      ],
-      "destination": "https://campusnest.online/:path*",
-      "permanent": true
-    }
-  ],
   "rewrites": [
-    { "source": "/", "destination": "/index.html" },
-    { "source": "/college/thakur-college", "destination": "/index.html" },
-    { "source": "/college/thakur-college/pg", "destination": "/index.html" },
-    { "source": "/college/thakur-college/mess", "destination": "/index.html" },
-    { "source": "/listing/:slug", "destination": "/index.html" },
-    { "source": "/marketplace", "destination": "/index.html" },
-    { "source": "/marketplace/sell", "destination": "/index.html" },
-    { "source": "/marketplace/:slug", "destination": "/index.html" },
-    { "source": "/business/register", "destination": "/index.html" },
-    { "source": "/about", "destination": "/index.html" },
-    { "source": "/contact", "destination": "/index.html" },
-    { "source": "/login", "destination": "/index.html" },
-    { "source": "/signup", "destination": "/index.html" },
-    { "source": "/pricing", "destination": "/index.html" },
-    { "source": "/terms", "destination": "/index.html" },
-    { "source": "/privacy", "destination": "/index.html" },
-    { "source": "/refund-policy", "destination": "/index.html" },
-    { "source": "/delivery-policy", "destination": "/index.html" },
-    { "source": "/cookies", "destination": "/index.html" },
-    { "source": "/admin", "destination": "/index.html" },
-    { "source": "/admin/:path*", "destination": "/index.html" }
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
   ]
 }

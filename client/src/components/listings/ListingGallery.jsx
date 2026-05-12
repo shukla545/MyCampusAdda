@@ -7,12 +7,12 @@ export default function ListingGallery({ images = [] }) {
   return (
     <div className="grid gap-3">
       <div className="overflow-hidden rounded-2xl border border-slate-200 bg-slate-100">
-        <img src={active} alt="CampusNest listing photo" decoding="async" width="960" height="640" className="h-[320px] w-full object-cover sm:h-[420px]" />
+        <img src={active} alt="Listing" decoding="async" className="h-[320px] w-full object-cover sm:h-[420px]" />
       </div>
       <div className="grid grid-cols-4 gap-3">
-        {allImages.slice(0, 8).map((image, index) => (
+        {allImages.slice(0, 8).map((image) => (
           <button key={image} onClick={() => setActive(image)} className="overflow-hidden rounded-2xl border border-slate-200">
-            <img src={image} alt={`Listing thumbnail ${index + 1}`} loading="lazy" decoding="async" width="160" height="80" className="h-20 w-full object-cover" />
+            <img src={image} alt="" loading="lazy" decoding="async" className="h-20 w-full object-cover" />
           </button>
         ))}
       </div>
