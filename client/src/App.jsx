@@ -44,41 +44,43 @@ export default function App() {
     <>
       {!isAdmin && <Navbar />}
       {!isAdmin && <PageBackBar />}
-      <Suspense fallback={<PageLoader />}>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/college/thakur-college" element={<CollegePage />} />
-          <Route path="/college/thakur-college/pg" element={<PGPage />} />
-          <Route path="/college/thakur-college/mess" element={<MessPage />} />
-          <Route path="/listing/:slug" element={<ListingDetail />} />
-          <Route path="/marketplace" element={<MarketplacePage />} />
-          <Route path="/marketplace/sell" element={<RequireUser><SellStudyMaterial /></RequireUser>} />
-          <Route path="/marketplace/:slug" element={<MarketplaceDetail />} />
-          <Route path="/business/register" element={<RequireUser><BusinessRegister /></RequireUser>} />
-          <Route path="/about" element={<About />} />
-          <Route path="/contact" element={<RequireUser><Contact /></RequireUser>} />
-          <Route path="/login" element={<AuthPage />} />
-          <Route path="/signup" element={<AuthPage />} />
-          <Route path="/pricing" element={<LegalPage page="pricing" />} />
-          <Route path="/terms" element={<LegalPage page="terms" />} />
-          <Route path="/privacy" element={<PrivacyPolicy />} />
-          <Route path="/refund-policy" element={<LegalPage page="refund" />} />
-          <Route path="/delivery-policy" element={<LegalPage page="delivery" />} />
-          <Route path="/cookies" element={<LegalPage page="cookies" />} />
-          <Route path="/admin/login" element={<AdminLogin />} />
-          <Route path="/admin" element={<AdminLayout title="Dashboard" />}>
-            <Route index element={<Navigate to="dashboard" replace />} />
-            <Route path="dashboard" element={<AdminDashboard />} />
-            <Route path="listings" element={<AdminListings />} />
-            <Route path="marketplace" element={<AdminMarketplace />} />
-            <Route path="add-listing" element={<AdminAddListing />} />
-            <Route path="edit-listing/:id" element={<AdminEditListing />} />
-            <Route path="submissions" element={<AdminSubmissions />} />
-            <Route path="messages" element={<AdminMessages />} />
-          </Route>
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </Suspense>
+      <div className={!isAdmin ? 'min-h-[calc(100vh-8rem)]' : undefined}>
+        <Suspense fallback={<PageLoader />}>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/college/thakur-college" element={<CollegePage />} />
+            <Route path="/college/thakur-college/pg" element={<PGPage />} />
+            <Route path="/college/thakur-college/mess" element={<MessPage />} />
+            <Route path="/listing/:slug" element={<ListingDetail />} />
+            <Route path="/marketplace" element={<MarketplacePage />} />
+            <Route path="/marketplace/sell" element={<RequireUser><SellStudyMaterial /></RequireUser>} />
+            <Route path="/marketplace/:slug" element={<MarketplaceDetail />} />
+            <Route path="/business/register" element={<RequireUser><BusinessRegister /></RequireUser>} />
+            <Route path="/about" element={<About />} />
+            <Route path="/contact" element={<RequireUser><Contact /></RequireUser>} />
+            <Route path="/login" element={<AuthPage />} />
+            <Route path="/signup" element={<AuthPage />} />
+            <Route path="/pricing" element={<LegalPage page="pricing" />} />
+            <Route path="/terms" element={<LegalPage page="terms" />} />
+            <Route path="/privacy" element={<PrivacyPolicy />} />
+            <Route path="/refund-policy" element={<LegalPage page="refund" />} />
+            <Route path="/delivery-policy" element={<LegalPage page="delivery" />} />
+            <Route path="/cookies" element={<LegalPage page="cookies" />} />
+            <Route path="/admin/login" element={<AdminLogin />} />
+            <Route path="/admin" element={<AdminLayout title="Dashboard" />}>
+              <Route index element={<Navigate to="dashboard" replace />} />
+              <Route path="dashboard" element={<AdminDashboard />} />
+              <Route path="listings" element={<AdminListings />} />
+              <Route path="marketplace" element={<AdminMarketplace />} />
+              <Route path="add-listing" element={<AdminAddListing />} />
+              <Route path="edit-listing/:id" element={<AdminEditListing />} />
+              <Route path="submissions" element={<AdminSubmissions />} />
+              <Route path="messages" element={<AdminMessages />} />
+            </Route>
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </Suspense>
+      </div>
       {!isAdmin && <CampusChatBot />}
       {!isAdmin && <Footer />}
     </>

@@ -373,7 +373,7 @@ export default function SellStudyMaterial() {
               {myListings.length ? myListings.map((item) => (
                 <div key={item.id} className="rounded-lg border border-slate-200 bg-slate-50 p-4">
                   <div className="flex gap-3">
-                    <img src={item.images?.[0]} alt="" className="h-16 w-16 rounded-lg object-cover" />
+                    <img src={item.images?.[0]} alt={`${item.title} product thumbnail`} width="64" height="64" className="h-16 w-16 rounded-lg object-cover" />
                     <div className="min-w-0 flex-1">
                       <p className="truncate font-extrabold text-slate-950">{item.title}</p>
                       <p className="mt-1 text-xs font-bold text-slate-500">{item.priceText} - {item.categoryLabel}</p>

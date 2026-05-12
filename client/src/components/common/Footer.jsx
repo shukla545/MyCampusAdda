@@ -10,7 +10,7 @@ export default function Footer() {
         <div>
           <Link to="/" className="inline-flex items-center gap-3">
             <span className="grid h-11 w-11 place-items-center overflow-hidden rounded-2xl bg-white p-1">
-              <img src="/campusnest-logo.png" alt="" className="h-full w-full object-contain" />
+              <img src="/campusnest-logo.png" alt="CampusNest logo" width="44" height="44" className="h-full w-full object-contain" />
             </span>
             <span className="text-xl font-extrabold">CampusNest</span>
           </Link>

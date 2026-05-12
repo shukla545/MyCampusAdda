@@ -62,7 +62,7 @@ export default function About() {
             <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
               <div className="grid gap-5 p-4 text-center sm:grid-cols-[150px_1fr] sm:items-center sm:p-5 sm:text-left">
                 <div className="mx-auto aspect-[4/5] w-full max-w-[220px] overflow-hidden rounded-2xl bg-brand-soft sm:mx-0 sm:h-44 sm:w-[150px] sm:max-w-none">
-                  <img src={developerProfile} alt="Nikhil, AI Full Stack Developer" className="h-full w-full object-cover object-[50%_28%]" />
+                  <img src={developerProfile} alt="Nikhil, AI Full Stack Developer" width="440" height="550" loading="lazy" decoding="async" className="h-full w-full object-cover object-[50%_28%]" />
                 </div>
                 <div className="min-w-0">
                   <p className="inline-flex items-center gap-2 rounded-full bg-brand-soft px-3 py-1 text-xs font-extrabold text-brand">

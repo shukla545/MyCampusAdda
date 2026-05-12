@@ -100,7 +100,7 @@ export default function Navbar() {
       <Container className="flex h-16 items-center justify-between">
         <Link to="/" className="flex items-center gap-3">
           <span className="grid h-10 w-10 place-items-center overflow-hidden rounded-2xl bg-white p-1">
-            <img src="/campusnest-logo.png" alt="" className="h-full w-full object-contain" />
+            <img src="/campusnest-logo.png" alt="CampusNest logo" width="40" height="40" className="h-full w-full object-contain" />
           </span>
           <span className="text-lg font-extrabold text-white">CampusNest</span>
         </Link>

@@ -9,6 +9,7 @@ import FeaturedListings from '../components/home/FeaturedListings.jsx';
 import HowItWorks from '../components/home/HowItWorks.jsx';
 import BusinessCTA from '../components/home/BusinessCTA.jsx';
 import TrustSection from '../components/home/TrustSection.jsx';
+import MarketplaceFAQ from '../components/home/MarketplaceFAQ.jsx';
 import Seo from '../components/common/Seo.jsx';
 import api from '../api/axios.js';
 
@@ -25,12 +26,13 @@ export default function Home() {
     <>
       <Seo
         title="CampusNest - TCET Study Material Marketplace"
-        description="Buy and sell TCET study material, old books, notes and projects with admin-approved listings, login-protected seller contact and Campus AI."
+        description="CampusNest helps TCET students buy and sell used study material, books, notes, journals and engineering tools, with PG, hostel, mess and Campus AI support nearby."
       />
       <Hero />
       <section className="py-16"><Container><CollegeCard /></Container></section>
       <section className="pb-16"><Container><SectionTitle title="What are you looking for?" subtitle="Marketplace is the primary TCET student exchange. PG and Mess stay available as support categories." /><div className="mt-10"><CategoryCards /></div></Container></section>
       <CampusAIShowcase />
+      <MarketplaceFAQ />
       <FeaturedListings listings={featured} loading={loadingFeatured} />
       <section className="py-16"><Container><SectionTitle title="How it works" /><div className="mt-10"><HowItWorks /></div></Container></section>
       <section className="pb-16"><Container><TrustSection /></Container></section>

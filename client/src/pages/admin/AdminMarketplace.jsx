@@ -87,7 +87,7 @@ export default function AdminMarketplace() {
                   <tr key={listing._id} className="text-slate-700">
                     <td className="px-4 py-4">
                       <div className="flex items-center gap-3">
-                        <img src={listing.images?.[0]} alt="" className="h-14 w-14 rounded-lg object-cover" />
+                          <img src={listing.images?.[0]} alt={`${listing.title} product thumbnail`} width="56" height="56" className="h-14 w-14 rounded-lg object-cover" />
                         <div>
                           <p className="font-extrabold text-slate-950">{listing.title}</p>
                           <p className="mt-1 text-xs font-semibold text-slate-500">{listing.category}</p>

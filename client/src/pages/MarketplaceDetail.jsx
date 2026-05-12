@@ -10,7 +10,7 @@ import api from '../api/axios.js';
 import { useAuth } from '../context/AuthContext.jsx';
 import { buildWhatsAppUrl } from '../utils/whatsapp.js';
 
-const fallbackImage = 'https://res.cloudinary.com/dugeiu4id/image/upload/v1778184435/ChatGPT_Image_May_8_2026_01_35_21_AM_ozmdeg.png';
+const fallbackImage = 'https://res.cloudinary.com/dugeiu4id/image/upload/f_auto,q_auto,w_1200,c_fill,ar_16:9/v1778184435/ChatGPT_Image_May_8_2026_01_35_21_AM_ozmdeg.png';
 
 export default function MarketplaceDetail() {
   const { slug } = useParams();
@@ -75,18 +75,18 @@ export default function MarketplaceDetail() {
         <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr]">
           <div>
             <div className="overflow-hidden rounded-lg border border-slate-200 bg-slate-50">
-              <img src={selectedImage || fallbackImage} alt={listing.title} className="h-[360px] w-full object-cover sm:h-[520px]" />
+              <img src={selectedImage || fallbackImage} alt={`${listing.title} product photo`} width="960" height="720" className="h-[360px] w-full object-cover sm:h-[520px]" />
             </div>
             {listing.images?.length > 1 && (
               <div className="mt-3 grid grid-cols-4 gap-3 sm:grid-cols-6">
-                {listing.images.map((image) => (
+                {listing.images.map((image, index) => (
                   <button
                     key={image}
                     type="button"
                     onClick={() => setSelectedImage(image)}
                     className={`overflow-hidden rounded-lg border ${selectedImage === image ? 'border-brand ring-2 ring-brand/20' : 'border-slate-200'}`}
                   >
-                    <img src={image} alt="" className="h-20 w-full object-cover" />
+                    <img src={image} alt={`${listing.title} thumbnail ${index + 1}`} width="160" height="80" className="h-20 w-full object-cover" />
                   </button>
                 ))}
               </div>

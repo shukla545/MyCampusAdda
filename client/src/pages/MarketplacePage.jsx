@@ -27,7 +27,7 @@ const sortOptions = [
   { value: 'price-desc', label: 'Price high to low' }
 ];
 
-const fallbackImage = 'https://res.cloudinary.com/dugeiu4id/image/upload/v1778184435/ChatGPT_Image_May_8_2026_01_35_21_AM_ozmdeg.png';
+const fallbackImage = 'https://res.cloudinary.com/dugeiu4id/image/upload/f_auto,q_auto,w_1200,c_fill,ar_16:9/v1778184435/ChatGPT_Image_May_8_2026_01_35_21_AM_ozmdeg.png';
 
 export default function MarketplacePage() {
   const [listings, setListings] = useState([]);
@@ -48,7 +48,7 @@ export default function MarketplacePage() {
     <main className="bg-white">
       <Seo
         title="TCET Study Material Marketplace"
-        description="Buy and sell old books, notes, projects and lab files from TCET students on CampusNest Marketplace."
+        description="Browse TCET study material on CampusNest Marketplace, including used books, notes, projects, lab files, question papers and engineering tools from students."
       />
       <section className="border-b border-slate-200 bg-slate-50">
         <Container className="grid gap-8 py-12 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
@@ -68,7 +68,13 @@ export default function MarketplacePage() {
             </div>
           </div>
           <div className="overflow-hidden rounded-lg border border-slate-200 bg-white shadow-soft">
-            <img src={fallbackImage} alt="Students exchanging study material" className="h-80 w-full object-cover object-[55%_center]" />
+            <img
+              src={fallbackImage}
+              alt="TCET students exchanging study material"
+              width="1200"
+              height="675"
+              className="aspect-[16/9] w-full object-cover object-[55%_center]"
+            />
           </div>
         </Container>
       </section>
@@ -113,7 +119,7 @@ function MarketplaceProductCard({ listing }) {
   return (
     <article className="overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:border-brand/20 hover:shadow-soft">
       <Link to={`/marketplace/${listing.slug}`} className="block">
-        <img src={image} alt={listing.title} className="h-52 w-full object-cover" loading="lazy" />
+        <img src={image} alt={`${listing.title} product photo`} width="640" height="416" className="aspect-[16/10] w-full object-cover" loading="lazy" decoding="async" />
       </Link>
       <div className="p-4">
         <div className="flex items-start justify-between gap-3">
