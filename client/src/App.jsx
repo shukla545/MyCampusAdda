@@ -56,7 +56,7 @@ export default function App() {
           <Route path="/marketplace/:slug" element={<MarketplaceDetail />} />
           <Route path="/business/register" element={<RequireUser><BusinessRegister /></RequireUser>} />
           <Route path="/about" element={<About />} />
-          <Route path="/contact" element={<Contact />} />
+          <Route path="/contact" element={<RequireUser><Contact /></RequireUser>} />
           <Route path="/login" element={<AuthPage />} />
           <Route path="/signup" element={<AuthPage />} />
           <Route path="/pricing" element={<LegalPage page="pricing" />} />

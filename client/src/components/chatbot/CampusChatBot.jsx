@@ -131,7 +131,7 @@ export default function CampusChatBot() {
           ...current,
           {
             role: 'bot',
-            text: data.message || 'You used your free AI answer. Please buy chat credits to continue.'
+            text: data.message || 'You used your free AI answers. Please buy chat credits to continue.'
           }
         ]);
       } else {
@@ -289,7 +289,7 @@ export default function CampusChatBot() {
                   <p className="truncate text-xs font-medium text-slate-500">
                     {user
                       ? (user.remainingFreeMessages || 0) > 0
-                        ? '1 free AI answer left'
+                        ? `${user.remainingFreeMessages} free AI answers left`
                         : `${user.chatCredits || 0} paid messages left`
                     : 'Ask about Marketplace, PGs, Mess or budget'}
                   </p>

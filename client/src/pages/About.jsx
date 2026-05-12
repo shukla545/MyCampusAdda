@@ -1,6 +1,8 @@
-import { BadgeCheck, Bot, BookOpen, HeartHandshake, MapPin, ShieldCheck, ShoppingBag, Utensils } from 'lucide-react';
+import { BadgeCheck, Bot, BookOpen, Code2, ExternalLink, HeartHandshake, MapPin, ShieldCheck, ShoppingBag, Utensils } from 'lucide-react';
 import Container from '../components/common/Container.jsx';
 import Seo from '../components/common/Seo.jsx';
+
+const developerProfile = '/nikhil-profile.jpeg';
 
 const values = [
   { title: 'Student-first exchange', text: 'TCET students can list books, notes, lab files and projects after TCET email verification.', icon: BadgeCheck },
@@ -57,6 +59,30 @@ export default function About() {
           </div>
 
           <div className="grid gap-4">
+            <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+              <div className="grid gap-5 p-5 sm:grid-cols-[150px_1fr] sm:items-center">
+                <img src={developerProfile} alt="Nikhil, AI Full Stack Developer" className="h-40 w-full rounded-xl object-cover object-top sm:h-44" />
+                <div>
+                  <p className="inline-flex items-center gap-2 rounded-full bg-brand-soft px-3 py-1 text-xs font-extrabold text-brand">
+                    <Code2 className="h-3.5 w-3.5" /> Built by
+                  </p>
+                  <h2 className="mt-3 text-2xl font-black text-slate-950">Nikhil</h2>
+                  <p className="mt-1 font-bold text-slate-600">AI Full Stack Developer</p>
+                  <p className="mt-3 text-sm leading-6 text-slate-500">
+                    CampusNest is built as a student-first platform for practical campus needs around TCET.
+                  </p>
+                  <a
+                    href="https://nikhil-ai-portfolio.vercel.app"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="mt-4 inline-flex items-center gap-2 rounded-xl bg-brand px-4 py-2 text-sm font-extrabold text-white transition hover:bg-brand-dark"
+                  >
+                    View portfolio <ExternalLink className="h-4 w-4" />
+                  </a>
+                </div>
+              </div>
+            </div>
+
             {values.map(({ title, text, icon: Icon }) => (
               <div key={title} className="flex gap-4 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
                 <span className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-brand text-white">

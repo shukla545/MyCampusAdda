@@ -4,6 +4,7 @@ import User from '../models/User.js';
 import { asyncHandler } from '../middleware/errorMiddleware.js';
 import { sanitizePhone } from '../utils/sanitizePhone.js';
 import { getPublicMarketplacePassPlans, MARKETPLACE_FREE_LIMIT } from '../utils/marketplacePlans.js';
+import { getTcetEmail, hasTcetSellerAccess } from '../utils/userAccess.js';
 
 const categoryLabels = {
   books: 'Books',
@@ -85,8 +86,8 @@ const sellerAllowance = (user, activeListingCount) => ({
   activeListingCount,
   freeRemaining: Math.max(0, MARKETPLACE_FREE_LIMIT - activeListingCount),
   sellPasses: user?.marketplaceSellPasses || 0,
-  tcetEmail: user?.tcetEmail,
-  tcetEmailVerified: Boolean(user?.tcetEmailVerified),
+  tcetEmail: getTcetEmail(user),
+  tcetEmailVerified: hasTcetSellerAccess(user),
   plans: getPublicMarketplacePassPlans()
 });
 
@@ -171,7 +172,7 @@ export const getMyMarketplaceListings = asyncHandler(async (req, res) => {
 });
 
 export const createMarketplaceListing = asyncHandler(async (req, res) => {
-  if (!req.user.tcetEmailVerified) {
+  if (!hasTcetSellerAccess(req.user)) {
     res.status(403).json({
       success: false,
       code: 'TCET_EMAIL_REQUIRED',

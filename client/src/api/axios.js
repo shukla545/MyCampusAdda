@@ -6,7 +6,12 @@ const api = axios.create({
 });
 
 api.interceptors.request.use((config) => {
-  const token = localStorage.getItem('campusnest_admin_token') || localStorage.getItem('mca_admin_token');
+  const rawUrl = String(config.url || '');
+  const path = rawUrl.replace(/^https?:\/\/[^/]+\/api\/?/, '');
+  const adminRoute = /^(\/?admin|\/?contact\/admin|\/?ai)(\/|$)/.test(path);
+  const adminToken = localStorage.getItem('campusnest_admin_token') || localStorage.getItem('mca_admin_token');
+  const userToken = localStorage.getItem('campusnest_user_token');
+  const token = adminRoute ? adminToken : userToken;
   if (token) config.headers.Authorization = `Bearer ${token}`;
   return config;
 });

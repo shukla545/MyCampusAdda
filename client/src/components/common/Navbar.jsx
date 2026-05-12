@@ -80,7 +80,7 @@ export default function Navbar() {
       </div>
       {user.role === 'admin' && (
         <p className="mt-3 rounded-xl bg-brand-soft px-3 py-2 text-xs font-bold leading-5 text-brand">
-          Admin login gets 1 free AI answer each time you login again.
+          Admin login refreshes the 4 free Campus AI answers.
         </p>
       )}
       <button type="button" onClick={openCreditPacks} className="mt-3 flex w-full items-center justify-center gap-2 rounded-xl bg-brand px-4 py-3 text-sm font-extrabold text-white transition hover:bg-brand-dark">

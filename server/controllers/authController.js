@@ -7,11 +7,19 @@ import User from '../models/User.js';
 import UserOtp from '../models/UserOtp.js';
 import { asyncHandler } from '../middleware/errorMiddleware.js';
 import { sendSignupOtpEmail } from '../services/auth/sendSignupOtpEmail.js';
+import {
+  TCET_EMAIL_DOMAIN,
+  applyTcetEmailIfNeeded,
+  getFreeChatUsed,
+  getRemainingFreeMessages,
+  getTcetEmail,
+  hasTcetSellerAccess,
+  isTcetEmail
+} from '../utils/userAccess.js';
 
 const COOKIE_NAME = 'campusnest_user_token';
 const LEGACY_COOKIE_NAME = 'mca_user_token';
 const OTP_EXPIRY_SECONDS = 10 * 60;
-const TCET_EMAIL_DOMAIN = 'tcetmumbai.in';
 const isProduction = process.env.NODE_ENV === 'production';
 
 const normalizeEmail = (email) => String(email || '').trim().toLowerCase();
@@ -35,18 +43,21 @@ const toPublicUser = (user) => ({
   name: user.name,
   email: user.email,
   emailVerified: user.emailVerified,
-  tcetEmail: user.tcetEmail,
-  tcetEmailVerified: Boolean(user.tcetEmailVerified),
+  tcetEmail: getTcetEmail(user),
+  tcetEmailVerified: hasTcetSellerAccess(user),
   role: user.role,
-  freeChatUsed: Boolean(user.freeChatUsed),
-  remainingFreeMessages: user.freeChatUsed ? 0 : 1,
+  freeChatUsed: getRemainingFreeMessages(user) <= 0,
+  freeChatCount: getFreeChatUsed(user),
+  remainingFreeMessages: getRemainingFreeMessages(user),
   chatCredits: user.chatCredits || 0,
   marketplaceSellPasses: user.marketplaceSellPasses || 0,
   totalChatMessages: user.totalChatMessages || 0
 });
 
 const setUserCookie = (res, user) => {
-  res.cookie(COOKIE_NAME, signUserToken(user._id), cookieOptions);
+  const token = signUserToken(user._id);
+  res.cookie(COOKIE_NAME, token, cookieOptions);
+  return token;
 };
 
 const clearUserCookie = (res) => {
@@ -152,11 +163,14 @@ export const verifySignup = asyncHandler(async (req, res) => {
   }
 
   const passwordHash = await bcrypt.hash(password, 10);
-  const user = await User.create({ name, email, passwordHash, emailVerified: true });
+  const tcetFields = isTcetEmail(email)
+    ? { tcetEmail: email, tcetEmailVerified: true, tcetEmailVerifiedAt: new Date() }
+    : {};
+  const user = await User.create({ name, email, passwordHash, emailVerified: true, ...tcetFields });
   await UserOtp.deleteOne({ email, purpose: 'signup' });
-  setUserCookie(res, user);
+  const token = setUserCookie(res, user);
 
-  res.status(201).json({ success: true, message: 'Account created', user: toPublicUser(user) });
+  res.status(201).json({ success: true, message: 'Account created', token, user: toPublicUser(user) });
 });
 
 export const loginUser = asyncHandler(async (req, res) => {
@@ -190,13 +204,16 @@ export const loginUser = asyncHandler(async (req, res) => {
     throw new Error('Please verify your email before logging in');
   }
 
+  await applyTcetEmailIfNeeded(user);
+
   if (user.role === 'admin') {
     user.freeChatUsed = false;
+    user.freeChatCount = 0;
     await user.save();
   }
 
-  setUserCookie(res, user);
-  res.json({ success: true, message: 'Logged in', user: toPublicUser(user) });
+  const token = setUserCookie(res, user);
+  res.json({ success: true, message: 'Logged in', token, user: toPublicUser(user) });
 });
 
 export const logoutUser = asyncHandler(async (req, res) => {
@@ -205,11 +222,23 @@ export const logoutUser = asyncHandler(async (req, res) => {
 });
 
 export const getCurrentUser = asyncHandler(async (req, res) => {
-  res.json({ user: toPublicUser(req.user) });
+  const user = await applyTcetEmailIfNeeded(req.user);
+  res.json({ user: toPublicUser(user) });
 });
 
 export const requestTcetSellerOtp = asyncHandler(async (req, res) => {
   const email = normalizeEmail(req.body.email);
+
+  if (isTcetEmail(req.user.email)) {
+    const user = await applyTcetEmailIfNeeded(req.user);
+    res.json({
+      success: true,
+      alreadyVerified: true,
+      message: 'Your TCET login email is already verified for selling.',
+      user: toPublicUser(user)
+    });
+    return;
+  }
 
   if (!validator.isEmail(email) || !email.endsWith(`@${TCET_EMAIL_DOMAIN}`)) {
     res.status(422);

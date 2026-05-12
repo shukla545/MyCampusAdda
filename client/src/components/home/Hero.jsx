@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { ArrowRight, BookOpen, Bot, Building2, CheckCircle2, LockKeyhole, MapPin, ShieldCheck, ShoppingBag, UploadCloud, Utensils } from 'lucide-react';
+import { ArrowRight, BookOpen, Bot, Building2, HeartHandshake, MapPin, ShoppingBag, UploadCloud, Utensils } from 'lucide-react';
 import { motion } from 'framer-motion';
 import Button from '../common/Button.jsx';
 import Container from '../common/Container.jsx';
@@ -28,22 +28,12 @@ export default function Hero() {
             <Button as={Link} to="/marketplace"><BookOpen className="h-4 w-4" />Browse marketplace</Button>
             <Button as={Link} to="/marketplace/sell" variant="secondary"><UploadCloud className="h-4 w-4" />Sell material</Button>
             <Button type="button" onClick={openCampusAI} variant="secondary"><Bot className="h-4 w-4" />Ask Campus AI</Button>
+            <Button as={Link} to="/about" variant="subtle"><HeartHandshake className="h-4 w-4" />About us</Button>
           </div>
           <div className="mt-4 flex flex-wrap gap-2">
             <Button as={Link} to="/college/thakur-college/pg" variant="subtle" className="rounded-xl px-4 py-2"><Building2 className="h-4 w-4" />PGs</Button>
             <Button as={Link} to="/college/thakur-college/mess" variant="subtle" className="rounded-xl px-4 py-2"><Utensils className="h-4 w-4" />Mess</Button>
             <Button as={Link} to="/business/register" variant="subtle" className="rounded-xl px-4 py-2">List PG/Mess <ArrowRight className="h-4 w-4" /></Button>
-          </div>
-          <div className="mt-6 grid max-w-2xl gap-3 sm:grid-cols-3">
-            {[
-              ['Admin approval', ShieldCheck],
-              ['Login-gated contact', LockKeyhole],
-              ['Pay after handover', CheckCircle2]
-            ].map(([item, Icon]) => (
-              <div key={item} className="flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-4 py-3 text-sm font-bold text-slate-700 shadow-sm">
-                <Icon className="h-4 w-4 text-brand" />{item}
-              </div>
-            ))}
           </div>
         </motion.div>
         <motion.div initial={{ opacity: 0, scale: 0.96 }} animate={{ opacity: 1, scale: 1 }} className="relative">

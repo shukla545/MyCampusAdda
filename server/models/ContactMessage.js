@@ -7,7 +7,9 @@ const contactMessageSchema = new mongoose.Schema(
     phone: String,
     subject: String,
     message: { type: String, required: true },
-    status: { type: String, enum: ['new', 'read'], default: 'new', index: true }
+    status: { type: String, enum: ['new', 'read', 'replied'], default: 'new', index: true },
+    replyMessage: String,
+    repliedAt: Date
   },
   { timestamps: true }
 );

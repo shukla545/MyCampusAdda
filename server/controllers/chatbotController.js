@@ -5,6 +5,7 @@ import { generateBotAnswer } from '../services/chatbot/generateBotAnswer.js';
 import { buildSuggestedActions, fallbackAnswer, unrelatedAnswer } from '../services/chatbot/fallbackAnswer.js';
 import User from '../models/User.js';
 import { getPublicChatPlans } from './billingController.js';
+import { getFreeChatUsed, getRemainingFreeMessages } from '../utils/userAccess.js';
 
 const toRelatedListing = (listing) => ({
   title: listing.title,
@@ -17,13 +18,18 @@ const toRelatedListing = (listing) => ({
 });
 
 const reserveChatAccess = async (userId) => {
-  let user = await User.findOneAndUpdate(
-    { _id: userId, freeChatUsed: { $ne: true } },
-    { $set: { freeChatUsed: true, lastChatAt: new Date() }, $inc: { totalChatMessages: 1 } },
-    { new: true }
-  ).select('-passwordHash');
+  let user = await User.findById(userId).select('-passwordHash');
+  if (!user) return null;
 
-  if (user) return { type: 'free', user };
+  const freeUsed = getFreeChatUsed(user);
+  if (getRemainingFreeMessages(user) > 0) {
+    user.freeChatCount = freeUsed + 1;
+    user.freeChatUsed = getRemainingFreeMessages(user) <= 0;
+    user.lastChatAt = new Date();
+    user.totalChatMessages = (user.totalChatMessages || 0) + 1;
+    await user.save();
+    return { type: 'free', user };
+  }
 
   user = await User.findOneAndUpdate(
     { _id: userId, chatCredits: { $gt: 0 } },
@@ -37,8 +43,9 @@ const reserveChatAccess = async (userId) => {
 
 const toChatUsage = (reservation) => ({
   used: reservation.type,
-  freeChatUsed: Boolean(reservation.user.freeChatUsed),
-  remainingFreeMessages: reservation.user.freeChatUsed ? 0 : 1,
+  freeChatUsed: getRemainingFreeMessages(reservation.user) <= 0,
+  freeChatCount: getFreeChatUsed(reservation.user),
+  remainingFreeMessages: getRemainingFreeMessages(reservation.user),
   chatCredits: reservation.user.chatCredits || 0,
   totalChatMessages: reservation.user.totalChatMessages || 0
 });
@@ -55,7 +62,7 @@ export const askChatbot = asyncHandler(async (req, res) => {
     res.status(402).json({
       success: false,
       code: 'CHAT_CREDITS_REQUIRED',
-      message: 'You used your free AI answer. Please buy chat credits to continue.',
+      message: 'You used your free AI answers. Please buy chat credits to continue.',
       plans: getPublicChatPlans()
     });
     return;
@@ -90,7 +97,7 @@ export const askChatbot = asyncHandler(async (req, res) => {
   if (intent.website && !intent.wantsPG && !intent.wantsMess) {
     res.json({
       success: true,
-      answer: 'Yes, you can contact the CampusNest admin from the Contact page. For safety, you will need to verify your email with a 10 minute OTP before sending a message.',
+      answer: 'Yes, logged-in students can contact the CampusNest admin from the Contact page. Your account email is used for the reply.',
       relatedListings: [],
       suggestedActions: [{ label: 'Contact CampusNest', path: '/contact' }],
       chatUsage: toChatUsage(reservation)

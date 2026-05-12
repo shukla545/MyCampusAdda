@@ -33,6 +33,7 @@ const defaultValues = {
 };
 
 const passText = (count) => `${count} Sell Pass${count === 1 ? '' : 'es'}`;
+const isTcetEmail = (email) => String(email || '').toLowerCase().endsWith('@tcetmumbai.in');
 
 export default function SellStudyMaterial() {
   const { user, refreshUser } = useAuth();
@@ -43,7 +44,7 @@ export default function SellStudyMaterial() {
   const [plans, setPlans] = useState([]);
   const [buyingPlan, setBuyingPlan] = useState('');
   const [showPassPlans, setShowPassPlans] = useState(false);
-  const [tcetEmail, setTcetEmail] = useState(user?.tcetEmail || '');
+  const [tcetEmail, setTcetEmail] = useState(user?.tcetEmail || (isTcetEmail(user?.email) ? user.email : ''));
   const [tcetOtp, setTcetOtp] = useState('');
   const [tcetOtpSent, setTcetOtpSent] = useState(false);
   const [tcetDevOtp, setTcetDevOtp] = useState('');
@@ -72,18 +73,24 @@ export default function SellStudyMaterial() {
   }, [setValue, user]);
 
   useEffect(() => {
-    if (user?.tcetEmail) setTcetEmail(user.tcetEmail);
-  }, [user?.tcetEmail]);
+    if (user?.tcetEmail || isTcetEmail(user?.email)) setTcetEmail(user.tcetEmail || user.email);
+  }, [user?.email, user?.tcetEmail]);
 
   const freeRemaining = allowance?.freeRemaining ?? 2;
   const sellPasses = allowance?.sellPasses ?? user?.marketplaceSellPasses ?? 0;
-  const sellerVerified = Boolean(user?.tcetEmailVerified || allowance?.tcetEmailVerified);
+  const sellerVerified = Boolean(user?.tcetEmailVerified || allowance?.tcetEmailVerified || isTcetEmail(user?.email));
   const needsMoreSlots = freeRemaining <= 0 && sellPasses <= 0;
 
   const requestTcetOtp = async () => {
     setVerifyingTcet(true);
     try {
       const { data } = await api.post('/auth/seller-tcet/request-otp', { email: tcetEmail });
+      if (data.alreadyVerified) {
+        await refreshUser();
+        loadMine();
+        toast.success(data.message || 'TCET email already verified');
+        return;
+      }
       setTcetOtpSent(true);
       setTcetDevOtp(data.devOtp || '');
       toast.success(data.message || 'OTP sent to TCET email');

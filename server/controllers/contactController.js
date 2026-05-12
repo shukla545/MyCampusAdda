@@ -4,6 +4,7 @@ import ContactOtp from '../models/ContactOtp.js';
 import ContactMessage from '../models/ContactMessage.js';
 import { asyncHandler } from '../middleware/errorMiddleware.js';
 import { sendOtpEmail } from '../services/contact/sendOtpEmail.js';
+import { sendReplyEmail } from '../services/contact/sendReplyEmail.js';
 
 const normalizeEmail = (email) => String(email || '').trim().toLowerCase();
 
@@ -44,46 +45,24 @@ export const requestContactOtp = asyncHandler(async (req, res) => {
 });
 
 export const submitContactMessage = asyncHandler(async (req, res) => {
-  const email = normalizeEmail(req.body.email);
-  const otp = String(req.body.otp || '').trim();
+  const email = normalizeEmail(req.user?.email || req.body.email);
   const message = String(req.body.message || '').trim();
 
   if (!validator.isEmail(email)) {
     res.status(422);
     throw new Error('Enter a valid email address');
   }
-  if (!otp || otp.length !== 6) {
-    res.status(422);
-    throw new Error('Enter the 6 digit OTP');
-  }
   if (!message || message.length < 10) {
     res.status(422);
     throw new Error('Message must be at least 10 characters');
   }
 
-  const otpRecord = await ContactOtp.findOne({ email });
-  if (!otpRecord || otpRecord.expiresAt < new Date()) {
-    res.status(400);
-    throw new Error('OTP expired. Please request a new OTP.');
-  }
-  if (otpRecord.attempts >= 5) {
-    res.status(429);
-    throw new Error('Too many OTP attempts. Please request a new OTP.');
-  }
-  if (otpRecord.otpHash !== hashOtp(email, otp)) {
-    otpRecord.attempts += 1;
-    await otpRecord.save();
-    res.status(400);
-    throw new Error('Invalid OTP');
-  }
-
   const contactMessage = await ContactMessage.create({
-    name: req.body.name,
+    name: req.body.name || req.user?.name,
     email,
     subject: req.body.subject,
     message
   });
-  await ContactOtp.deleteOne({ email });
 
   res.status(201).json({ success: true, message: 'Message sent to CampusNest admin', contactMessage });
 });
@@ -100,4 +79,37 @@ export const markContactMessageRead = asyncHandler(async (req, res) => {
     throw new Error('Message not found');
   }
   res.json(message);
+});
+
+export const replyToContactMessage = asyncHandler(async (req, res) => {
+  const reply = String(req.body.reply || '').trim();
+  if (!reply || reply.length < 5) {
+    res.status(422);
+    throw new Error('Reply must be at least 5 characters');
+  }
+
+  const message = await ContactMessage.findById(req.params.id);
+  if (!message) {
+    res.status(404);
+    throw new Error('Message not found');
+  }
+
+  const emailResult = await sendReplyEmail({
+    toEmail: message.email,
+    toName: message.name,
+    subject: req.body.subject || `Re: ${message.subject || 'CampusNest support'}`,
+    reply,
+    originalMessage: message.message
+  });
+
+  message.status = 'replied';
+  message.replyMessage = reply;
+  message.repliedAt = new Date();
+  await message.save();
+
+  res.json({
+    success: true,
+    message: emailResult.sent ? 'Reply emailed to user' : 'Reply saved. Email sending is not configured in this environment.',
+    contactMessage: message
+  });
 });

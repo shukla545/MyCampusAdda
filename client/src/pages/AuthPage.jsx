@@ -83,7 +83,7 @@ export default function AuthPage() {
                 <div className="rounded-xl bg-white/10 p-4">Signup uses name, email OTP and password.</div>
                 <div className="rounded-xl bg-white/10 p-4">Session stays active until logout using a secure cookie.</div>
                 <div className="rounded-xl bg-white/10 p-4">Marketplace selling, contact unlocks and business listing are available after login.</div>
-                <div className="rounded-xl bg-white/10 p-4">Admins get one fresh AI answer every time they login again.</div>
+                <div className="rounded-xl bg-white/10 p-4">Every account starts with 4 free Campus AI answers.</div>
               </div>
             </div>
 

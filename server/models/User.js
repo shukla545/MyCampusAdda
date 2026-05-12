@@ -11,6 +11,7 @@ const userSchema = new mongoose.Schema(
     tcetEmailVerifiedAt: Date,
     role: { type: String, default: 'user' },
     freeChatUsed: { type: Boolean, default: false },
+    freeChatCount: { type: Number, default: 0, min: 0 },
     chatCredits: { type: Number, default: 0, min: 0 },
     marketplaceSellPasses: { type: Number, default: 0, min: 0 },
     totalChatMessages: { type: Number, default: 0 },

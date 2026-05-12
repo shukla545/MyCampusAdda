@@ -2,6 +2,7 @@ import jwt from 'jsonwebtoken';
 import Admin from '../models/Admin.js';
 import User from '../models/User.js';
 import { asyncHandler } from './errorMiddleware.js';
+import { applyTcetEmailIfNeeded } from '../utils/userAccess.js';
 
 export const protect = asyncHandler(async (req, res, next) => {
   const header = req.headers.authorization || '';
@@ -48,7 +49,7 @@ export const protectUser = asyncHandler(async (req, res, next) => {
       res.status(401);
       throw new Error('User account not found or not verified');
     }
-    req.user = user;
+    req.user = await applyTcetEmailIfNeeded(user);
     next();
   } catch (error) {
     res.status(401);
