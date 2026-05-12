@@ -60,9 +60,11 @@ export default function About() {
 
           <div className="grid gap-4">
             <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
-              <div className="grid gap-5 p-5 sm:grid-cols-[150px_1fr] sm:items-center">
-                <img src={developerProfile} alt="Nikhil, AI Full Stack Developer" className="h-40 w-full rounded-xl object-cover object-top sm:h-44" />
-                <div>
+              <div className="grid gap-5 p-4 text-center sm:grid-cols-[150px_1fr] sm:items-center sm:p-5 sm:text-left">
+                <div className="mx-auto aspect-[4/5] w-full max-w-[220px] overflow-hidden rounded-2xl bg-brand-soft sm:mx-0 sm:h-44 sm:w-[150px] sm:max-w-none">
+                  <img src={developerProfile} alt="Nikhil, AI Full Stack Developer" className="h-full w-full object-cover object-[50%_28%]" />
+                </div>
+                <div className="min-w-0">
                   <p className="inline-flex items-center gap-2 rounded-full bg-brand-soft px-3 py-1 text-xs font-extrabold text-brand">
                     <Code2 className="h-3.5 w-3.5" /> Built by
                   </p>
@@ -75,7 +77,7 @@ export default function About() {
                     href="https://nikhil-ai-portfolio.vercel.app"
                     target="_blank"
                     rel="noreferrer"
-                    className="mt-4 inline-flex items-center gap-2 rounded-xl bg-brand px-4 py-2 text-sm font-extrabold text-white transition hover:bg-brand-dark"
+                    className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-brand px-4 py-2 text-sm font-extrabold text-white transition hover:bg-brand-dark sm:w-auto"
                   >
                     View portfolio <ExternalLink className="h-4 w-4" />
                   </a>
