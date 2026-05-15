@@ -60,7 +60,7 @@ export default function SellStudyMaterial() {
   const { register, handleSubmit, reset, setValue, formState: { errors, isSubmitting } } = useForm({ defaultValues });
 
   const loadMine = useCallback(() => {
-    api.get('/marketplace/mine')
+    return api.get('/marketplace/mine')
       .then(({ data }) => {
         setMyListings(data.listings || []);
         setAllowance(data.allowance);
@@ -70,6 +70,15 @@ export default function SellStudyMaterial() {
         setMyListings([]);
       });
   }, []);
+
+  const mergeListing = (listing) => {
+    if (!listing?.id) return;
+    setMyListings((current) => {
+      const exists = current.some((item) => item.id === listing.id);
+      if (!exists) return [listing, ...current];
+      return current.map((item) => (item.id === listing.id ? listing : item));
+    });
+  };
 
   useEffect(() => {
     loadMine();
@@ -157,8 +166,9 @@ export default function SellStudyMaterial() {
       const { data } = await api.delete(`/marketplace/${deletingListing.id}`);
       toast.success(data.message || 'Product deleted');
       if (editingListing?.id === deletingListing.id) cancelEdit();
+      setMyListings((current) => current.filter((item) => item.id !== deletingListing.id));
       setDeletingListing(null);
-      loadMine();
+      await loadMine();
     } catch (error) {
       toast.error(error.response?.data?.message || 'Could not delete product');
     }
@@ -188,10 +198,11 @@ export default function SellStudyMaterial() {
       const { data } = await request;
       setDone(data.listing);
       if (data.allowance) setAllowance(data.allowance);
+      mergeListing(data.listing);
       setImages([]);
       setEditingListing(null);
       reset({ ...defaultValues, sellerName: user?.name || '' });
-      loadMine();
+      await loadMine();
       await refreshUser();
       toast.success(editingListing ? 'Updated for admin approval' : 'Submitted for admin approval');
     } catch (error) {

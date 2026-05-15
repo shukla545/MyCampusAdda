@@ -31,28 +31,36 @@ export const protect = asyncHandler(async (req, res, next) => {
 export const protectUser = asyncHandler(async (req, res, next) => {
   const header = req.headers.authorization || '';
   const bearerToken = header.startsWith('Bearer ') ? header.split(' ')[1] : null;
-  const token = req.cookies?.campusnest_user_token || req.cookies?.mca_user_token || bearerToken;
+  const tokens = [
+    bearerToken,
+    req.cookies?.campusnest_user_token,
+    req.cookies?.mca_user_token
+  ].filter(Boolean);
 
-  if (!token) {
+  if (!tokens.length) {
     res.status(401);
     throw new Error('Please login to continue');
   }
 
-  try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    if (decoded.type !== 'user') {
-      res.status(401);
-      throw new Error('Invalid user session');
+  for (const token of tokens) {
+    try {
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      if (decoded.type !== 'user') {
+        continue;
+      }
+      const user = await User.findById(decoded.id).select('-passwordHash');
+      if (!user || !user.emailVerified) {
+        continue;
+      }
+      req.user = await applyTcetEmailIfNeeded(user);
+      next();
+      return;
+    } catch (error) {
+      // Try the next available session source. Browsers can keep an old cookie
+      // while the fresh login token is present in localStorage.
     }
-    const user = await User.findById(decoded.id).select('-passwordHash');
-    if (!user || !user.emailVerified) {
-      res.status(401);
-      throw new Error('User account not found or not verified');
-    }
-    req.user = await applyTcetEmailIfNeeded(user);
-    next();
-  } catch (error) {
-    res.status(401);
-    throw new Error('Please login again');
   }
+
+  res.status(401);
+  throw new Error('Please login again');
 });
