@@ -21,11 +21,16 @@ export default function Contact() {
 
   const submit = async (values) => {
     try {
-      await api.post('/contact/messages', { ...values, email: user?.email, name: values.name || user?.name });
+      await api.post('/contact/messages', {
+        name: values.name || user?.name,
+        subject: values.subject || 'CampusNest support message',
+        message: String(values.message || '').trim()
+      });
       setDone(true);
-      reset({ name: user?.name || '' });
+      reset({ name: user?.name || '', subject: '', message: '' });
     } catch (error) {
-      toast.error(error.response?.data?.message || 'Could not send message');
+      const firstError = error.response?.data?.errors?.[0]?.msg;
+      toast.error(firstError || error.response?.data?.message || 'Could not send message');
     }
   };
 
@@ -76,7 +81,7 @@ export default function Contact() {
             </div>
             <FormInput label="Subject" placeholder="Listing correction, support, business help..." {...register('subject')} />
             <div className="md:col-span-2">
-              <FormTextarea label="Message" error={errors.message?.message} {...register('message', { required: 'Message is required', minLength: { value: 10, message: 'Message must be at least 10 characters' } })} />
+              <FormTextarea label="Message" error={errors.message?.message} {...register('message', { required: 'Message is required', minLength: { value: 3, message: 'Message must be at least 3 characters' } })} />
             </div>
           </div>
 

@@ -11,6 +11,7 @@ import { useAuth } from '../context/AuthContext.jsx';
 import { buildWhatsAppUrl } from '../utils/whatsapp.js';
 
 const fallbackImage = 'https://res.cloudinary.com/dugeiu4id/image/upload/v1778184435/ChatGPT_Image_May_8_2026_01_35_21_AM_ozmdeg.png';
+const money = (value) => new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(Number(value || 0));
 
 export default function MarketplaceDetail() {
   const { slug } = useParams();
@@ -63,6 +64,8 @@ export default function MarketplaceDetail() {
   }
 
   const whatsappUrl = buildWhatsAppUrl(contact?.primaryPhone, `Hi, I saw your "${listing.title}" on CampusNest Marketplace. Is it still available?`);
+  const showMarketPrice = Number(listing.marketPrice) > Number(listing.price);
+  const savedPercent = showMarketPrice ? Math.round(((Number(listing.marketPrice) - Number(listing.price)) / Number(listing.marketPrice)) * 100) : 0;
 
   return (
     <main className="bg-white py-10">
@@ -99,7 +102,11 @@ export default function MarketplaceDetail() {
               <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-bold capitalize text-slate-600">{listing.condition?.replace('-', ' ')}</span>
             </div>
             <h1 className="mt-4 text-3xl font-black leading-tight text-slate-950 sm:text-4xl">{listing.title}</h1>
-            <p className="mt-4 text-3xl font-black text-brand">{listing.priceText || `Rs. ${listing.price}`}</p>
+            <div className="mt-4 rounded-lg border border-slate-200 bg-slate-50 p-4">
+              {showMarketPrice && <p className="text-sm font-extrabold text-slate-400 line-through">Market price: {money(listing.marketPrice)}</p>}
+              <p className="text-3xl font-black text-brand">{listing.priceText || `Rs. ${listing.price}`}</p>
+              {showMarketPrice && <p className="mt-1 text-sm font-extrabold text-emerald-700">{savedPercent}% cheaper than market price</p>}
+            </div>
             <p className="mt-6 whitespace-pre-line text-base leading-8 text-slate-600">{listing.description}</p>
 
             <div className="mt-6 rounded-lg border border-amber-200 bg-amber-50 p-4">

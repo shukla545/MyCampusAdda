@@ -2,8 +2,9 @@ import { useCallback, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import toast from 'react-hot-toast';
-import { CheckCircle2, Clock, CreditCard, IndianRupee, MailCheck, PackagePlus, ShieldCheck, Smartphone, UploadCloud } from 'lucide-react';
+import { CheckCircle2, Clock, CreditCard, IndianRupee, MailCheck, PackagePlus, Pencil, ShieldCheck, Smartphone, Trash2, UploadCloud, XCircle } from 'lucide-react';
 import Button from '../components/common/Button.jsx';
+import ConfirmModal from '../components/common/ConfirmModal.jsx';
 import Container from '../components/common/Container.jsx';
 import FormInput from '../components/forms/FormInput.jsx';
 import FormSelect from '../components/forms/FormSelect.jsx';
@@ -34,6 +35,11 @@ const defaultValues = {
 
 const passText = (count) => `${count} Sell Pass${count === 1 ? '' : 'es'}`;
 const isTcetEmail = (email) => String(email || '').toLowerCase().endsWith('@tcetmumbai.in');
+const money = (value) => {
+  const amount = Number(value);
+  if (!Number.isFinite(amount) || amount < 0) return '';
+  return new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(amount);
+};
 
 export default function SellStudyMaterial() {
   const { user, refreshUser } = useAuth();
@@ -49,6 +55,8 @@ export default function SellStudyMaterial() {
   const [tcetOtpSent, setTcetOtpSent] = useState(false);
   const [tcetDevOtp, setTcetDevOtp] = useState('');
   const [verifyingTcet, setVerifyingTcet] = useState(false);
+  const [editingListing, setEditingListing] = useState(null);
+  const [deletingListing, setDeletingListing] = useState(null);
   const { register, handleSubmit, reset, setValue, formState: { errors, isSubmitting } } = useForm({ defaultValues });
 
   const loadMine = useCallback(() => {
@@ -117,32 +125,75 @@ export default function SellStudyMaterial() {
     }
   };
 
+  const cancelEdit = () => {
+    setEditingListing(null);
+    setImages([]);
+    reset({ ...defaultValues, sellerName: user?.name || '' });
+  };
+
+  const startEdit = (item) => {
+    setDone(null);
+    setEditingListing(item);
+    setImages([]);
+    reset({
+      sellerName: item.sellerName || user?.name || '',
+      primaryPhone: item.primaryPhone || '',
+      extraPhone: item.extraPhone || '',
+      branch: item.branch || '',
+      category: item.category || 'books',
+      condition: item.condition || 'good',
+      price: item.price ?? '',
+      marketPrice: item.marketPrice ?? '',
+      title: item.title || '',
+      description: item.description || '',
+      studentDetails: item.studentDetails || ''
+    });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const removeProduct = async () => {
+    if (!deletingListing) return;
+    try {
+      const { data } = await api.delete(`/marketplace/${deletingListing.id}`);
+      toast.success(data.message || 'Product deleted');
+      if (editingListing?.id === deletingListing.id) cancelEdit();
+      setDeletingListing(null);
+      loadMine();
+    } catch (error) {
+      toast.error(error.response?.data?.message || 'Could not delete product');
+    }
+  };
+
   const submit = async (payload) => {
     if (!sellerVerified) {
       toast.error('Verify your TCET email before selling study material.');
       return;
     }
 
-    if (needsMoreSlots) {
+    if (!editingListing && needsMoreSlots) {
       setShowPassPlans(true);
       toast.error('Your free slots are used. Buy a Sell Pass to add more products.');
       return;
     }
 
-    if (!images.length) {
+    if (!editingListing && !images.length) {
       toast.error('Upload at least 1 product image');
       return;
     }
 
     try {
-      const { data } = await api.post('/marketplace', { ...payload, images });
+      const request = editingListing
+        ? api.patch(`/marketplace/${editingListing.id}`, { ...payload, images })
+        : api.post('/marketplace', { ...payload, images });
+      const { data } = await request;
       setDone(data.listing);
-      setAllowance(data.allowance);
+      if (data.allowance) setAllowance(data.allowance);
       setImages([]);
+      setEditingListing(null);
       reset({ ...defaultValues, sellerName: user?.name || '' });
       loadMine();
       await refreshUser();
-      toast.success('Submitted for admin approval');
+      toast.success(editingListing ? 'Updated for admin approval' : 'Submitted for admin approval');
     } catch (error) {
       const response = error.response?.data;
       if (error.response?.status === 402 && response?.allowance) {
@@ -328,6 +379,17 @@ export default function SellStudyMaterial() {
           )}
 
           {sellerVerified && <form onSubmit={handleSubmit(submit)} className="mt-6 rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
+            {editingListing && (
+              <div className="mb-5 flex flex-col gap-3 rounded-lg border border-brand/15 bg-brand-soft p-4 sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                  <h2 className="font-extrabold text-brand">Editing product</h2>
+                  <p className="mt-1 text-sm font-semibold text-slate-600">Old images stay locked. You can add extra images, then admin will review the update again.</p>
+                </div>
+                <button type="button" onClick={cancelEdit} className="inline-flex items-center justify-center gap-2 rounded-lg bg-white px-4 py-2 text-sm font-extrabold text-slate-700 ring-1 ring-slate-200">
+                  <XCircle className="h-4 w-4" /> Cancel edit
+                </button>
+              </div>
+            )}
             <div className="grid gap-4 md:grid-cols-2">
               <FormInput label="Seller name" error={errors.sellerName?.message} {...register('sellerName', { required: 'Seller name is required' })} />
               <FormInput label="Primary contact number" error={errors.primaryPhone?.message} {...register('primaryPhone', {
@@ -352,16 +414,32 @@ export default function SellStudyMaterial() {
                 <option value="good">Good</option>
                 <option value="used">Used</option>
               </FormSelect>
-              <FormInput label="Selling price" type="number" min="0" error={errors.price?.message} {...register('price', { required: 'Price is required', min: { value: 0, message: 'Price cannot be negative' } })} />
+              <FormInput label="Market price when new (optional)" type="number" min="0" placeholder="Original market price" error={errors.marketPrice?.message} {...register('marketPrice', { min: { value: 0, message: 'Market price cannot be negative' } })} />
+              <FormInput label="Your selling price" type="number" min="0" error={errors.price?.message} {...register('price', { required: 'Price is required', min: { value: 0, message: 'Price cannot be negative' } })} />
               <div className="md:col-span-2">
                 <FormInput label="Product title" error={errors.title?.message} {...register('title', { required: 'Product title is required', minLength: { value: 4, message: 'Use at least 4 characters' } })} />
               </div>
               <div className="md:col-span-2"><FormTextarea label="Product details" error={errors.description?.message} {...register('description', { required: 'Product details are required', minLength: { value: 20, message: 'Write at least 20 characters' } })} /></div>
               <div className="md:col-span-2"><FormTextarea label="Student details (optional)" placeholder="Pickup preference, branch context, or anything buyers should know." {...register('studentDetails')} /></div>
-              <div className="md:col-span-2"><ImageUploader images={images} onChange={setImages} owner /></div>
+              {editingListing?.images?.length ? (
+                <div className="md:col-span-2">
+                  <label className="label">Existing images locked</label>
+                  <div className="grid grid-cols-3 gap-3 sm:grid-cols-4">
+                    {editingListing.images.map((image) => (
+                      <div key={image} className="overflow-hidden rounded-xl border border-slate-200 bg-slate-50">
+                        <img src={image} alt={`${editingListing.title} existing product`} className="h-24 w-full object-cover" />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ) : null}
+              <div className="md:col-span-2">
+                <ImageUploader images={images} onChange={setImages} owner />
+                {editingListing && <p className="mt-2 text-xs font-bold text-slate-500">These uploads will be added as extra images. Existing product images cannot be removed from edit mode.</p>}
+              </div>
             </div>
             <Button disabled={isSubmitting} className="mt-5 w-full rounded-lg">
-              <PackagePlus className="h-4 w-4" />{isSubmitting ? 'Submitting...' : 'Submit for approval'}
+              <PackagePlus className="h-4 w-4" />{isSubmitting ? 'Saving...' : editingListing ? 'Update for approval' : 'Submit for approval'}
             </Button>
           </form>}
         </section>
@@ -373,10 +451,14 @@ export default function SellStudyMaterial() {
               {myListings.length ? myListings.map((item) => (
                 <div key={item.id} className="rounded-lg border border-slate-200 bg-slate-50 p-4">
                   <div className="flex gap-3">
-                    <img src={item.images?.[0]} alt="" className="h-16 w-16 rounded-lg object-cover" />
+                    <img src={item.images?.[0]} alt={`${item.title} product`} className="h-16 w-16 rounded-lg object-cover" />
                     <div className="min-w-0 flex-1">
                       <p className="truncate font-extrabold text-slate-950">{item.title}</p>
-                      <p className="mt-1 text-xs font-bold text-slate-500">{item.priceText} - {item.categoryLabel}</p>
+                      <p className="mt-1 text-xs font-bold text-slate-500">{item.categoryLabel}</p>
+                      <div className="mt-1 flex flex-wrap gap-x-3 gap-y-1 text-xs font-extrabold">
+                        {item.marketPrice ? <span className="text-slate-400 line-through">{money(item.marketPrice)}</span> : null}
+                        <span className="text-brand">{item.priceText || money(item.price)}</span>
+                      </div>
                       <StatusPill status={item.status} />
                     </div>
                   </div>
@@ -386,6 +468,22 @@ export default function SellStudyMaterial() {
                   {item.status === 'approved' && (
                     <Button as={Link} to={`/marketplace/${item.slug}`} variant="secondary" className="mt-3 w-full rounded-lg px-3 py-2 text-xs">View live product</Button>
                   )}
+                  <div className="mt-3 grid grid-cols-2 gap-2">
+                    <button
+                      type="button"
+                      onClick={() => startEdit(item)}
+                      className="inline-flex min-h-10 items-center justify-center gap-2 rounded-lg border border-slate-200 bg-white px-3 text-xs font-extrabold text-slate-700 transition hover:border-brand/30 hover:bg-brand-soft"
+                    >
+                      <Pencil className="h-4 w-4" /> Edit
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setDeletingListing(item)}
+                      className="inline-flex min-h-10 items-center justify-center gap-2 rounded-lg border border-rose-100 bg-rose-50 px-3 text-xs font-extrabold text-rose-700 transition hover:bg-rose-100"
+                    >
+                      <Trash2 className="h-4 w-4" /> Sold/Delete
+                    </button>
+                  </div>
                 </div>
               )) : (
                 <p className="rounded-lg bg-slate-50 p-4 text-sm font-semibold text-slate-500">No products submitted yet.</p>
@@ -404,6 +502,13 @@ export default function SellStudyMaterial() {
           </section>
         </aside>
       </Container>
+      <ConfirmModal
+        open={Boolean(deletingListing)}
+        title="Delete product?"
+        message="Use this after the product is sold or if you no longer want it on CampusNest. This removes the listing from your products."
+        onCancel={() => setDeletingListing(null)}
+        onConfirm={removeProduct}
+      />
     </main>
   );
 }

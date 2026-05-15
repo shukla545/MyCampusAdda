@@ -47,20 +47,21 @@ export const requestContactOtp = asyncHandler(async (req, res) => {
 export const submitContactMessage = asyncHandler(async (req, res) => {
   const email = normalizeEmail(req.user?.email || req.body.email);
   const message = String(req.body.message || '').trim();
+  const subject = String(req.body.subject || '').trim() || 'CampusNest support message';
 
   if (!validator.isEmail(email)) {
     res.status(422);
-    throw new Error('Enter a valid email address');
+    throw new Error('Your login email is invalid. Please logout and login again.');
   }
-  if (!message || message.length < 10) {
+  if (!message || message.length < 3) {
     res.status(422);
-    throw new Error('Message must be at least 10 characters');
+    throw new Error('Message must be at least 3 characters');
   }
 
   const contactMessage = await ContactMessage.create({
-    name: req.body.name || req.user?.name,
+    name: String(req.body.name || req.user?.name || email.split('@')[0]).trim(),
     email,
-    subject: req.body.subject,
+    subject,
     message
   });
 

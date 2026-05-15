@@ -19,7 +19,7 @@ router.post(
   '/messages',
   protectUser,
   [
-    body('message').isLength({ min: 10 }).withMessage('Message must be at least 10 characters')
+    body('message').trim().isLength({ min: 3 }).withMessage('Message must be at least 3 characters')
   ],
   validate,
   submitContactMessage

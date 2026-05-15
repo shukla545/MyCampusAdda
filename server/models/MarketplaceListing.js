@@ -22,6 +22,7 @@ const marketplaceListingSchema = new mongoose.Schema(
       default: 'good'
     },
     price: { type: Number, required: true, min: 0 },
+    marketPrice: { type: Number, min: 0 },
     priceText: String,
     description: { type: String, required: true, trim: true },
     images: [{ type: String, required: true }],

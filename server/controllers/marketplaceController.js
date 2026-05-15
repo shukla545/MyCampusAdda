@@ -34,6 +34,7 @@ const cleanImages = (images) =>
     .slice(0, 8);
 
 const cleanPrice = (value) => {
+  if (value === undefined || value === null || value === '') return undefined;
   const price = Number(value);
   return Number.isFinite(price) && price >= 0 ? price : undefined;
 };
@@ -59,6 +60,7 @@ const toPublicListing = (listing) => ({
   categoryLabel: categoryLabels[listing.category] || 'Material',
   condition: listing.condition,
   price: listing.price,
+  marketPrice: listing.marketPrice,
   priceText: listing.priceText,
   description: listing.description,
   images: listing.images || [],
@@ -185,6 +187,7 @@ export const createMarketplaceListing = asyncHandler(async (req, res) => {
   const title = cleanText(req.body.title);
   const description = cleanLongText(req.body.description);
   const price = cleanPrice(req.body.price);
+  const marketPrice = cleanPrice(req.body.marketPrice);
   const primaryPhone = sanitizePhone(req.body.primaryPhone);
   const extraPhone = req.body.extraPhone ? sanitizePhone(req.body.extraPhone) : undefined;
   const sellerName = cleanText(req.body.sellerName) || req.user.name;
@@ -251,6 +254,7 @@ export const createMarketplaceListing = asyncHandler(async (req, res) => {
       category: cleanText(req.body.category) || 'books',
       condition: cleanText(req.body.condition) || 'good',
       price,
+      marketPrice,
       priceText: `Rs. ${price}`,
       description,
       images,
@@ -270,6 +274,93 @@ export const createMarketplaceListing = asyncHandler(async (req, res) => {
     }
     throw error;
   }
+});
+
+export const updateMyMarketplaceListing = asyncHandler(async (req, res) => {
+  const listing = await MarketplaceListing.findOne({ _id: req.params.id, seller: req.user._id });
+  if (!listing) {
+    res.status(404);
+    throw new Error('Marketplace product not found');
+  }
+
+  const title = cleanText(req.body.title);
+  const description = cleanLongText(req.body.description);
+  const price = cleanPrice(req.body.price);
+  const marketPrice = cleanPrice(req.body.marketPrice);
+  const primaryPhone = sanitizePhone(req.body.primaryPhone);
+  const extraPhone = req.body.extraPhone ? sanitizePhone(req.body.extraPhone) : undefined;
+  const sellerName = cleanText(req.body.sellerName) || req.user.name;
+  const branch = cleanText(req.body.branch);
+  const extraImages = cleanImages(req.body.images);
+
+  if (!title || title.length < 4) {
+    res.status(422);
+    throw new Error('Product title is required');
+  }
+  if (!description || description.length < 20) {
+    res.status(422);
+    throw new Error('Write at least 20 characters about the product');
+  }
+  if (price === undefined) {
+    res.status(422);
+    throw new Error('Enter a valid selling price');
+  }
+  if (!primaryPhone || primaryPhone.length < 10) {
+    res.status(422);
+    throw new Error('Enter a valid contact number');
+  }
+  if (!branch) {
+    res.status(422);
+    throw new Error('Branch is required');
+  }
+
+  const existingImages = listing.images || [];
+  const nextImages = [...existingImages];
+  extraImages.forEach((image) => {
+    if (!nextImages.includes(image) && nextImages.length < 8) nextImages.push(image);
+  });
+
+  if (!nextImages.length) {
+    res.status(422);
+    throw new Error('Upload at least 1 product image');
+  }
+
+  const titleChanged = listing.title !== title;
+  listing.title = title;
+  if (titleChanged) listing.slug = await createMarketplaceSlug(title, listing._id);
+  listing.sellerName = sellerName;
+  listing.primaryPhone = primaryPhone;
+  listing.extraPhone = extraPhone;
+  listing.branch = branch;
+  listing.studentDetails = cleanLongText(req.body.studentDetails);
+  listing.category = cleanText(req.body.category) || 'books';
+  listing.condition = cleanText(req.body.condition) || 'good';
+  listing.price = price;
+  listing.marketPrice = marketPrice;
+  listing.priceText = `Rs. ${price}`;
+  listing.description = description;
+  listing.images = nextImages;
+  listing.status = 'pending';
+  listing.availability = 'available';
+  listing.adminNotes = undefined;
+
+  await listing.save();
+
+  res.json({
+    success: true,
+    message: 'Product updated. Wait for admin approval.',
+    listing: toSellerListing(listing)
+  });
+});
+
+export const deleteMyMarketplaceListing = asyncHandler(async (req, res) => {
+  const listing = await MarketplaceListing.findOneAndDelete({ _id: req.params.id, seller: req.user._id });
+  if (!listing) {
+    res.status(404);
+    throw new Error('Marketplace product not found');
+  }
+
+  res.json({ success: true, message: 'Product deleted' });
 });
 
 export const getAdminMarketplaceListings = asyncHandler(async (req, res) => {

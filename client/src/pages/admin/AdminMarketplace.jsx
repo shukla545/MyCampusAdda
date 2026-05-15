@@ -8,6 +8,8 @@ import SearchInput from '../../components/common/SearchInput.jsx';
 import api from '../../api/axios.js';
 import { cleanParams } from '../../utils/filters.js';
 
+const money = (value) => new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(Number(value || 0));
+
 export default function AdminMarketplace() {
   const [listings, setListings] = useState([]);
   const [search, setSearch] = useState('');
@@ -87,7 +89,7 @@ export default function AdminMarketplace() {
                   <tr key={listing._id} className="text-slate-700">
                     <td className="px-4 py-4">
                       <div className="flex items-center gap-3">
-                        <img src={listing.images?.[0]} alt="" className="h-14 w-14 rounded-lg object-cover" />
+                        <img src={listing.images?.[0]} alt={`${listing.title} product`} className="h-14 w-14 rounded-lg object-cover" />
                         <div>
                           <p className="font-extrabold text-slate-950">{listing.title}</p>
                           <p className="mt-1 text-xs font-semibold text-slate-500">{listing.category}</p>
@@ -103,7 +105,10 @@ export default function AdminMarketplace() {
                       <p>+{listing.primaryPhone}</p>
                       {listing.extraPhone && <p className="text-xs text-slate-500">+{listing.extraPhone}</p>}
                     </td>
-                    <td>{listing.priceText || `Rs. ${listing.price}`}</td>
+                    <td>
+                      {listing.marketPrice ? <p className="text-xs font-bold text-slate-400 line-through">{money(listing.marketPrice)}</p> : null}
+                      <p className="font-extrabold text-slate-900">{listing.priceText || `Rs. ${listing.price}`}</p>
+                    </td>
                     <td><span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-bold capitalize">{listing.status}</span></td>
                     <td>
                       <div className="flex flex-wrap gap-2">

@@ -28,6 +28,7 @@ const sortOptions = [
 ];
 
 const fallbackImage = 'https://res.cloudinary.com/dugeiu4id/image/upload/v1778184435/ChatGPT_Image_May_8_2026_01_35_21_AM_ozmdeg.png';
+const money = (value) => new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(Number(value || 0));
 
 export default function MarketplacePage() {
   const [listings, setListings] = useState([]);
@@ -110,6 +111,8 @@ export default function MarketplacePage() {
 
 function MarketplaceProductCard({ listing }) {
   const image = listing.images?.[0] || fallbackImage;
+  const showMarketPrice = Number(listing.marketPrice) > Number(listing.price);
+  const savedPercent = showMarketPrice ? Math.round(((Number(listing.marketPrice) - Number(listing.price)) / Number(listing.marketPrice)) * 100) : 0;
   return (
     <article className="overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:border-brand/20 hover:shadow-soft">
       <Link to={`/marketplace/${listing.slug}`} className="block">
@@ -118,8 +121,12 @@ function MarketplaceProductCard({ listing }) {
       <div className="p-4">
         <div className="flex items-start justify-between gap-3">
           <span className="rounded-full bg-brand-soft px-3 py-1 text-xs font-extrabold text-brand">{listing.categoryLabel}</span>
-          <span className="text-lg font-black text-slate-950">{listing.priceText || `Rs. ${listing.price}`}</span>
+          <div className="text-right">
+            {showMarketPrice && <p className="text-xs font-extrabold text-slate-400 line-through">{money(listing.marketPrice)}</p>}
+            <span className="text-lg font-black text-slate-950">{listing.priceText || `Rs. ${listing.price}`}</span>
+          </div>
         </div>
+        {showMarketPrice && <p className="mt-2 text-xs font-extrabold text-emerald-700">{savedPercent}% below market price</p>}
         <h2 className="mt-3 line-clamp-2 text-lg font-extrabold text-slate-950">{listing.title}</h2>
         <p className="mt-2 line-clamp-3 text-sm leading-6 text-slate-500">{listing.description}</p>
         <div className="mt-4 flex items-center gap-2 rounded-lg bg-amber-50 px-3 py-2 text-xs font-bold leading-5 text-amber-800 ring-1 ring-amber-100">
