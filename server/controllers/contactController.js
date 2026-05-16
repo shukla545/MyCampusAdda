@@ -3,7 +3,7 @@ import validator from 'validator';
 import ContactOtp from '../models/ContactOtp.js';
 import ContactMessage from '../models/ContactMessage.js';
 import { asyncHandler } from '../middleware/errorMiddleware.js';
-import { getAdminContactEmail, sendAdminContactEmail } from '../services/contact/sendAdminContactEmail.js';
+import { sendAdminContactEmail } from '../services/contact/sendAdminContactEmail.js';
 import { sendOtpEmail } from '../services/contact/sendOtpEmail.js';
 import { sendReplyEmail } from '../services/contact/sendReplyEmail.js';
 
@@ -79,7 +79,6 @@ export const submitContactMessage = asyncHandler(async (req, res) => {
   res.status(201).json({
     success: true,
     message: adminEmailSent ? 'Message sent to CampusNest admin' : 'Message saved for CampusNest admin',
-    adminEmail: getAdminContactEmail(),
     contactMessage
   });
 });

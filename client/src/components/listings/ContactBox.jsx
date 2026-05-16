@@ -17,8 +17,9 @@ export default function ContactBox({ listing }) {
       '',
       'What information is wrong?'
     ].join('\n');
-    window.location.href = `mailto:campusnest.online@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    toast.success('Opening report email');
+    sessionStorage.setItem('campusnest_contact_prefill', JSON.stringify({ subject, message: body }));
+    window.location.href = '/contact';
+    toast.success('Opening contact page');
   };
 
   return (

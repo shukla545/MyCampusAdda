@@ -1,7 +1,5 @@
-const DEFAULT_CONTACT_EMAIL = 'campusnest.online@gmail.com';
-
-const getSenderEmail = () => process.env.CONTACT_FROM_EMAIL || DEFAULT_CONTACT_EMAIL;
-const hasBrevoConfig = () => Boolean(process.env.BREVO_API_KEY);
+const getSenderEmail = () => process.env.CONTACT_FROM_EMAIL || process.env.ADMIN_EMAIL || '';
+const hasBrevoConfig = () => Boolean(process.env.BREVO_API_KEY && getSenderEmail());
 
 export const sendOtpEmail = async ({ email, otp }) => {
   if (!hasBrevoConfig()) {

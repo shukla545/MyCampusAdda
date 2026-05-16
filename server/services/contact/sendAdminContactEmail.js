@@ -1,7 +1,7 @@
-const ADMIN_CONTACT_EMAIL = process.env.CONTACT_ADMIN_EMAIL || 'campusnest.online@gmail.com';
+const getAdminContactEmail = () => process.env.CONTACT_ADMIN_EMAIL || process.env.ADMIN_EMAIL || process.env.CONTACT_FROM_EMAIL || '';
 
-const getSenderEmail = () => process.env.CONTACT_FROM_EMAIL || ADMIN_CONTACT_EMAIL;
-const hasBrevoConfig = () => Boolean(process.env.BREVO_API_KEY);
+const getSenderEmail = () => process.env.CONTACT_FROM_EMAIL || process.env.ADMIN_EMAIL || '';
+const hasBrevoConfig = () => Boolean(process.env.BREVO_API_KEY && getSenderEmail() && getAdminContactEmail());
 
 const escapeHtml = (value = '') =>
   String(value)
@@ -11,14 +11,13 @@ const escapeHtml = (value = '') =>
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#039;');
 
-export const getAdminContactEmail = () => ADMIN_CONTACT_EMAIL;
-
 export const sendAdminContactEmail = async ({ contactMessage }) => {
   if (!hasBrevoConfig()) {
-    return { sent: false, provider: 'dev', to: ADMIN_CONTACT_EMAIL };
+    return { sent: false, provider: 'dev', to: getAdminContactEmail() };
   }
 
   const senderEmail = getSenderEmail();
+  const adminEmail = getAdminContactEmail();
   const senderName = process.env.CONTACT_FROM_NAME || 'Team CampusNest';
   const userEmail = contactMessage.email;
   const userName = contactMessage.name || 'CampusNest user';
@@ -36,7 +35,7 @@ export const sendAdminContactEmail = async ({ contactMessage }) => {
         name: senderName,
         email: senderEmail
       },
-      to: [{ email: ADMIN_CONTACT_EMAIL, name: 'CampusNest Admin' }],
+      to: [{ email: adminEmail, name: 'CampusNest Admin' }],
       replyTo: userEmail ? { email: userEmail, name: userName } : undefined,
       subject: `[CampusNest Contact] ${subject}`,
       htmlContent: `
@@ -57,5 +56,5 @@ export const sendAdminContactEmail = async ({ contactMessage }) => {
     throw new Error(`Admin contact email failed: ${text}`);
   }
 
-  return { sent: true, provider: 'brevo', to: ADMIN_CONTACT_EMAIL };
+  return { sent: true, provider: 'brevo', to: adminEmail };
 };

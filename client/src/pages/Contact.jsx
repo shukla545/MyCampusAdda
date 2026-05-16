@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
-import { CheckCircle2, Mail, MapPin, MessageSquareText } from 'lucide-react';
+import { CheckCircle2, Inbox, MapPin, MessageSquareText } from 'lucide-react';
 import Container from '../components/common/Container.jsx';
 import Button from '../components/common/Button.jsx';
 import FormInput from '../components/forms/FormInput.jsx';
@@ -9,8 +9,6 @@ import FormTextarea from '../components/forms/FormTextarea.jsx';
 import Seo from '../components/common/Seo.jsx';
 import api from '../api/axios.js';
 import { useAuth } from '../context/AuthContext.jsx';
-
-const ADMIN_EMAIL = 'campusnest.online@gmail.com';
 
 export default function Contact() {
   const [done, setDone] = useState(false);
@@ -21,6 +19,20 @@ export default function Contact() {
   useEffect(() => {
     if (user?.name) setValue('name', user.name);
   }, [setValue, user]);
+
+  useEffect(() => {
+    const rawPrefill = sessionStorage.getItem('campusnest_contact_prefill');
+    if (!rawPrefill) return;
+    try {
+      const prefill = JSON.parse(rawPrefill);
+      if (prefill.subject) setValue('subject', prefill.subject);
+      if (prefill.message) setValue('message', prefill.message);
+    } catch (error) {
+      // Ignore malformed optional prefill data.
+    } finally {
+      sessionStorage.removeItem('campusnest_contact_prefill');
+    }
+  }, [setValue]);
 
   const submit = async (values) => {
     try {
@@ -48,7 +60,7 @@ export default function Contact() {
         <div className="max-w-xl rounded-xl border border-slate-200 bg-white p-8 text-center shadow-soft">
           <CheckCircle2 className="mx-auto h-14 w-14 text-emerald-500" />
           <h1 className="mt-5 text-3xl font-extrabold text-slate-950">Message sent</h1>
-          <p className="mt-3 text-slate-600">Thanks. Your message is saved for the CampusNest admin. We can reply from {ADMIN_EMAIL} to your account email.</p>
+          <p className="mt-3 text-slate-600">Thanks. Your message is saved for the CampusNest admin. We can reply to your account email.</p>
           <Button className="mt-6" onClick={() => setDone(false)}>Send another message</Button>
         </div>
       </Container>
@@ -71,10 +83,10 @@ export default function Contact() {
           <div className="rounded-xl border border-brand/10 bg-brand-soft p-4 text-sm font-semibold text-brand">
             <div className="flex items-start gap-3">
               <MessageSquareText className="mt-0.5 h-5 w-5" />
-              <p>Replies go directly to your account email: {user?.email}</p>
+              <p>Replies go directly to your logged-in account.</p>
             </div>
             <div className="mt-4 grid gap-2 border-t border-brand/10 pt-4 text-slate-700">
-              <p className="flex items-center gap-2"><Mail className="h-4 w-4 text-brand" />{ADMIN_EMAIL}</p>
+              <p className="flex items-center gap-2"><Inbox className="h-4 w-4 text-brand" />CampusNest support inbox</p>
               <p className="flex items-center gap-2"><MapPin className="h-4 w-4 text-brand" />Kandivali East, Mumbai</p>
             </div>
           </div>
@@ -84,8 +96,8 @@ export default function Contact() {
           <div className="grid gap-4 md:grid-cols-2">
             <FormInput label="Your name" {...register('name')} />
             <div>
-              <label className="label">Account email</label>
-              <input className="input bg-slate-50 text-slate-500" value={user?.email || ''} readOnly />
+              <label className="label">Account status</label>
+              <input className="input bg-slate-50 text-slate-500" value="Logged in" readOnly />
             </div>
             <FormInput label="Subject" placeholder="Listing correction, support, business help..." {...register('subject')} />
             <div className="md:col-span-2">
