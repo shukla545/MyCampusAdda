@@ -27,7 +27,16 @@ const describeListing = (listing) => {
 
 export const fallbackAnswer = ({ intent, listings, searchMeta = {} }) => {
   if (intent.marketplace) {
-    return 'CampusNest Marketplace is for TCET students to sell old books, notes, lab files and projects. Buyers can browse with any account, while sellers use a verified TCET email ending with @tcetmumbai.in before listing. Sellers upload at least 1 product image, add product and contact details, then wait for admin approval before the product goes live. First 2 product listings are free; after that sellers can buy Sell Passes: Rs. 12 for 1 product, Rs. 35 for 3 products, or Rs. 50 for 5 products. Seller contact details unlock only after buyer login. Safety note: pay only after you receive and inspect the product. Do not pay in advance.';
+    if (intent.wantsSellerContact) {
+      return 'Yes. Buyers can browse product photos and details without login, but seller number and student details unlock only after login. Open a product and tap "Unlock seller contact". Pay only after you receive and inspect the product.';
+    }
+    if (intent.wantsMarketplacePricing) {
+      return 'You can list your first 2 products free. After that, buy Sell Passes: Rs. 12 for 1 product, Rs. 35 for 3 products, or Rs. 50 for 5 products. Every product still needs admin approval before it goes live.';
+    }
+    if (intent.wantsSell) {
+      return 'To sell study material, login and open "Sell material". Add product title, selling price, contact number, branch, details, and at least 1 clear image. Sellers need TCET email verification, then admin approval before the product appears live. You can sell books, notes, lab files, projects, calculators, roller scales, drafter sets, lab coats and other engineering tools.';
+    }
+    return 'CampusNest Marketplace helps TCET students buy and sell old study material and engineering tools. Buyers can browse products freely; seller contact unlocks after login. Sellers get 2 free listings, then use Sell Passes for more products. Admin approval is required before a product goes live.';
   }
 
   if (intent.website && !intent.wantsPG && !intent.wantsMess) {
