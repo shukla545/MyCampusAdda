@@ -293,7 +293,7 @@ export const updateMyMarketplaceListing = asyncHandler(async (req, res) => {
   const branch = cleanText(req.body.branch);
   const extraImages = cleanImages(req.body.images);
 
-  if (!title || title.length < 4) {
+  if (!title || title.length < 2) {
     res.status(422);
     throw new Error('Product title is required');
   }
@@ -309,10 +309,7 @@ export const updateMyMarketplaceListing = asyncHandler(async (req, res) => {
     res.status(422);
     throw new Error('Enter a valid contact number');
   }
-  if (!branch) {
-    res.status(422);
-    throw new Error('Branch is required');
-  }
+  const nextBranch = branch || listing.branch || 'TCET student';
 
   const existingImages = listing.images || [];
   const nextImages = [...existingImages];
@@ -331,7 +328,7 @@ export const updateMyMarketplaceListing = asyncHandler(async (req, res) => {
   listing.sellerName = sellerName;
   listing.primaryPhone = primaryPhone;
   listing.extraPhone = extraPhone;
-  listing.branch = branch;
+  listing.branch = nextBranch;
   listing.studentDetails = cleanLongText(req.body.studentDetails);
   listing.category = cleanText(req.body.category) || 'books';
   listing.condition = cleanText(req.body.condition) || 'good';

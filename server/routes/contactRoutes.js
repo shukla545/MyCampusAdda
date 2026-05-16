@@ -18,10 +18,6 @@ router.post('/otp', otpLimiter, [body('email').isEmail().withMessage('Valid emai
 router.post(
   '/messages',
   protectUser,
-  [
-    body('message').trim().isLength({ min: 3 }).withMessage('Message must be at least 3 characters')
-  ],
-  validate,
   submitContactMessage
 );
 router.get('/admin/messages', protect, getContactMessages);

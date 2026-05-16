@@ -1,6 +1,7 @@
 const ADMIN_CONTACT_EMAIL = process.env.CONTACT_ADMIN_EMAIL || 'campusnest.online@gmail.com';
 
-const hasBrevoConfig = () => process.env.BREVO_API_KEY && process.env.CONTACT_FROM_EMAIL;
+const getSenderEmail = () => process.env.CONTACT_FROM_EMAIL || ADMIN_CONTACT_EMAIL;
+const hasBrevoConfig = () => Boolean(process.env.BREVO_API_KEY);
 
 const escapeHtml = (value = '') =>
   String(value)
@@ -17,7 +18,7 @@ export const sendAdminContactEmail = async ({ contactMessage }) => {
     return { sent: false, provider: 'dev', to: ADMIN_CONTACT_EMAIL };
   }
 
-  const senderEmail = process.env.CONTACT_FROM_EMAIL;
+  const senderEmail = getSenderEmail();
   const senderName = process.env.CONTACT_FROM_NAME || 'Team CampusNest';
   const userEmail = contactMessage.email;
   const userName = contactMessage.name || 'CampusNest user';

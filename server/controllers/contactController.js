@@ -46,7 +46,9 @@ export const requestContactOtp = asyncHandler(async (req, res) => {
 });
 
 export const submitContactMessage = asyncHandler(async (req, res) => {
-  const email = normalizeEmail(req.user?.email || req.body.email);
+  const accountEmail = normalizeEmail(req.user?.email);
+  const fallbackEmail = normalizeEmail(req.body.email);
+  const email = accountEmail || fallbackEmail;
   const message = String(req.body.message || '').trim();
   const subject = String(req.body.subject || '').trim() || 'CampusNest support message';
 
@@ -54,9 +56,9 @@ export const submitContactMessage = asyncHandler(async (req, res) => {
     res.status(422);
     throw new Error('Your login email is invalid. Please logout and login again.');
   }
-  if (!message || message.length < 3) {
+  if (!message || message.length < 2) {
     res.status(422);
-    throw new Error('Message must be at least 3 characters');
+    throw new Error('Message is required');
   }
 
   const contactMessage = await ContactMessage.create({
@@ -109,13 +111,19 @@ export const replyToContactMessage = asyncHandler(async (req, res) => {
     throw new Error('Message not found');
   }
 
-  const emailResult = await sendReplyEmail({
-    toEmail: message.email,
-    toName: message.name,
-    subject: req.body.subject || `Re: ${message.subject || 'CampusNest support'}`,
-    reply,
-    originalMessage: message.message
-  });
+  let emailSent = false;
+  try {
+    const emailResult = await sendReplyEmail({
+      toEmail: message.email,
+      toName: message.name,
+      subject: req.body.subject || `Re: ${message.subject || 'CampusNest support'}`,
+      reply,
+      originalMessage: message.message
+    });
+    emailSent = Boolean(emailResult.sent);
+  } catch (error) {
+    console.error(error.message);
+  }
 
   message.status = 'replied';
   message.replyMessage = reply;
@@ -124,7 +132,7 @@ export const replyToContactMessage = asyncHandler(async (req, res) => {
 
   res.json({
     success: true,
-    message: emailResult.sent ? 'Reply emailed to user' : 'Reply saved. Email sending is not configured in this environment.',
+    message: emailSent ? 'Reply emailed to user' : 'Reply saved. Email sending is not configured or failed in this environment.',
     contactMessage: message
   });
 });

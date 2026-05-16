@@ -1,4 +1,7 @@
-const hasBrevoConfig = () => process.env.BREVO_API_KEY && process.env.CONTACT_FROM_EMAIL;
+const DEFAULT_CONTACT_EMAIL = 'campusnest.online@gmail.com';
+
+const getSenderEmail = () => process.env.CONTACT_FROM_EMAIL || DEFAULT_CONTACT_EMAIL;
+const hasBrevoConfig = () => Boolean(process.env.BREVO_API_KEY);
 
 export const sendOtpEmail = async ({ email, otp }) => {
   if (!hasBrevoConfig()) {
@@ -15,7 +18,7 @@ export const sendOtpEmail = async ({ email, otp }) => {
     body: JSON.stringify({
       sender: {
         name: process.env.CONTACT_FROM_NAME || 'CampusNest',
-        email: process.env.CONTACT_FROM_EMAIL
+        email: getSenderEmail()
       },
       to: [{ email }],
       subject: 'Your CampusNest contact OTP',

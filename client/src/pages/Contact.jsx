@@ -14,6 +14,7 @@ const ADMIN_EMAIL = 'campusnest.online@gmail.com';
 
 export default function Contact() {
   const [done, setDone] = useState(false);
+  const [serverError, setServerError] = useState('');
   const { user } = useAuth();
   const { register, handleSubmit, reset, setValue, formState: { errors, isSubmitting } } = useForm();
 
@@ -23,16 +24,21 @@ export default function Contact() {
 
   const submit = async (values) => {
     try {
-      await api.post('/contact/messages', {
+      setServerError('');
+      const { data } = await api.post('/contact/messages', {
         name: values.name || user?.name,
+        email: user?.email,
         subject: values.subject || 'CampusNest support message',
         message: String(values.message || '').trim()
       });
       setDone(true);
+      toast.success(data.message || 'Message sent');
       reset({ name: user?.name || '', subject: '', message: '' });
     } catch (error) {
       const firstError = error.response?.data?.errors?.[0]?.msg;
-      toast.error(firstError || error.response?.data?.message || 'Could not send message');
+      const message = firstError || error.response?.data?.message || 'Could not send message';
+      setServerError(message);
+      toast.error(message);
     }
   };
 
@@ -86,6 +92,12 @@ export default function Contact() {
               <FormTextarea label="Message" error={errors.message?.message} {...register('message', { required: 'Message is required', minLength: { value: 3, message: 'Message must be at least 3 characters' } })} />
             </div>
           </div>
+
+          {serverError && (
+            <div className="mt-5 rounded-lg border border-rose-200 bg-rose-50 px-4 py-3 text-sm font-bold text-rose-700">
+              {serverError}
+            </div>
+          )}
 
           <div className="mt-6 flex justify-end">
             <Button disabled={isSubmitting} className="w-full sm:w-auto">{isSubmitting ? 'Sending...' : 'Send message'}</Button>

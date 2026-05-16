@@ -40,6 +40,7 @@ const money = (value) => {
   if (!Number.isFinite(amount) || amount < 0) return '';
   return new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(amount);
 };
+const getListingId = (listing) => listing?.id || listing?._id;
 
 export default function SellStudyMaterial() {
   const { user, refreshUser } = useAuth();
@@ -73,11 +74,13 @@ export default function SellStudyMaterial() {
   }, []);
 
   const mergeListing = (listing) => {
-    if (!listing?.id) return;
+    const id = getListingId(listing);
+    if (!id) return;
+    const normalizedListing = { ...listing, id };
     setMyListings((current) => {
-      const exists = current.some((item) => item.id === listing.id);
-      if (!exists) return [listing, ...current];
-      return current.map((item) => (item.id === listing.id ? listing : item));
+      const exists = current.some((item) => getListingId(item) === id);
+      if (!exists) return [normalizedListing, ...current];
+      return current.map((item) => (getListingId(item) === id ? normalizedListing : item));
     });
   };
 
@@ -167,10 +170,11 @@ export default function SellStudyMaterial() {
   const removeProduct = async () => {
     if (!deletingListing) return;
     try {
-      const { data } = await api.delete(`/marketplace/${deletingListing.id}`);
+      const deletedId = getListingId(deletingListing);
+      const { data } = await api.delete(`/marketplace/${deletedId}`);
       toast.success(data.message || 'Product deleted');
-      if (editingListing?.id === deletingListing.id) cancelEdit();
-      setMyListings((current) => current.filter((item) => item.id !== deletingListing.id));
+      if (getListingId(editingListing) === deletedId) cancelEdit();
+      setMyListings((current) => current.filter((item) => getListingId(item) !== deletedId));
       setDeletingListing(null);
       await loadMine();
     } catch (error) {
@@ -196,19 +200,28 @@ export default function SellStudyMaterial() {
     }
 
     try {
-      const request = editingListing
-        ? api.patch(`/marketplace/${editingListing.id}`, { ...payload, images })
-        : api.post('/marketplace', { ...payload, images });
+      const body = { ...payload, images };
+      let request;
+      if (editingListing) {
+        const editingId = getListingId(editingListing);
+        request = api.patch(`/marketplace/${editingId}`, body).catch((error) => {
+          if ([404, 405].includes(error.response?.status)) return api.put(`/marketplace/${editingId}`, body);
+          throw error;
+        });
+      } else {
+        request = api.post('/marketplace', body);
+      }
       const { data } = await request;
-      setDone(data.listing);
+      const savedListing = data.listing || data.marketplaceListing || data;
+      setDone(savedListing);
       if (data.allowance) setAllowance(data.allowance);
-      mergeListing(data.listing);
+      mergeListing(savedListing);
       setImages([]);
       setEditingListing(null);
       reset({ ...defaultValues, sellerName: user?.name || '' });
       await loadMine();
       await refreshUser();
-      toast.success(editingListing ? 'Updated for admin approval' : 'Submitted for admin approval');
+      toast.success(editingListing ? 'Product update saved for admin approval' : 'Submitted for admin approval');
     } catch (error) {
       const response = error.response?.data;
       if (error.response?.status === 402 && response?.allowance) {
@@ -216,7 +229,7 @@ export default function SellStudyMaterial() {
         setPlans(response.allowance.plans || plans);
         setShowPassPlans(true);
       }
-      toast.error(response?.message || 'Could not submit product');
+      toast.error(response?.errors?.[0]?.msg || response?.message || 'Could not submit product');
     }
   };
 
@@ -414,7 +427,7 @@ export default function SellStudyMaterial() {
               <FormInput label="Optional extra number" error={errors.extraPhone?.message} {...register('extraPhone', {
                 validate: (value) => !value || String(value || '').replace(/\D/g, '').length >= 10 || 'Enter a valid optional number'
               })} />
-              <FormInput label="Branch" placeholder="Computer, IT, AIDS, EXTC..." error={errors.branch?.message} {...register('branch', { required: 'Branch is required' })} />
+              <FormInput label="Branch" placeholder="Computer, IT, AIDS, EXTC..." error={errors.branch?.message} {...register('branch', editingListing ? {} : { required: 'Branch is required' })} />
               <FormSelect label="Category" {...register('category')}>
                 <option value="books">Books</option>
                 <option value="notes">Notes</option>

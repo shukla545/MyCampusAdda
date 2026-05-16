@@ -1,4 +1,7 @@
-const hasBrevoConfig = () => process.env.BREVO_API_KEY && process.env.CONTACT_FROM_EMAIL;
+const DEFAULT_CONTACT_EMAIL = 'campusnest.online@gmail.com';
+
+const getSenderEmail = () => process.env.CONTACT_FROM_EMAIL || DEFAULT_CONTACT_EMAIL;
+const hasBrevoConfig = () => Boolean(process.env.BREVO_API_KEY);
 
 const escapeHtml = (value = '') =>
   String(value)
@@ -23,7 +26,7 @@ export const sendReplyEmail = async ({ toEmail, toName, subject, reply, original
     body: JSON.stringify({
       sender: {
         name: process.env.CONTACT_FROM_NAME || 'Team CampusNest',
-        email: process.env.CONTACT_FROM_EMAIL
+        email: getSenderEmail()
       },
       to: [{ email: toEmail, name: toName || undefined }],
       subject: subject || 'Reply from CampusNest',
