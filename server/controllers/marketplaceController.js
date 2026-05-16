@@ -297,9 +297,9 @@ export const updateMyMarketplaceListing = asyncHandler(async (req, res) => {
     res.status(422);
     throw new Error('Product title is required');
   }
-  if (!description || description.length < 20) {
+  if (!description || description.length < 3) {
     res.status(422);
-    throw new Error('Write at least 20 characters about the product');
+    throw new Error('Write at least 3 characters about the product');
   }
   if (price === undefined) {
     res.status(422);

@@ -17,7 +17,7 @@ export default function ContactBox({ listing }) {
       '',
       'What information is wrong?'
     ].join('\n');
-    window.location.href = `mailto:support@campusnest.online?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    window.location.href = `mailto:campusnest.online@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     toast.success('Opening report email');
   };
 

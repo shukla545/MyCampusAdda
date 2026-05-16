@@ -10,6 +10,8 @@ import Seo from '../components/common/Seo.jsx';
 import api from '../api/axios.js';
 import { useAuth } from '../context/AuthContext.jsx';
 
+const ADMIN_EMAIL = 'campusnest.online@gmail.com';
+
 export default function Contact() {
   const [done, setDone] = useState(false);
   const { user } = useAuth();
@@ -40,7 +42,7 @@ export default function Contact() {
         <div className="max-w-xl rounded-xl border border-slate-200 bg-white p-8 text-center shadow-soft">
           <CheckCircle2 className="mx-auto h-14 w-14 text-emerald-500" />
           <h1 className="mt-5 text-3xl font-extrabold text-slate-950">Message sent</h1>
-          <p className="mt-3 text-slate-600">Thanks. Your message is saved for the CampusNest admin. We can reply to your account email.</p>
+          <p className="mt-3 text-slate-600">Thanks. Your message is saved for the CampusNest admin. We can reply from {ADMIN_EMAIL} to your account email.</p>
           <Button className="mt-6" onClick={() => setDone(false)}>Send another message</Button>
         </div>
       </Container>
@@ -66,7 +68,7 @@ export default function Contact() {
               <p>Replies go directly to your account email: {user?.email}</p>
             </div>
             <div className="mt-4 grid gap-2 border-t border-brand/10 pt-4 text-slate-700">
-              <p className="flex items-center gap-2"><Mail className="h-4 w-4 text-brand" />support@campusnest.online</p>
+              <p className="flex items-center gap-2"><Mail className="h-4 w-4 text-brand" />{ADMIN_EMAIL}</p>
               <p className="flex items-center gap-2"><MapPin className="h-4 w-4 text-brand" />Kandivali East, Mumbai</p>
             </div>
           </div>

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import toast from 'react-hot-toast';
@@ -57,6 +57,7 @@ export default function SellStudyMaterial() {
   const [verifyingTcet, setVerifyingTcet] = useState(false);
   const [editingListing, setEditingListing] = useState(null);
   const [deletingListing, setDeletingListing] = useState(null);
+  const formRef = useRef(null);
   const { register, handleSubmit, reset, setValue, formState: { errors, isSubmitting } } = useForm({ defaultValues });
 
   const loadMine = useCallback(() => {
@@ -157,7 +158,10 @@ export default function SellStudyMaterial() {
       description: item.description || '',
       studentDetails: item.studentDetails || ''
     });
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    toast.success('Edit form opened. Update details and submit for approval.');
+    setTimeout(() => {
+      formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 50);
   };
 
   const removeProduct = async () => {
@@ -389,7 +393,7 @@ export default function SellStudyMaterial() {
             </section>
           )}
 
-          {sellerVerified && <form onSubmit={handleSubmit(submit)} className="mt-6 rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
+          {sellerVerified && <form ref={formRef} onSubmit={handleSubmit(submit)} className="mt-6 rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
             {editingListing && (
               <div className="mb-5 flex flex-col gap-3 rounded-lg border border-brand/15 bg-brand-soft p-4 sm:flex-row sm:items-center sm:justify-between">
                 <div>
@@ -430,7 +434,7 @@ export default function SellStudyMaterial() {
               <div className="md:col-span-2">
                 <FormInput label="Product title" error={errors.title?.message} {...register('title', { required: 'Product title is required', minLength: { value: 4, message: 'Use at least 4 characters' } })} />
               </div>
-              <div className="md:col-span-2"><FormTextarea label="Product details" error={errors.description?.message} {...register('description', { required: 'Product details are required', minLength: { value: 20, message: 'Write at least 20 characters' } })} /></div>
+              <div className="md:col-span-2"><FormTextarea label="Product details" error={errors.description?.message} {...register('description', { required: 'Product details are required', minLength: { value: editingListing ? 3 : 20, message: editingListing ? 'Write at least 3 characters' : 'Write at least 20 characters' } })} /></div>
               <div className="md:col-span-2"><FormTextarea label="Student details (optional)" placeholder="Pickup preference, branch context, or anything buyers should know." {...register('studentDetails')} /></div>
               {editingListing?.images?.length ? (
                 <div className="md:col-span-2">
