@@ -51,7 +51,12 @@ if (process.env.NODE_ENV === 'development') app.use(morgan('dev'));
 
 const ownerLimiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 20, standardHeaders: true, legacyHeaders: false });
 
-app.get('/api/health', (req, res) => res.json({ ok: true, app: 'CampusNest API' }));
+app.get('/api/health', (req, res) => res.json({
+  ok: true,
+  app: 'CampusNest API',
+  version: 'contact-otp-free-2026-05-16',
+  contactOtpRequired: false
+}));
 app.use('/api/auth', authRoutes);
 app.use('/api/billing', billingRoutes);
 app.use('/api/colleges', collegeRoutes);
