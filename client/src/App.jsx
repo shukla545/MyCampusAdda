@@ -40,6 +40,55 @@ export default function App() {
     window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
   }, [pathname]);
 
+  useEffect(() => {
+    if (isAdmin || typeof window === 'undefined' || !window.speechSynthesis || !window.SpeechSynthesisUtterance) {
+      return undefined;
+    }
+
+    if (window.__campusNestWelcomeSpoken) {
+      return undefined;
+    }
+
+    let timeoutId;
+    const synth = window.speechSynthesis;
+    const welcomeText = 'Welcome to CampusNest.';
+
+    const speakWelcome = () => {
+      if (window.__campusNestWelcomeSpoken) return;
+
+      const utterance = new window.SpeechSynthesisUtterance(welcomeText);
+      const voices = synth.getVoices();
+      const voice = voices.find((item) => item.lang?.toLowerCase().startsWith('en-in'))
+        || voices.find((item) => item.lang?.toLowerCase().startsWith('en'));
+
+      if (voice) utterance.voice = voice;
+      utterance.lang = voice?.lang || 'en-IN';
+      utterance.rate = 0.95;
+      utterance.pitch = 1;
+      utterance.volume = 0.9;
+      utterance.onstart = () => {
+        window.__campusNestWelcomeSpoken = true;
+      };
+
+      synth.cancel();
+      synth.speak(utterance);
+    };
+
+    const speakOnFirstInteraction = () => {
+      speakWelcome();
+    };
+
+    timeoutId = window.setTimeout(speakWelcome, 600);
+    window.addEventListener('pointerdown', speakOnFirstInteraction, { once: true, passive: true });
+    window.addEventListener('keydown', speakOnFirstInteraction, { once: true });
+
+    return () => {
+      window.clearTimeout(timeoutId);
+      window.removeEventListener('pointerdown', speakOnFirstInteraction);
+      window.removeEventListener('keydown', speakOnFirstInteraction);
+    };
+  }, [isAdmin]);
+
   return (
     <>
       {!isAdmin && <Navbar />}

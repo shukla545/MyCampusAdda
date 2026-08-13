@@ -38,7 +38,9 @@ export default function Hero() {
         </motion.div>
         <motion.div initial={{ opacity: 0, scale: 0.96 }} animate={{ opacity: 1, scale: 1 }} className="relative">
           <div className="overflow-hidden rounded-3xl border border-slate-200 bg-white p-3 shadow-soft">
-            <img src={heroImage} alt="Students near campus" loading="eager" decoding="async" fetchPriority="high" className="h-[280px] w-full rounded-2xl object-cover object-[58%_center] sm:h-[390px]" />
+            <div className="aspect-[4/3] overflow-hidden rounded-2xl bg-brand-soft sm:aspect-[16/10]">
+              <img src={heroImage} alt="Students near campus" loading="eager" decoding="async" fetchPriority="high" className="h-full w-full object-contain" />
+            </div>
           </div>
           <div className="absolute -bottom-6 left-4 right-4 rounded-2xl bg-white p-5 shadow-soft ring-1 ring-slate-200 sm:left-6 sm:right-auto sm:min-w-[320px]">
             <p className="inline-flex items-center gap-2 text-sm font-bold text-brand"><MapPin className="h-4 w-4" />TCET-first exchange</p>
